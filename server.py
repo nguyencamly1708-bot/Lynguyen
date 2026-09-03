@@ -32,7 +32,7 @@ HISTORY_FILE = "history.json"
 MENTIONS_FILE = "mentions.json"
 MEMBERS_FILE = "members.json"
 UPLOAD_DIR = "uploads"
-SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1qBEY7LP4FxCsrshblu0XQpBt2CCS5dX5pLiq9rAcXRk/export?format=csv&gid=788866159"
+SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1GcAQs5mEtm6Itp5c6K8OgsEPhFxBUeYModTm6yb0efY/export?format=csv&gid=0"
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
@@ -840,6 +840,84 @@ async def revoke_selective(req: SelectiveRevokeRequest):
         "sent_records": sent_records,
         "item_revoked": item.get("revoked", False)
     }
+
+
+# ==========================================
+# CÁC ENDPOINT ĐỐI SOÁT KHO RAU, DATAPAY & GITHUB SYNC
+# ==========================================
+
+@app.get("/api/doi-soat/summary")
+async def get_doi_soat_summary():
+    """Lấy thống kê tổng quan dữ liệu đối soát theo 5 Step và Datapay."""
+    try:
+        from doi_soat_engine import get_pipeline_summary
+        summary = get_pipeline_summary()
+        return {"status": "success", "data": summary}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/doi-soat/sync")
+async def sync_doi_soat_sheet():
+    """Kích hoạt đồng bộ Google Sheet Đối Soát Kho Rau tháng 09.2026 vào CSDL SQLite."""
+    try:
+        from doi_soat_engine import sync_sheet_to_database, get_pipeline_summary
+        sync_res = sync_sheet_to_database()
+        summary = get_pipeline_summary()
+        return {
+            "status": "success",
+            "sync_result": sync_res,
+            "summary": summary
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/doi-soat/datapay")
+async def get_datapay_list(period: str = "2026-09"):
+    """Lấy danh sách chi tiết số lượng rổ nợ và số tiền bồi hoàn (Datapay) theo từng Siêu thị."""
+    try:
+        import sqlite3
+        from doi_soat_engine import DB_PATH
+        conn = sqlite3.connect(DB_PATH)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT 
+                d.id_st,
+                s.store_name,
+                d.period,
+                d.basket_code,
+                b.basket_name,
+                d.missing_qty,
+                d.resolved_qty,
+                d.net_owe_qty,
+                d.unit_price,
+                d.total_amount,
+                d.responsible_party,
+                d.pay_status
+            FROM datapay_records d
+            LEFT JOIN stores s ON d.id_st = s.id_st
+            LEFT JOIN basket_types b ON d.basket_code = b.basket_code
+            WHERE d.period = ?
+            ORDER BY d.total_amount DESC
+        """, (period,))
+        rows = [dict(r) for r in cursor.fetchall()]
+        conn.close()
+        return {"status": "success", "period": period, "total": len(rows), "data": rows}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/git/push")
+async def trigger_git_push(commit_message: Optional[str] = None):
+    """Kích hoạt tự động commit và push toàn bộ thay đổi lên GitHub."""
+    try:
+        from scripts.git_sync import run_git_sync
+        success = run_git_sync(commit_msg=commit_message)
+        if success:
+            return {"status": "success", "message": "Đã commit và push lên GitHub thành công!"}
+        else:
+            return {"status": "warning", "message": "Đồng bộ hoàn tất hoặc không có thay đổi mới."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Lỗi khi push GitHub: {e}")
 
 
 if __name__ == "__main__":
