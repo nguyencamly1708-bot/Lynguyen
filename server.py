@@ -27,6 +27,7 @@ if sys.platform == "win32":
 
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+PUBLIC_BASE_URL = os.getenv("PUBLIC_DASHBOARD_URL", "https://barrel-kodak-jane-residents.trycloudflare.com")
 GROUPS_FILE = "groups.json"
 HISTORY_FILE = "history.json"
 MENTIONS_FILE = "mentions.json"
