@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabSubtitles = {
     "tab-send-msg": "Soạn tin nhắn thủ công, đính kèm file/ảnh (Ctrl+V) và phát tới các nhóm Telegram cửa hàng ST",
     "tab-doi-soat-sldt": "Tự Động Lọc Sheet SLG (Cột AQ), Nhóm Theo ID ST, Tạo Bảng Ảnh PNG & Tag Tên SM/TC",
+    "tab-doi-soat-kho-rau": "Đối Soát Kho Rau Tháng 09.2026 - Phân Luồng 5 Bước & Quyết Toán Datapay Nợ Thùng Rổ Bồi Hoàn",
     "tab-mentions": "Theo Dõi & Quản Lý Tất Cả Lượt Tag @teamSCM_bot Hoặc Trả Lời Tin Nhắn Từ Các Nhóm Telegram ST"
   };
 
@@ -833,9 +834,156 @@ document.addEventListener("DOMContentLoaded", () => {
     return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
   }
 
+  // ==========================================
+  // TAB 4: ĐỐI SOÁT KHO RAU & DATAPAY
+  // ==========================================
+  let allDatapayRows = [];
+
+  async function loadKhoRauSummary() {
+    try {
+      const res = await fetch("/api/doi-soat/summary");
+      const json = await res.json();
+      if (json.status === "success" && json.data) {
+        const d = json.data;
+        const totalCompleted = d.steps ? d.steps.step5_completed : 0;
+        const totalRecords = Object.values(d.steps || {}).reduce((a, b) => a + b, 0);
+        
+        document.getElementById("krTotalRecords").textContent = totalRecords.toLocaleString("vi-VN");
+        document.getElementById("krStoreFaults").textContent = (d.responsible_parties?.["Siêu thị"] || 0).toLocaleString("vi-VN");
+        document.getElementById("krDcFaults").textContent = (d.responsible_parties?.["DC"] || 0).toLocaleString("vi-VN");
+        
+        if (d.datapay) {
+          document.getElementById("krTotalDatapay").textContent = d.datapay.total_datapay_amount.toLocaleString("vi-VN") + " đ";
+          document.getElementById("krTotalStoresOwe").textContent = d.datapay.total_stores_owe.toLocaleString("vi-VN");
+          document.getElementById("krTotalBasketsOwe").textContent = d.datapay.total_net_owe_baskets.toLocaleString("vi-VN");
+        }
+      }
+    } catch (e) {
+      console.error("Lỗi loadKhoRauSummary:", e);
+    }
+  }
+
+  async function loadKhoRauDatapay() {
+    await loadKhoRauSummary();
+    const tbody = document.getElementById("datapayTableBody");
+    tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; padding: 2rem; color: #94a3b8;">Đang tải danh sách bồi hoàn Datapay...</td></tr>`;
+
+    try {
+      const res = await fetch("/api/doi-soat/datapay?period=2026-09");
+      const json = await res.json();
+      if (json.status === "success" && Array.isArray(json.data)) {
+        allDatapayRows = json.data;
+        renderDatapayTable(allDatapayRows);
+      } else {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; padding: 2rem; color: #ef4444;">Không thể lấy dữ liệu đối soát!</td></tr>`;
+      }
+    } catch (e) {
+      tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; padding: 2rem; color: #ef4444;">Lỗi kết nối máy chủ: ${e.message}</td></tr>`;
+    }
+  }
+
+  function renderDatapayTable(rows) {
+    const tbody = document.getElementById("datapayTableBody");
+    if (!rows || rows.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; padding: 2rem; color: #94a3b8;">Không có dữ liệu đối soát phù hợp.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = rows.map((r, i) => `
+      <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.03)'" onmouseout="this.style.background='transparent'">
+        <td style="padding: 10px; color: #94a3b8;">${i + 1}</td>
+        <td style="padding: 10px; font-weight: bold; color: #38bdf8;">${escapeHtml(r.id_st)}</td>
+        <td style="padding: 10px; color: #f1f5f9;">${escapeHtml(r.store_name || "")}</td>
+        <td style="padding: 10px;"><span style="background: rgba(16, 185, 129, 0.15); color: #34d399; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;">${escapeHtml(r.basket_name || r.basket_code)}</span></td>
+        <td style="padding: 10px; text-align: center;">${r.missing_qty || 0}</td>
+        <td style="padding: 10px; text-align: center; color: #10b981;">${r.resolved_qty || 0}</td>
+        <td style="padding: 10px; text-align: center; font-weight: bold; color: #f87171;">${r.net_owe_qty || 0}</td>
+        <td style="padding: 10px; text-align: right; color: #94a3b8;">${(r.unit_price || 0).toLocaleString("vi-VN")} đ</td>
+        <td style="padding: 10px; text-align: right; font-weight: bold; color: #f87171;">${(r.total_amount || 0).toLocaleString("vi-VN")} đ</td>
+        <td style="padding: 10px; text-align: center;"><span style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; padding: 2px 8px; border-radius: 9999px; font-size: 0.75rem;">${escapeHtml(r.pay_status || "Chờ quyết toán")}</span></td>
+      </tr>
+    `).join("");
+  }
+
+  // Tìm kiếm trong bảng Datapay
+  const searchDatapay = document.getElementById("searchDatapay");
+  if (searchDatapay) {
+    searchDatapay.addEventListener("input", (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      if (!q) {
+        renderDatapayTable(allDatapayRows);
+        return;
+      }
+      const filtered = allDatapayRows.filter(r => 
+        (r.id_st && r.id_st.toLowerCase().includes(q)) ||
+        (r.store_name && r.store_name.toLowerCase().includes(q)) ||
+        (r.basket_name && r.basket_name.toLowerCase().includes(q)) ||
+        (r.basket_code && r.basket_code.toLowerCase().includes(q))
+      );
+      renderDatapayTable(filtered);
+    });
+  }
+
+  // Nút đồng bộ Google Sheet
+  const btnSyncKhoRauSheet = document.getElementById("btnSyncKhoRauSheet");
+  if (btnSyncKhoRauSheet) {
+    btnSyncKhoRauSheet.addEventListener("click", async () => {
+      btnSyncKhoRauSheet.disabled = true;
+      btnSyncKhoRauSheet.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Đang đồng bộ...`;
+      try {
+        const res = await fetch("/api/doi-soat/sync", { method: "POST" });
+        const json = await res.json();
+        if (json.status === "success") {
+          showToast(`Đồng bộ thành công ${json.sync_result.total_rows} dòng dữ liệu!`, "success");
+          await loadKhoRauDatapay();
+        } else {
+          showToast("Lỗi đồng bộ: " + (json.detail || "Không rõ"), "error");
+        }
+      } catch (e) {
+        showToast("Lỗi kết nối máy chủ: " + e.message, "error");
+      } finally {
+        btnSyncKhoRauSheet.disabled = false;
+        btnSyncKhoRauSheet.innerHTML = `<i class="fa-solid fa-rotate"></i> Đồng bộ Google Sheet`;
+      }
+    });
+  }
+
+  // Nút Push GitHub
+  const btnPushGitHub = document.getElementById("btnPushGitHub");
+  if (btnPushGitHub) {
+    btnPushGitHub.addEventListener("click", async () => {
+      btnPushGitHub.disabled = true;
+      btnPushGitHub.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Đang push GitHub...`;
+      try {
+        const res = await fetch("/api/git/push", { method: "POST" });
+        const json = await res.json();
+        if (json.status === "success" || json.status === "warning") {
+          showToast(json.message, "success");
+        } else {
+          showToast("Lỗi khi push: " + (json.detail || "Thất bại"), "error");
+        }
+      } catch (e) {
+        showToast("Lỗi kết nối: " + e.message, "error");
+      } finally {
+        btnPushGitHub.disabled = false;
+        btnPushGitHub.innerHTML = `<i class="fa-brands fa-github"></i> Đẩy lên GitHub`;
+      }
+    });
+  }
+
+  // Bắt sự kiện chuyển tab để load dữ liệu
+  navItems.forEach(item => {
+    item.addEventListener("click", () => {
+      if (item.getAttribute("data-tab") === "tab-doi-soat-kho-rau") {
+        loadKhoRauDatapay();
+      }
+    });
+  });
+
   // Khởi chạy ban đầu
   loadGroups();
   loadMentions();
   loadHistory();
+  loadKhoRauSummary();
   setInterval(loadMentions, 8000);
 });

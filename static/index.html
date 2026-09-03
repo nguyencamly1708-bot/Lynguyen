@@ -39,6 +39,9 @@
         <a href="#doi-soat-sldt" class="nav-item" data-tab="tab-doi-soat-sldt">
           <span class="nav-label"><i class="fa-file-invoice-dollar fa-solid" style="color: #c084fc; margin-right: 8px;"></i> ĐỐI SOÁT SLDT</span>
         </a>
+        <a href="#doi-soat-kho-rau" class="nav-item" data-tab="tab-doi-soat-kho-rau">
+          <span class="nav-label"><i class="fa-boxes-stacked fa-solid" style="color: #10b981; margin-right: 8px;"></i> ĐỐI SOÁT KHO RAU (DATAPAY)</span>
+        </a>
         <a href="#mentions" class="nav-item" data-tab="tab-mentions">
           <span class="nav-label"><i class="fa-at fa-solid" style="color: #f472b6; margin-right: 8px;"></i> LỊCH SỬ TAG / PHẢN HỒI</span>
         </a>
@@ -282,6 +285,73 @@ Cảm ơn các anh chị.</textarea>
           </section>
         </main>
       </div>
+      <!-- TAB 4: ĐỐI SOÁT KHO RAU (DATAPAY) -->
+      <div class="tab-pane" id="tab-doi-soat-kho-rau">
+        <main class="dashboard-single-column">
+          <!-- KPI Summary Cards -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+            <div class="card" style="padding: 1.2rem; border-left: 4px solid #10b981;">
+              <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.3rem;">TỔNG PHIẾU ĐỐI SOÁT</div>
+              <div style="font-size: 1.8rem; font-weight: bold; color: #f8fafc;" id="krTotalRecords">2,977</div>
+              <div style="font-size: 0.8rem; color: #10b981; margin-top: 0.3rem;"><i class="fa-solid fa-check-circle"></i> Đã hoàn thành 2,976 phiếu</div>
+            </div>
+            <div class="card" style="padding: 1.2rem; border-left: 4px solid #f59e0b;">
+              <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.3rem;">LỖI DO SIÊU THỊ</div>
+              <div style="font-size: 1.8rem; font-weight: bold; color: #f59e0b;" id="krStoreFaults">1,739</div>
+              <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.3rem;">Nhập thiếu, sai SL, rổ không tem</div>
+            </div>
+            <div class="card" style="padding: 1.2rem; border-left: 4px solid #6366f1;">
+              <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.3rem;">LỖI DO KHO (DC)</div>
+              <div style="font-size: 1.8rem; font-weight: bold; color: #818cf8;" id="krDcFaults">1,237</div>
+              <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.3rem;">Xuất sai SL, kê sai kiện, lỗi HT</div>
+            </div>
+            <div class="card" style="padding: 1.2rem; border-left: 4px solid #ef4444;">
+              <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.3rem;">TỔNG TIỀN BỒI HOÀN (DATAPAY)</div>
+              <div style="font-size: 1.8rem; font-weight: bold; color: #f87171;" id="krTotalDatapay">60,860,000 đ</div>
+              <div style="font-size: 0.8rem; color: #fca5a5; margin-top: 0.3rem;"><span id="krTotalStoresOwe">222</span> Siêu thị • <span id="krTotalBasketsOwe">638</span> rổ</div>
+            </div>
+          </div>
+
+          <!-- Action & Filter Bar -->
+          <section class="card">
+            <div class="card-header">
+              <h2><i class="fa-solid fa-boxes-stacked" style="color: #10b981;"></i> Bảng Quyết Toán Bồi Hoàn Rổ Tote (Kỳ Tháng 09.2026)</h2>
+              <div class="header-actions">
+                <button class="btn btn-primary btn-sm" id="btnSyncKhoRauSheet"><i class="fa-solid fa-rotate"></i> Đồng bộ Google Sheet</button>
+                <button class="btn btn-secondary btn-sm" id="btnPushGitHub"><i class="fa-brands fa-github"></i> Đẩy lên GitHub</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="search-box" style="margin-bottom: 1rem;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchDatapay" placeholder="Tìm kiếm theo Mã ST (BQI, DQH, A154...), tên siêu thị, hoặc mã thùng rổ...">
+              </div>
+              <div style="overflow-x: auto; max-height: 550px;">
+                <table class="data-table" id="datapayTable" style="width: 100%; border-collapse: collapse;">
+                  <thead>
+                    <tr style="background: rgba(255,255,255,0.05); text-align: left; font-size: 0.85rem; color: #94a3b8;">
+                      <th style="padding: 10px;">STT</th>
+                      <th style="padding: 10px;">MÃ ST</th>
+                      <th style="padding: 10px;">TÊN SIÊU THỊ</th>
+                      <th style="padding: 10px;">LOẠI THÙNG RỔ</th>
+                      <th style="padding: 10px; text-align: center;">SL THIẾU</th>
+                      <th style="padding: 10px; text-align: center;">ĐÃ TRẢ</th>
+                      <th style="padding: 10px; text-align: center; color: #f87171;">CÒN NỢ</th>
+                      <th style="padding: 10px; text-align: right;">ĐƠN GIÁ</th>
+                      <th style="padding: 10px; text-align: right; color: #f87171;">THÀNH TIỀN</th>
+                      <th style="padding: 10px; text-align: center;">TRẠNG THÁI</th>
+                    </tr>
+                  </thead>
+                  <tbody id="datapayTableBody" style="font-size: 0.85rem;">
+                    <tr><td colspan="10" style="text-align: center; padding: 2rem; color: #94a3b8;">Đang tải dữ liệu đối soát...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+
     </div>
   </div>
 
