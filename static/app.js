@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabSubtitles = {
     "tab-send-msg": "Soạn tin nhắn thủ công, đính kèm file/ảnh (Ctrl+V) và phát tới các nhóm Telegram cửa hàng ST",
     "tab-doi-soat-sldt": "Tự Động Lọc Sheet SLG (Cột AQ), Nhóm Theo ID ST, Tạo Bảng Ảnh PNG & Tag Tên SM/TC",
-    "tab-doi-soat-kho-rau": "Đối Soát Kho Rau Tháng 09.2026 - Phân Luồng 5 Bước & Quyết Toán Datapay Nợ Thùng Rổ Bồi Hoàn",
+    "tab-doi-soat-kho-rau": "Đối Soát Rổ/Tote Tháng 09.2026 - Phân Luồng 5 Bước & Quyết Toán Datapay Nợ Thùng Rổ Bồi Hoàn",
     "tab-mentions": "Theo Dõi & Quản Lý Tất Cả Lượt Tag @teamSCM_bot Hoặc Trả Lời Tin Nhắn Từ Các Nhóm Telegram ST"
   };
 
