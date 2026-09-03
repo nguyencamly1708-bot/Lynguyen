@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KFM LOGISTIC-SCM DASHBOARD</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="app-layout">
+    <!-- LEFT SIDEBAR NAVIGATION (3 MỤC CHÍNH) -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-avatar">
+          <img src="/static/duck_avatar.png" alt="Avatar" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=KFM'">
+        </div>
+        <div class="brand-info">
+          <h2>KFM LOGISTIC-SCM</h2>
+          <span class="brand-subtitle">DASHBOARD</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <a href="#send-msg" class="nav-item active" data-tab="tab-send-msg">
+          <span class="nav-label"><i class="fa-paper-plane fa-solid" style="color: #67e8f9; margin-right: 8px;"></i> GỬI TIN NHẮN ST</span>
+        </a>
+        <a href="#doi-soat-sldt" class="nav-item" data-tab="tab-doi-soat-sldt">
+          <span class="nav-label"><i class="fa-file-invoice-dollar fa-solid" style="color: #c084fc; margin-right: 8px;"></i> ĐỐI SOÁT SLDT</span>
+        </a>
+        <a href="#mentions" class="nav-item" data-tab="tab-mentions">
+          <span class="nav-label"><i class="fa-at fa-solid" style="color: #f472b6; margin-right: 8px;"></i> LỊCH SỬ TAG / PHẢN HỒI</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-wrapper">
+      <!-- Top Header Bar -->
+      <header class="app-header">
+        <div class="header-left">
+          <h1 id="activeTabTitle">GỬI TIN NHẮN ST</h1>
+          <p class="subtitle" id="activeTabSubtitle">Soạn tin nhắn thủ công, đính kèm file/ảnh (Ctrl+V) và phát tới các nhóm Telegram cửa hàng ST</p>
+        </div>
+        <div class="status-bar">
+          <div class="status-badge" id="botStatusBadge">
+            <span class="status-dot pulsing"></span>
+            <span id="botStatusText">Đang kiểm tra kết nối...</span>
+          </div>
+          <button class="btn btn-secondary btn-icon" id="btnRefresh" title="Làm mới dữ liệu">
+            <i class="fa-arrows-rotate fa-solid"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- MỤC 1: GỬI TIN NHẮN ST -->
+      <div class="tab-pane active" id="tab-send-msg">
+        <main class="dashboard-grid">
+          <!-- Column 1: Compose & Broadcast -->
+          <section class="card compose-card">
+            <div class="card-header">
+              <h2><i class="fa-pen-to-square fa-solid"></i> Soạn Nội Dung & Phát Tin Nhắn ST</h2>
+              <span class="badge badge-purple">1-Click Send</span>
+            </div>
+
+            <div class="card-body">
+              <div class="form-group">
+                <label for="messageText">Nội dung tin nhắn gửi tới cửa hàng ST:</label>
+                <textarea id="messageText" placeholder="Nhập nội dung tin nhắn... Bạn có thể nhấn Ctrl+V để DÁN NHIỀU HÌNH ẢNH trực tiếp vào đây!" rows="7"></textarea>
+              </div>
+
+              <!-- Attachment Toolbar -->
+              <div class="attachment-toolbar">
+                <input type="file" id="imageFileInput" accept="image/*" multiple hidden>
+                <input type="file" id="documentFileInput" accept="*" multiple hidden>
+                
+                <button type="button" class="btn btn-secondary btn-sm" id="btnUploadImages" title="Chọn hình ảnh từ máy tính">
+                  <i class="fa-image fa-solid" style="color: var(--accent-purple);"></i> Thêm / Dán Ảnh (Ctrl+V)
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnUploadDocs" title="Chọn file PDF, Word, Excel...">
+                  <i class="fa-paperclip fa-solid" style="color: var(--accent-cyan);"></i> Đính kèm File (.pdf, .docx...)
+                </button>
+              </div>
+
+              <!-- Preview Gallery -->
+              <div class="attachment-preview-container" id="attachmentPreviewContainer"></div>
+
+              <!-- Action Buttons -->
+              <div class="action-row">
+                <button class="btn btn-secondary" id="btnClearMessage">
+                  <i class="fa-trash-can fa-solid"></i> Xóa hết
+                </button>
+                <button class="btn btn-primary btn-glow" id="btnBroadcast">
+                  <i class="fa-paper-plane fa-solid"></i> GỬI CÁC NHÓM ĐÃ CHỌN (<span id="selectedGroupCount">0</span>)
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Column 2: Connected Groups & History -->
+          <div class="right-column">
+            <!-- Groups Card -->
+            <section class="card groups-card">
+              <div class="card-header">
+                <h2><i class="fa-users fa-solid"></i> Nhóm Telegram ST Đã Kết Nối</h2>
+                <div class="header-actions">
+                  <span class="badge badge-cyan" id="groupBadgeCount">0 Nhóm</span>
+                  <button class="btn btn-text" id="btnToggleSelectAll">Chọn tất cả</button>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <!-- Category Filter Pills (DC, KRC, ABA, Khác) -->
+                <div class="group-category-tabs">
+                  <button type="button" class="group-cat-tab active" data-cat="all">Tất cả (<span id="catCountAll">0</span>)</button>
+                  <button type="button" class="group-cat-tab" data-cat="dc">DC (<span id="catCountDc">0</span>)</button>
+                  <button type="button" class="group-cat-tab" data-cat="krc">KRC (<span id="catCountKrc">0</span>)</button>
+                  <button type="button" class="group-cat-tab" data-cat="aba">ABA (<span id="catCountAba">0</span>)</button>
+                  <button type="button" class="group-cat-tab" data-cat="other">Khác (<span id="catCountOther">0</span>)</button>
+                </div>
+
+                <div class="search-box">
+                  <i class="fa-magnifying-glass fa-solid"></i>
+                  <input type="text" id="searchGroup" placeholder="Tìm kiếm tên nhóm Telegram ST...">
+                </div>
+                <div class="groups-list" id="groupsList">
+                  <div class="loading-spinner">
+                    <i class="fa-circle-notch fa-spin fa-solid"></i> Đang tải danh sách nhóm...
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- History Card (Gửi Tin ST) -->
+            <section class="card history-card">
+              <div class="card-header">
+                <h2><i class="fa-clock-rotate-left fa-solid"></i> Lịch Sử Tin Nhắn ST & Thu Hồi</h2>
+              </div>
+              <div class="card-body">
+                <div class="history-list" id="historyList">
+                  <div class="empty-state">Chưa phát tin nhắn nào.</div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </main>
+      </div>
+
+      <!-- MỤC 2: ĐỐI SOÁT SLDT -->
+      <div class="tab-pane" id="tab-doi-soat-sldt">
+        <main class="dashboard-grid">
+          <!-- Column 1: Auto Sync & Broadcast Engine -->
+          <section class="card compose-card">
+            <div class="card-header">
+              <h2><i class="fa-robot fa-solid" style="color: #c084fc;"></i> Tự Động Phân Loại & Phát Tin Đối Soát SLDT</h2>
+              <span class="badge badge-cyan">Google Sheet CSV</span>
+            </div>
+
+            <div class="card-body">
+              <!-- Sheet Sync Trigger Banner -->
+              <div class="sheet-sync-banner" style="flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.5rem;">
+                <div style="width: 100%;">
+                  <div style="font-weight: 800; font-size: 1.1rem; color: #67e8f9;">📊 Phiếu Chuyển Hàng Đổi Trả Kho SLG (Đối Soát SLDT)</div>
+                  <div style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 0.4rem; line-height: 1.5;">
+                    Tự động kết nối Google Sheet, lọc cột AQ (Classify) theo 3 trạng thái:<br>
+                    • <i>Chờ ST phản hồi</i> | <i>Chờ DC nhận hàng</i> | <i>Hàng còn tại Store - Sẽ chuyển theo chuyến gần nhất</i><br>
+                    Hệ thống sẽ nhóm dữ liệu theo từng <b>ID ST</b> và xuất Bảng Ảnh PNG đầy đủ thông tin (11 cột).
+                  </div>
+                </div>
+
+                <!-- Textarea for Customizing Message Template -->
+                <div class="form-group" style="width: 100%; margin-top: 0.5rem;">
+                  <label for="sldtMessageText" style="color: #67e8f9; font-size: 0.9rem; font-weight: 700;">
+                    <i class="fa-pen-to-square fa-solid"></i> Nội dung tin nhắn kèm Bảng Ảnh (Bạn có thể chỉnh sửa tại đây):
+                  </label>
+                  <textarea id="sldtMessageText" rows="6" style="background: rgba(15, 23, 42, 0.85); border-color: rgba(103, 232, 249, 0.3);">Ly gửi DS phiếu đối trả của tuần W29.2026 DC chưa nhận được hàng/chưa nhận được chứng từ.
+Hàng thực tế nếu đã bàn giao cho VT anh chị gửi giúp Ly ảnh chụp Phiếu chuyển/PGH.
+
+*Sau hôm nay SCM sẽ trả tồn những phiếu này về ST.
+Cảm ơn các anh chị.</textarea>
+                  <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">
+                    💡 <i>Danh sách Tag tên xanh @SM và @TC của từng nhóm cửa hàng sẽ tự động được chèn xuống cuối tin nhắn này khi phát tin.</i>
+                  </div>
+                </div>
+
+                <!-- TỰ CHỌN NHÓM CẦN GỬI CỦA ĐỐI SOÁT SLDT -->
+                <div style="width: 100%; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(103, 232, 249, 0.25); border-radius: var(--radius-sm); padding: 1rem; margin-top: 0.5rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-weight: 700; font-size: 0.9rem; color: #67e8f9;"><i class="fa-user-check fa-solid"></i> Tự Chọn Nhóm Telegram ST Nhận Tin Đối Soát:</span>
+                    <button type="button" class="btn btn-text" id="btnSldtToggleSelectAll" style="font-size: 0.78rem;">Chọn tất cả</button>
+                  </div>
+
+                  <!-- Category Filter Pills (DC, KRC, ABA, Khác) -->
+                  <div class="group-category-tabs" style="margin-bottom: 8px;">
+                    <button type="button" class="sldt-group-cat-tab active" data-cat="all">Tất cả (<span id="sldtCatCountAll">0</span>)</button>
+                    <button type="button" class="sldt-group-cat-tab" data-cat="dc">DC (<span id="sldtCatCountDc">0</span>)</button>
+                    <button type="button" class="sldt-group-cat-tab" data-cat="krc">KRC (<span id="sldtCatCountKrc">0</span>)</button>
+                    <button type="button" class="sldt-group-cat-tab" data-cat="aba">ABA (<span id="sldtCatCountAba">0</span>)</button>
+                    <button type="button" class="sldt-group-cat-tab" data-cat="other">Khác (<span id="sldtCatCountOther">0</span>)</button>
+                  </div>
+
+                  <div class="search-box" style="margin-bottom: 8px;">
+                    <i class="fa-magnifying-glass fa-solid"></i>
+                    <input type="text" id="sldtSearchGroup" placeholder="Tìm kiếm tên nhóm ST nhận tin đối soát...">
+                  </div>
+
+                  <div class="groups-list" id="sldtGroupsList" style="max-height: 180px;">
+                    <div class="loading-spinner"><i class="fa-circle-notch fa-spin fa-solid"></i> Đang tải nhóm...</div>
+                  </div>
+                </div>
+
+                <!-- Action Buttons Container -->
+                <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 0.8rem;">
+                  <button type="button" class="btn btn-primary btn-glow" id="btnSyncAutoSheet" style="width: 100%; padding: 14px; font-size: 1.02rem; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">
+                    <i class="fa-paper-plane fa-solid"></i> 🚀 GỬI TỰ ĐỘNG CHO ST CÓ TÊN TRONG LINK SHEET
+                  </button>
+                  
+                  <button type="button" class="btn btn-secondary" id="btnSyncStBroadcast" style="width: 100%; padding: 12px; font-size: 0.92rem; border-color: rgba(168, 85, 247, 0.4); color: #e9d5ff; background: rgba(168, 85, 247, 0.1);">
+                    <i class="fa-user-check fa-solid"></i> 🎯 GỬI CHO CÁC NHÓM ĐÃ CHỌN BÊN DƯỚI (<span id="sldtSelectedGroupCount">0</span> Nhóm)
+                  </button>
+                </div>
+              </div>
+
+              <!-- Sheet Info Box -->
+              <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--card-border); border-radius: var(--radius-sm); padding: 1rem;">
+                <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-primary); margin-bottom: 6px;">🔗 Đường dẫn Google Sheet đang liên kết:</div>
+                <a href="https://docs.google.com/spreadsheets/d/1qBEY7LP4FxCsrshblu0XQpBt2CCS5dX5pLiq9rAcXRk/edit?pli=1&gid=788866159#gid=788866159" target="_blank" style="color: #38bdf8; font-size: 0.82rem; word-break: break-all;">
+                  Google Sheet: Phiếu chuyển hàng đổi trả kho SLG ↗
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <!-- Column 2: History (Đối Soát SLDT) -->
+          <div class="right-column">
+            <!-- History Card (Đối Soát SLDT) -->
+            <section class="card history-card" style="height: 100%;">
+              <div class="card-header">
+                <h2><i class="fa-clock-rotate-left fa-solid"></i> Lịch Sử Đối Soát SLDT & Thu Hồi</h2>
+              </div>
+              <div class="card-body">
+                <div class="history-list" id="sldtHistoryList" style="max-height: 520px;">
+                  <div class="empty-state">Chưa phát tin nhắn đối soát nào.</div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </main>
+      </div>
+
+      <!-- MỤC 3: LỊCH SỬ TAG / PHẢN HỒI (MỤC RIÊNG BẢN ĐẦY ĐỦ) -->
+      <div class="tab-pane" id="tab-mentions">
+        <main class="dashboard-single-column">
+          <section class="card mentions-card-full">
+            <div class="card-header">
+              <h2><i class="fa-at fa-solid" style="color: #f472b6;"></i> Lịch Sử Tag / Tin Nhắn Phản Hồi (@teamSCM_bot)</h2>
+              <div class="header-actions">
+                <span class="badge badge-purple" id="mentionsBadgeCount">0 Lượt</span>
+                <button class="btn btn-secondary btn-sm" id="btnClearMentions"><i class="fa-trash-can fa-solid"></i> Xóa lịch sử</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="search-box" style="margin-bottom: 1rem;">
+                <i class="fa-magnifying-glass fa-solid"></i>
+                <input type="text" id="searchMentions" placeholder="Tìm kiếm tên người gửi, tên nhóm Telegram, hoặc nội dung tin nhắn phản hồi...">
+              </div>
+              <div class="mentions-list mentions-list-full" id="mentionsList">
+                <div class="empty-state">Chưa có ai tag @teamSCM_bot hoặc phản hồi tin nhắn.</div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
