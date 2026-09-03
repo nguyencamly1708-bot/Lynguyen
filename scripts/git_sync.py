@@ -45,14 +45,28 @@ def run_git_sync(repo_dir=None, commit_msg=None):
         commit_res = subprocess.run(["git", "commit", "-m", commit_msg], cwd=repo_dir, capture_output=True, text=True)
         print(f"Git commit kết quả: {commit_res.stdout.strip()}")
 
-        # 4. Git push
-        push_res = subprocess.run(["git", "push", "origin", "main"], cwd=repo_dir, capture_output=True, text=True)
+        # 4. Git push với timeout và không chờ prompt tương tác
+        print("Đang thực hiện git push origin main...")
+        env = os.environ.copy()
+        env["GIT_TERMINAL_PROMPT"] = "0"
+        push_res = subprocess.run(
+            ["git", "push", "origin", "main"],
+            cwd=repo_dir,
+            capture_output=True,
+            text=True,
+            timeout=20,
+            env=env
+        )
         if push_res.returncode != 0:
-            print(f"Cảnh báo/Lỗi git push:\n{push_res.stderr.strip()}")
+            err = push_res.stderr.strip()
+            print(f"Lưu ý: git push chưa hoàn tất (cần cấu hình token/đăng nhập GitHub):\n{err}")
             return False
         
         print("Đồng bộ GitHub THÀNH CÔNG!")
         return True
+    except subprocess.TimeoutExpired:
+        print("Quá thời gian chờ (Timeout): Lệnh git push cần xác thực GitHub hoặc mạng chậm.")
+        return False
 
     except Exception as e:
         print(f"Lỗi ngoại lệ khi đồng bộ Git: {e}")
