@@ -109,6 +109,21 @@ async def send_message_as_user(chat_id: int, message: str, file_path: str = None
         "chat_id": chat_id
     }
 
+async def delete_messages_as_user(chat_id: int, message_ids: list) -> dict:
+    """
+    Thu hồi chính xác danh sách message_ids trong chat_id (Delete for everyone).
+    CHỈ xóa đúng các ID được truyền vào, tuyệt đối không quét tin nhắn khác.
+    """
+    if not message_ids:
+        return {"success": True, "deleted": 0}
+    client = await get_connected_client()
+    try:
+        await client.delete_messages(chat_id, message_ids, revoke=True)
+        return {"success": True, "deleted": len(message_ids)}
+    except Exception as e:
+        logger.error(f"Lỗi thu hồi tin nhắn trong chat {chat_id}: {e}")
+        return {"success": False, "error": str(e), "deleted": 0}
+
 if __name__ == "__main__":
     async def main():
         auth = await is_authorized()

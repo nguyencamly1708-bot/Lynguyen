@@ -872,6 +872,61 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       await sendSldtBroadcast(targetGroupsArray, `${targetGroupsArray.length} Nhóm Đã Chọn`);
+      await updateLastBroadcastButton();
+    });
+  }
+
+  // 8. Quản lý Thu Hồi Đợt Tin Nhắn Vừa Phát (An toàn tuyệt đối - CHỈ xóa đúng message_id vừa gửi)
+  const btnRevokeLastSldt = document.getElementById("btnRevokeLastSldt");
+  const sldtLastSentCount = document.getElementById("sldtLastSentCount");
+
+  async function updateLastBroadcastButton() {
+    if (!btnRevokeLastSldt) return;
+    try {
+      const res = await fetch("/api/last_broadcast");
+      const data = await res.json();
+      if (data.has_last && !data.revoked && data.total_sent > 0) {
+        btnRevokeLastSldt.style.display = "flex";
+        if (sldtLastSentCount) sldtLastSentCount.textContent = data.total_sent;
+        btnRevokeLastSldt.setAttribute("data-total", data.total_sent);
+        btnRevokeLastSldt.setAttribute("data-time", data.timestamp);
+        btnRevokeLastSldt.innerHTML = `<i class="fa-trash-can fa-solid"></i> 🗑️ THU HỒI / XÓA TIN NHẮN VỪA PHÁT (${data.total_sent} Tin) (DELETE FOR EVERYONE)`;
+      } else {
+        btnRevokeLastSldt.style.display = "none";
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  if (btnRevokeLastSldt) {
+    btnRevokeLastSldt.addEventListener("click", async () => {
+      const count = btnRevokeLastSldt.getAttribute("data-total") || "0";
+      const time = btnRevokeLastSldt.getAttribute("data-time") || "";
+      if (!confirm(`⚠️ XÁC NHẬN THU HỒI KHẨN CẤP:\n\nBạn có chắc chắn muốn XÓA TOÀN BỘ ${count} tin nhắn vừa phát lúc ${time} cho tất cả mọi người không?\n\n(Hệ thống chỉ xóa đúng ${count} tin nhắn vừa gửi đi này, tuyệt đối không quét hay xóa bất kỳ tin nhắn nào khác của bạn).`)) {
+        return;
+      }
+
+      btnRevokeLastSldt.disabled = true;
+      btnRevokeLastSldt.innerHTML = `<i class="fa-circle-notch fa-spin fa-solid"></i> Đang Thu Hồi ${count} Tin Nhắn...`;
+      showToast(`Đang thu hồi ${count} tin nhắn vừa phát cho tất cả mọi người...`, "info");
+
+      try {
+        const res = await fetch("/api/revoke_last_broadcast", { method: "POST" });
+        const resData = await res.json();
+        if (res.ok) {
+          showToast(`✅ Đã thu hồi thành công ${resData.deleted_count}/${resData.total} tin nhắn vừa phát!`, "success");
+          btnRevokeLastSldt.style.display = "none";
+          loadHistory();
+        } else {
+          showToast(resData.detail || "Thu hồi thất bại", "error");
+        }
+      } catch (err) {
+        showToast("Lỗi kết nối máy chủ khi thu hồi", "error");
+      } finally {
+        btnRevokeLastSldt.disabled = false;
+        await updateLastBroadcastButton();
+      }
     });
   }
 
@@ -879,6 +934,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadGroups();
     loadMentions();
     loadHistory();
+    updateLastBroadcastButton();
     showToast("Đã làm mới dữ liệu", "info");
   });
 
@@ -1051,6 +1107,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadGroups();
   loadMentions();
   loadHistory();
+  updateLastBroadcastButton();
   loadKhoRauSummary();
   setInterval(loadMentions, 8000);
 });

@@ -30,6 +30,7 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 PUBLIC_BASE_URL = os.getenv("PUBLIC_DASHBOARD_URL", "https://barrel-kodak-jane-residents.trycloudflare.com")
 GROUPS_FILE = "groups.json"
 HISTORY_FILE = "history.json"
+LAST_BROADCAST_FILE = "last_broadcast_sent.json"
 MENTIONS_FILE = "mentions.json"
 MEMBERS_FILE = "members.json"
 UPLOAD_DIR = "uploads"
@@ -702,7 +703,7 @@ async def sync_and_broadcast_st(req: SyncSheetRequest):
 
         sender_label = "@JinLi072" if userbot_active else "Bot"
         history = load_json(HISTORY_FILE, [])
-        history.append({
+        entry = {
             "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "type": "sldt",
             "message": f"📊 Đối soát SLDT [{len(grouped_by_st)} ST] ({sender_label}) + Bảng Ảnh SCM",
@@ -713,13 +714,26 @@ async def sync_and_broadcast_st(req: SyncSheetRequest):
             "failed_groups": failed_results,
             "sent_records": sent_records,
             "revoked": False
-        })
+        }
+        history.append(entry)
         save_json(HISTORY_FILE, history)
+
+        # LƯU CHÍNH XÁC ĐỢT PHÁT TIN ĐỂ PHỤC VỤ THU HỒI AN TOÀN (KHÔNG QUÉT TÙ MÙ)
+        save_json(LAST_BROADCAST_FILE, {
+            "timestamp": entry["timestamp"],
+            "type": "sldt",
+            "sender": sender_label,
+            "total_sent": len(sent_records),
+            "revoked": False,
+            "history_index": len(history) - 1,
+            "sent_records": sent_records
+        })
 
         return {
             "status": "completed",
             "sender": sender_label,
             "total_st": len(grouped_by_st),
+            "total_sent": len(sent_records),
             "success_results": success_results,
             "failed_results": failed_results
         }
@@ -853,7 +867,7 @@ async def send_broadcast_process(message: str, target_groups: list[str], media_f
     history = load_json(HISTORY_FILE, [])
     now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     attachment_info = f" [{len(media_files)} đính kèm]" if media_files else ""
-    history.append({
+    entry = {
         "timestamp": now_str,
         "type": "st_broadcast",
         "message": (message[:80] + ("..." if len(message) > 80 else "")) + attachment_info,
@@ -864,8 +878,19 @@ async def send_broadcast_process(message: str, target_groups: list[str], media_f
         "failed_groups": failed_group_titles,
         "sent_records": sent_records,
         "revoked": False
-    })
+    }
+    history.append(entry)
     save_json(HISTORY_FILE, history)
+
+    save_json(LAST_BROADCAST_FILE, {
+        "timestamp": now_str,
+        "type": "st_broadcast",
+        "sender": "Bot",
+        "total_sent": len(sent_records),
+        "revoked": False,
+        "history_index": len(history) - 1,
+        "sent_records": sent_records
+    })
 
     return {
         "status": "completed",
@@ -882,7 +907,99 @@ class SelectiveRevokeRequest(BaseModel):
     history_index: int
     chat_ids: List[int]
 
-# Endpoint THU HỒI TẤT CẢ TIN NHẮN ĐÃ GỬI
+async def execute_delete_message(http_client: httpx.AsyncClient, chat_id: int, msg_id: int) -> bool:
+    """
+    QUY TẮC AN TOÀN TUYỆT ĐỐI:
+    Chỉ xóa đúng 1 message_id trong chat_id cụ thể (Delete for everyone).
+    TUYỆT ĐỐI KHÔNG quét tin nhắn khác.
+    """
+    try:
+        from userbot_sender import delete_messages_as_user
+        res = await delete_messages_as_user(chat_id, [msg_id])
+        if res.get("success") and res.get("deleted", 0) > 0:
+            return True
+    except Exception as e:
+        logger.debug(f"Userbot delete error for chat {chat_id}: {e}")
+
+    if BOT_TOKEN:
+        try:
+            url = f"https://api.telegram.org/bot{BOT_TOKEN}/deleteMessage"
+            res = await http_client.post(url, json={"chat_id": str(chat_id), "message_id": msg_id})
+            if res.status_code == 200 and res.json().get("ok"):
+                return True
+        except Exception:
+            pass
+    return False
+
+# Endpoint LẤY THÔNG TIN ĐỢT PHÁT TIN GẦN NHẤT
+@app.get("/api/last_broadcast")
+async def get_last_broadcast():
+    data = load_json(LAST_BROADCAST_FILE, {})
+    if not data or not data.get("sent_records"):
+        return {"has_last": False}
+    return {
+        "has_last": True,
+        "timestamp": data.get("timestamp"),
+        "type": data.get("type"),
+        "sender": data.get("sender"),
+        "total_sent": len(data.get("sent_records", [])),
+        "revoked": data.get("revoked", False)
+    }
+
+# Endpoint THU HỒI ĐỢT TIN NHẮN VỪA PHÁT (AN TOÀN TUYỆT ĐỐI)
+@app.post("/api/revoke_last_broadcast")
+async def revoke_last_broadcast():
+    """
+    Thu hồi chính xác danh sách message_id đã ghi nhận trong đợt phát tin gần nhất.
+    Chỉ xóa đúng các tin nhắn trong danh sách, không ảnh hưởng đến bất kỳ tin nhắn nào khác.
+    """
+    data = load_json(LAST_BROADCAST_FILE, {})
+    if not data or not data.get("sent_records"):
+        raise HTTPException(status_code=400, detail="Không có đợt phát tin nào gần đây để thu hồi!")
+
+    if data.get("revoked"):
+        raise HTTPException(status_code=400, detail="Đợt tin nhắn này đã được thu hồi trước đó rồi!")
+
+    sent_records = data.get("sent_records", [])
+    deleted_count = 0
+    failed_count = 0
+
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        for rec in sent_records:
+            chat_id = rec.get("chat_id")
+            msg_id = rec.get("message_id")
+            if not chat_id or not msg_id or rec.get("revoked"):
+                continue
+
+            success = await execute_delete_message(client, chat_id, msg_id)
+            if success:
+                rec["revoked"] = True
+                deleted_count += 1
+            else:
+                failed_count += 1
+
+            await asyncio.sleep(0.3)
+
+    data["revoked"] = True
+    data["revoked_timestamp"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    save_json(LAST_BROADCAST_FILE, data)
+
+    # Cập nhật trạng thái trong history.json
+    hidx = data.get("history_index")
+    history = load_json(HISTORY_FILE, [])
+    if hidx is not None and 0 <= hidx < len(history):
+        history[hidx]["revoked"] = True
+        history[hidx]["sent_records"] = sent_records
+        save_json(HISTORY_FILE, history)
+
+    return {
+        "status": "completed",
+        "deleted_count": deleted_count,
+        "failed_count": failed_count,
+        "total": len(sent_records)
+    }
+
+# Endpoint THU HỒI TẤT CẢ TIN NHẮN THEO MỤC LỊCH SỬ
 @app.post("/api/revoke_broadcast")
 async def revoke_broadcast(req: RevokeRequest):
     history = load_json(HISTORY_FILE, [])
@@ -905,16 +1022,13 @@ async def revoke_broadcast(req: RevokeRequest):
             chat_id = rec.get("chat_id")
             msg_id = rec.get("message_id")
             if chat_id and msg_id and not rec.get("revoked"):
-                url = f"https://api.telegram.org/bot{BOT_TOKEN}/deleteMessage"
-                try:
-                    res = await client.post(url, json={"chat_id": str(chat_id), "message_id": msg_id})
-                    if res.status_code == 200 and res.json().get("ok"):
-                        rec["revoked"] = True
-                        deleted_count += 1
-                    else:
-                        failed_count += 1
-                except Exception:
+                success = await execute_delete_message(client, chat_id, msg_id)
+                if success:
+                    rec["revoked"] = True
+                    deleted_count += 1
+                else:
                     failed_count += 1
+                await asyncio.sleep(0.3)
 
     item["revoked"] = True
     item["revoked_timestamp"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -948,16 +1062,13 @@ async def revoke_selective(req: SelectiveRevokeRequest):
             cid = rec.get("chat_id")
             mid = rec.get("message_id")
             if cid in target_chat_ids and not rec.get("revoked"):
-                url = f"https://api.telegram.org/bot{BOT_TOKEN}/deleteMessage"
-                try:
-                    res = await client.post(url, json={"chat_id": str(cid), "message_id": mid})
-                    if res.status_code == 200 and res.json().get("ok"):
-                        rec["revoked"] = True
-                        deleted_count += 1
-                    else:
-                        failed_count += 1
-                except Exception:
+                success = await execute_delete_message(client, cid, mid)
+                if success:
+                    rec["revoked"] = True
+                    deleted_count += 1
+                else:
                     failed_count += 1
+                await asyncio.sleep(0.3)
 
     if all(r.get("revoked") for r in sent_records):
         item["revoked"] = True
