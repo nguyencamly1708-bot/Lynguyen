@@ -1,6 +1,4172 @@
 {
+  "-5373621519": {
+    "title": "SCM - nội bộ - thịt cá",
+    "type": "group",
+    "category": "other",
+    "unread_count": 0
+  },
+  "-5496622120": {
+    "title": "Chuẩn hóa quy cách kho rau",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 0
+  },
+  "-1004334053068": {
+    "title": "GHKNN_SCM x 58 ST",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 0
+  },
+  "-1003957313850": {
+    "title": "SCM- KRC Nội bộ",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 0
+  },
+  "-4932789771": {
+    "title": "KRC - VH6 ( GH5)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 360
+  },
+  "-1004475154133": {
+    "title": "DC - A236 (DN5 KDC An Sương)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 16
+  },
+  "-5004400246": {
+    "title": "ABA Đông/Mát +Thịt Cá - A128 (Cityland Park Hill)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 0
+  },
+  "-1001828938896": {
+    "title": "RAU - Vấn đề chất lượng (CATE - STORE)",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 15317
+  },
+  "-1002547246318": {
+    "title": "CCDC SALE + NCP + SCM",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5110539026": {
+    "title": "Đông/Mát và Thịt cá - A147 (956 HTP)",
+    "type": "group",
+    "category": "other",
+    "unread_count": 0
+  },
+  "-1002034614480": {
+    "title": "CATE - STORE - THỊT, CÁ, TRỨNG, VN READY MEAL",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 1901
+  },
+  "-4565998341": {
+    "title": "ABA - RVS Phú Mỹ Hưng",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 198
+  },
+  "-5222285530": {
+    "title": "DC - A163 (Alnata Plus Celadon)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 5
+  },
+  "-5097435576": {
+    "title": "BAKERY x DC: HUB BÁNH TƯƠI",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 405
+  },
+  "-637584836": {
+    "title": "TMY - ABA (31 Tân Mỹ)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 256
+  },
+  "-5226952638": {
+    "title": "ABA Đông Mát/Thịt Cá - A151 (20 Lê Đức Thọ)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 203
+  },
+  "-1002882274038": {
+    "title": "ABA Đông Mát - A109 (Trần Trọng Cung)",
+    "type": "channel",
+    "category": "aba",
+    "unread_count": 16
+  },
+  "-5233500171": {
+    "title": "ABA - A202 (DS10 Bình Hưng)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 15
+  },
+  "-640887076": {
+    "title": "NTT - ABA MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 398
+  },
+  "-641193549": {
+    "title": "DC - NTD (160A Nguyễn Thị Định)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-1004437324085": {
+    "title": "DC - A135 (1652 Huỳnh Tấn Phát)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 38
+  },
+  "-1003951952395": {
+    "title": "Logistic _ inventory",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 0
+  },
+  "-4979811379": {
+    "title": "KRC - SCV",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 4
+  },
+  "-5131825480": {
+    "title": "ABA Đông Mát/Thịt Cá - A127 (URBAN GREEN)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 20
+  },
+  "-820823560": {
+    "title": "NTD - ABA (160A Nguyễn Thị Định)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 106
+  },
+  "-1004328184189": {
+    "title": "Đối Soát Thùng xanh/rổ",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 9
+  },
+  "-1004469963017": {
+    "title": "DC - A209 (Lê Trọng Tấn)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 48
+  },
+  "-4906931555": {
+    "title": "MZ2 - DC (A7-8 Valora Mizuki)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 24
+  },
+  "-875321112": {
+    "title": "LVT - ABA MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 361
+  },
+  "-4802496117": {
+    "title": "ABA_VH6",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 50
+  },
+  "-4202085650": {
+    "title": "CLN - ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 8
+  },
+  "-5509916175": {
+    "title": "Đối soát - MeatFish - Miền Đông",
+    "type": "group",
+    "category": "other",
+    "unread_count": 800
+  },
+  "-4030476706": {
+    "title": "MZK1 - KRC",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 295
+  },
+  "-512625105": {
+    "title": "CCDC Khai Trương - Định kỳ",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4987767491": {
+    "title": "IC - KDB - KRC",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 23
+  },
+  "-5263939973": {
+    "title": "ABA - A189 (Nhị Đồng 2)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 81
+  },
+  "-4019623569": {
+    "title": "VH3- (1.05) ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 38
+  },
+  "-4966463527": {
+    "title": "SCV - ABA (thịt cá / đông mát)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 412
+  },
+  "-4124726502": {
+    "title": "HV2-ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 881
+  },
+  "-1003716491337": {
+    "title": "DC - A234 (Conic Riverside)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 108
+  },
+  "-1003320071474": {
+    "title": "KRC - A129 (MIDTOWN)",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 496
+  },
+  "-1003511338216": {
+    "title": "SCM - KRC (Đối soát)",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 197
+  },
+  "-884405296": {
+    "title": "KRC-TNT",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 141
+  },
+  "-4983741648": {
+    "title": "ABA Đông mát-PPZ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 184
+  },
+  "-4640196068": {
+    "title": "KRC - PPZ",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 0
+  },
+  "-5130318512": {
+    "title": "DC - A165 (Golden Star)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1003888540638": {
+    "title": "DC - A224 (Nguyễn Văn Dung)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-880112715": {
+    "title": "KHI - ABA MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 91
+  },
+  "-4093547539": {
+    "title": "VH2 - ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 115
+  },
+  "-1004424998343": {
+    "title": "DC - A223 (Đặng Văn Ngữ)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4273732297": {
+    "title": "ABA - MZ2 (A7-8 Valora Mizuki)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 109
+  },
+  "-4233295350": {
+    "title": "KRC - MZ2",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 580
+  },
+  "-1002805059148": {
+    "title": "Zui zẻ không quạo - LG",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 0
+  },
+  "-1003904217153": {
+    "title": "SCM - KRC (hình ảnh chênh lệch)",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 8652
+  },
+  "-5114128163": {
+    "title": "DC - A164 (Opal Boulevard)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5023949319": {
+    "title": "KRC-A118 (Vĩnh Viễn)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 46
+  },
+  "-5240165850": {
+    "title": "DC - A220 (KDC Nam Long)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1004375842803": {
+    "title": "DC - A225 (ĐS12 Tam Bình)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 14
+  },
+  "-4827088164": {
+    "title": "DC-NVK",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4724011528": {
+    "title": "DC-PVB",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4259263792": {
+    "title": "KRC - CLN",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 274
+  },
+  "-4832071854": {
+    "title": "ABA_Q7R",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 275
+  },
+  "-5060730041": {
+    "title": "DC Dry - A139 (1 An Lạc)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4712243485": {
+    "title": "EH3- DC",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1003786768283": {
+    "title": "DC - NCP ( A134 ) - Nguyễn Cửu Phú",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1001929557412": {
+    "title": "NTU - DC (46 Nguyễn Thị Tú)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1003707250405": {
+    "title": "DC - A214 (Vĩnh Phú 41)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 1
+  },
+  "-4909139945": {
+    "title": "KRC - VH7 ( BS11)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 265
+  },
+  "-1003958612570": {
+    "title": "DC - LVY (236A Lê Văn Sỹ)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 223
+  },
+  "-783204272": {
+    "title": "LVL - ABA (166E Lê Văn Lương)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 0
+  },
+  "-898072705": {
+    "title": "VTG - ABA MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 170
+  },
+  "-5014321949": {
+    "title": "DC Dry - A123 (4S Linh Đông)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5205859090": {
+    "title": "DC Dry - A151 (20 Lê Đức Thọ)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5443926838": {
+    "title": "DC - A172 (Lê Văn Chí)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 71
+  },
+  "-5181060615": {
+    "title": "ABA - A199 (Bàu Cát)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 1
+  },
+  "-4172822430": {
+    "title": "KRC - AKR",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 196
+  },
+  "-5031310721": {
+    "title": "ABA - A170 (Nguyễn Phúc Chu)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 114
+  },
+  "-5172801086": {
+    "title": "KRC - A131 (B01.05 Dream Home Palace)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 184
+  },
+  "-780757722": {
+    "title": "KRC - ERT",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 17
+  },
+  "-5533047640": {
+    "title": "DC - A198 (Sunrise City View)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 41
+  },
+  "-4854147505": {
+    "title": "ABA Đông Mát/Thịt Cá - A111 (New City)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 402
+  },
+  "-4645689451": {
+    "title": "KFM x AIDI x DC - OPS",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 133
+  },
+  "-4589898683": {
+    "title": "KRC - LVT",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 46
+  },
+  "-5249041483": {
+    "title": "DC Dry - A132 (136 Hiệp Bình)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 32
+  },
+  "-1003823588933": {
+    "title": "TRANS-SLOG-KFM",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 386
+  },
+  "-602094001": {
+    "title": "KRC - PHI",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 133
+  },
+  "-5576406617": {
+    "title": "KRC - A200 (H36 KDC Thới An)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 156
+  },
+  "-1001584441829": {
+    "title": "[PLO] THÁNH ĐỔ TỒN",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 1299
+  },
+  "-1004334608188": {
+    "title": "DC - A217 (129 Hoàng Diệu 2)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 51
+  },
+  "-5009320619": {
+    "title": "DC Dry - A125 (115 Man Thiện)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1003881507373": {
+    "title": "KRC - A107 (Đường D3)",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 126
+  },
+  "-5292479710": {
+    "title": "DC - A177 (Sky Garden 2)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5182777019": {
+    "title": "KRC - A166 (Happy Valley)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 7
+  },
+  "-4519351886": {
+    "title": "KRC - HPD",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 65
+  },
+  "-4908410647": {
+    "title": "KRC - A113 (Phan Văn Hân)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 7
+  },
+  "-4531395153": {
+    "title": "SCM + RSM + GSM",
+    "type": "group",
+    "category": "other",
+    "unread_count": 1283
+  },
+  "-4804060590": {
+    "title": "KRC - ECG",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 267
+  },
+  "-5249434303": {
+    "title": "KRC - A188 (Chung Cư Thuận Việt)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 121
+  },
+  "-5297647450": {
+    "title": "ABA Đông Mát/Thịt cá - A120 (Thành Thái)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 265
+  },
+  "-5264657998": {
+    "title": "DC - A174 (Bàn Cờ)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1003595238765": {
+    "title": "ABA Đông Mát/ Thịt Cá - A117 (The Rivana)",
+    "type": "channel",
+    "category": "aba",
+    "unread_count": 4
+  },
+  "-1001554939736": {
+    "title": "KRC - PHG",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 188
+  },
+  "-4819157472": {
+    "title": "KRC - MTE",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 96
+  },
+  "-1003764024042": {
+    "title": "26.SCF_Báo Cáo Xuất Hàng",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 1390
+  },
+  "-1004392333450": {
+    "title": "DC - A232 (376 Nguyễn Thị Định)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 65
+  },
+  "-4806936749": {
+    "title": "VH4 - DC (S07.02 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 19
+  },
+  "-4097859557": {
+    "title": "DC - RS4 (Richstar)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 51
+  },
+  "-5176917150": {
+    "title": "KRC - A184 (Saigon Mia)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 519
+  },
+  "-5024268686": {
+    "title": "KRC - A126 (274 Lê Văn Sỹ)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 247
+  },
+  "-4275316099": {
+    "title": "QHG - ABA MĐ - NLVJ đông mát",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 6
+  },
+  "-5360167260": {
+    "title": "SCM - ĐÔNG MÁT (hình ảnh chênh lệch)",
+    "type": "group",
+    "category": "other",
+    "unread_count": 286
+  },
+  "-579645963": {
+    "title": "KRC - NVT",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 96
+  },
+  "-1001523449323": {
+    "title": "KRC - PGS",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 536
+  },
+  "-4271997870": {
+    "title": "KRC - NTO",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 117
+  },
+  "-1004369961071": {
+    "title": "DC - A208 (BS08 Vinhomes Grand Park)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 201
+  },
+  "-1004396051291": {
+    "title": "DC - A197 (Empire City)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 24
+  },
+  "-1004301337474": {
+    "title": "DC - Q50 (Quốc Lộ 50)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 79
+  },
+  "-5150306625": {
+    "title": "ABA - A183 (Đường 339 Phước Long)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 126
+  },
+  "-5090615271": {
+    "title": "ABA - A138 (48 Trần Văn Quang)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 556
+  },
+  "-4825566527": {
+    "title": "ABA Đông/Mát và Thịt cá - A124 (Sky 9)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 257
+  },
+  "-4071286738": {
+    "title": "EHS - Aba",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 308
+  },
+  "-1001632996518": {
+    "title": "DC - STORE - SOE",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-883536739": {
+    "title": "HTP - ABA MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 355
+  },
+  "-4015228645": {
+    "title": "PGS - Aba MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 454
+  },
+  "-5228058674": {
+    "title": "ABA - A179 (Him Lam Phú An)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 37
+  },
+  "-5206503915": {
+    "title": "ABA Đông Mát/Thịt Cá - A150 (Infinity Riviera Point)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 249
+  },
+  "-5255795148": {
+    "title": "[SCM ĐỐI SOÁT] BÁNH TRÁI",
+    "type": "group",
+    "category": "other",
+    "unread_count": 26
+  },
+  "-5269362420": {
+    "title": "ABA Đông Mát/Thịt Cá - A146 (108 Bùi Thị Xuân)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 123
+  },
+  "-4064721923": {
+    "title": "KRC - HMN",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 105
+  },
+  "-1002479606021": {
+    "title": "ECG - ABA (SH16 Eco Green)",
+    "type": "channel",
+    "category": "aba",
+    "unread_count": 1184
+  },
+  "-4061710654": {
+    "title": "TNO-ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 20
+  },
+  "-1003361550177": {
+    "title": "KRC - TSO",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 292
+  },
+  "-5279185281": {
+    "title": "ABA - A177 (Sky Garden 2)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 52
+  },
+  "-4174079222": {
+    "title": "ABA - LTC",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 330
+  },
+  "-4021539603": {
+    "title": "DC - PGS (Pegasuite)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 61
+  },
+  "-4579770752": {
+    "title": "ABA - CLD",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 205
+  },
+  "-4065136928": {
+    "title": "KRC - VH2",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 116
+  },
+  "-5472227069": {
+    "title": "SCM - THỊT CÁ (hình ảnh chênh lệch)",
+    "type": "group",
+    "category": "other",
+    "unread_count": 665
+  },
+  "-769181228": {
+    "title": "KRC - CKO",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 169
+  },
+  "-5585568162": {
+    "title": "ABA - A212 (D1 Phước Long)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 87
+  },
+  "-4943941041": {
+    "title": "KRC - KDG",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 100
+  },
+  "-1004427935189": {
+    "title": "ABA Đông Mát/Thịt Cá - A165 (Golden Star)",
+    "type": "channel",
+    "category": "aba",
+    "unread_count": 134
+  },
+  "-4879917758": {
+    "title": "THN - ABA ĐÔNG MÁT/THỊT CÁ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 162
+  },
+  "-1003376993342": {
+    "title": "TSO - ABA MĐ",
+    "type": "channel",
+    "category": "aba",
+    "unread_count": 40
+  },
+  "-824620090": {
+    "title": "PHI - ABA MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 11
+  },
+  "-807927844": {
+    "title": "ERT-ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 433
+  },
+  "-991292712": {
+    "title": "VGP - ABA (S06.06 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 119
+  },
+  "-705684646": {
+    "title": "HHT - ABA MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 259
+  },
+  "-4197902636": {
+    "title": "DC - SFR (D1 Safira)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 23
+  },
+  "-5037293861": {
+    "title": "ABA Đông/Mát và Thịt Cá - A123 (4S Linh Đông)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 116
+  },
+  "-4810768163": {
+    "title": "ABA Đông Mát/Thịt Cá - A113 (Phan Văn Hân)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 3
+  },
+  "-4813095752": {
+    "title": "A108 - ITL/ABA (38E Cây Keo)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 225
+  },
+  "-791356749": {
+    "title": "CKO - ABA MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 300
+  },
+  "-948922477": {
+    "title": "KRC-VGP",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 20
+  },
+  "-1004339440131": {
+    "title": "DC - A231 (1M Đường A8 Bình Hưng Hòa B)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 43
+  },
+  "-5552370383": {
+    "title": "KRC - A207 (Palm Residence)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 178
+  },
+  "-4085868781": {
+    "title": "KRC - VH3",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 165
+  },
+  "-614363941": {
+    "title": "VHT - ABA MĐ - NLVJ đông mát",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 136
+  },
+  "-1002558007963": {
+    "title": "ABA - A104 (5/3D Huỳnh Tấn Phát)",
+    "type": "channel",
+    "category": "aba",
+    "unread_count": 1212
+  },
+  "-5296727737": {
+    "title": "KRC - A144 (16 Hoàng Anh Thanh Bình)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 2
+  },
+  "-5030560383": {
+    "title": "ABA - A148 (127 Tân Cảng)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 133
+  },
+  "-1004473589568": {
+    "title": "DC - A240 (S02.03 Vinhomes Grand Park)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 111
+  },
+  "-1001635852752": {
+    "title": "KRC - NHG",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 16
+  },
+  "-4066759092": {
+    "title": "HMN - Đông Mát (Secom)",
+    "type": "group",
+    "category": "other",
+    "unread_count": 47
+  },
+  "-1001705324344": {
+    "title": "KRC - VHT",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 199
+  },
+  "-1004341740983": {
+    "title": "DC - A237 (A&T Sky Garden)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 104
+  },
+  "-4854268300": {
+    "title": "ABA ĐÔNG MÁT/THỊT CÁ - HNN (Hoàng Ngân)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 247
+  },
+  "-5156303742": {
+    "title": "ABA - A174 (Bàn Cờ)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 84
+  },
+  "-5268985249": {
+    "title": "KRC - A127 (B-SH.06 Urban Green)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 46
+  },
+  "-4053224638": {
+    "title": "KRC-BCG (Bcons Garden)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 74
+  },
+  "-4907500481": {
+    "title": "KRC_A105_02 Lê Lợi",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 180
+  },
+  "-5097394639": {
+    "title": "KRC-A124(74 đướng số 1-Sky9)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 507
+  },
+  "-4188647393": {
+    "title": "SFR - ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 271
+  },
+  "-4571087456": {
+    "title": "VPC - ABA (02 Nguyễn Thị Nhung)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 1158
+  },
+  "-4976500983": {
+    "title": "KRC-A103( 222 LVL)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 52
+  },
+  "-4566564137": {
+    "title": "KRC - HLR",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 293
+  },
+  "-4892625820": {
+    "title": "ABA ĐÔNG MÁT-HLR",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 185
+  },
+  "-4091749115": {
+    "title": "DC - EHS (EhomeS)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 41
+  },
+  "-4846649931": {
+    "title": "KRC - HHT",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 80
+  },
+  "-619954677": {
+    "title": "NTU - ABA MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 113
+  },
+  "-5208260532": {
+    "title": "ABA - A169 (Phúc Yên 2)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 28
+  },
+  "-5295619682": {
+    "title": "KRC - A170 (Nguyễn Phúc Chu)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 21
+  },
+  "-4831520955": {
+    "title": "KRC - A106 (Orchard Garden)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 56
+  },
+  "-5086579054": {
+    "title": "KRC - A163 (Alnata Plus Celadon)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 74
+  },
+  "-4861820166": {
+    "title": "KRC - A114 (Hưng Phú)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 143
+  },
+  "-4041044290": {
+    "title": "DS7 - ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 188
+  },
+  "-838118251": {
+    "title": "DC - ERT (Era Town Q7)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 20
+  },
+  "-5083585786": {
+    "title": "AIDI - DC: Nhập - Chia FMCG",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 547
+  },
+  "-4824897789": {
+    "title": "KRC - CLG",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 21
+  },
+  "-5048848144": {
+    "title": "KRC - A128 (TM0.03 CH3 Cityland Park Hill)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 16
+  },
+  "-1002881624302": {
+    "title": "ABA ĐÔNG MÁT - WGA",
+    "type": "channel",
+    "category": "aba",
+    "unread_count": 191
+  },
+  "-4893864793": {
+    "title": "A108 - DC (38E Cây Keo)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 1
+  },
+  "-1003525071105": {
+    "title": "A107 - ABA Đông Mát, Thịt Cá (05 Đường D3 Phước Long)",
+    "type": "channel",
+    "category": "aba",
+    "unread_count": 294
+  },
+  "-4536882122": {
+    "title": "KRC - RVS",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 106
+  },
+  "-5042135416": {
+    "title": "KRC - A137 (60 Lương Định Của)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 95
+  },
+  "-4999347623": {
+    "title": "KRC - A136 (125 Nguyễn Phúc Nguyên)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 0
+  },
+  "-1001746447230": {
+    "title": "KRC - GDU",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 339
+  },
+  "-5159131607": {
+    "title": "ABA ĐÔNG MÁT/THỊT CÁ - A143 (Khuông Việt)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 118
+  },
+  "-4733319672": {
+    "title": "ABA - MTE (D01.14 MT Eastmark City)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 126
+  },
+  "-4995752727": {
+    "title": "ABA - A129 MIDTOWN Q7",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 10
+  },
+  "-4832327413": {
+    "title": "ABA - Đông Mát-LVH",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 104
+  },
+  "-4987817070": {
+    "title": "ABA ĐÔNG MÁT- DMR",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 126
+  },
+  "-5065492668": {
+    "title": "Đông/Mát và Thịt Cá - A116 (48 Trần Thị Cờ)",
+    "type": "group",
+    "category": "other",
+    "unread_count": 30
+  },
+  "-5017723657": {
+    "title": "Seedlog đổi trả & Đối soát",
+    "type": "group",
+    "category": "other",
+    "unread_count": 6
+  },
+  "-1004405937281": {
+    "title": "DC - A201 (An Hội Đông)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 12
+  },
+  "-5224476913": {
+    "title": "ABA - A172 (Lê Văn Chí)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 78
+  },
+  "-5100060992": {
+    "title": "ABA - A171 (Phạm Thế Hiển)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 44
+  },
+  "-5536761493": {
+    "title": "ABA - A158 (Opal Garden)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 89
+  },
+  "-5158078354": {
+    "title": "ABA Đông/Mát + Thịt Cá - A144(16 Hoàng Anh Thanh Bình)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 558
+  },
+  "-4970846623": {
+    "title": "A101 - ABA (27 Tân Lập)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 75
+  },
+  "-4886971123": {
+    "title": "A103 - ABA (222 Lê Văn Lương)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 221
+  },
+  "-4795315212": {
+    "title": "Logistic KFM",
+    "type": "group",
+    "category": "other",
+    "unread_count": 0
+  },
+  "-4170777358": {
+    "title": "KRC - IAP",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 3
+  },
+  "-4529392399": {
+    "title": "KRC - ACU",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 203
+  },
+  "-4843220137": {
+    "title": "ABA-CHR",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 265
+  },
+  "-5244839611": {
+    "title": "KRC - A190 (Botanica Premier)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 14
+  },
+  "-4956823565": {
+    "title": "KRC - A108 ( 38E CÂY KEO )",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 231
+  },
+  "-1003710912780": {
+    "title": "DC - A187 (560 Nguyễn Duy Trinh)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 14
+  },
+  "-4548375618": {
+    "title": "HTC-ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 183
+  },
+  "-5027193412": {
+    "title": "KRC - A123 (4S Linh Đông)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 0
+  },
+  "-5203032435": {
+    "title": "KRC - A199 (Bàu Cát)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 0
+  },
+  "-937608678": {
+    "title": "VGP - DC (S06.06 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1002439645926": {
+    "title": "BVB - ABA",
+    "type": "channel",
+    "category": "aba",
+    "unread_count": 355
+  },
+  "-5495872879": {
+    "title": "IC - (Chill - Frozen) - Miền Đông",
+    "type": "group",
+    "category": "other",
+    "unread_count": 249
+  },
+  "-4659539358": {
+    "title": "ABA Đông Mát/Thịt Cá - A112 (Cô Giang)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 105
+  },
+  "-1004409678875": {
+    "title": "IC - MeatFish - Miền Đông",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 244
+  },
+  "-5116235199": {
+    "title": "KRC - A164 (Opal Boulevard)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 223
+  },
+  "-4696215604": {
+    "title": "KRC_PKD",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 444
+  },
+  "-4081351807": {
+    "title": "KRC - EHS",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 69
+  },
+  "-4129048161": {
+    "title": "IAP - ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 214
+  },
+  "-1004268595947": {
+    "title": "DC - A242 (Q7 Boulevard)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 4
+  },
+  "-4869461791": {
+    "title": "KRC - EH3",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 231
+  },
+  "-4964161256": {
+    "title": "KRC - A111 (New City)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 162
+  },
+  "-5171632693": {
+    "title": "ABA - A220 (KDC Nam Long)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 272
+  },
+  "-1003904512457": {
+    "title": "DC - A233 (New Lavida)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 237
+  },
+  "-5270915730": {
+    "title": "KRC - A143 (83 Khuông Việt)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 80
+  },
+  "-5203306882": {
+    "title": "KRC - A130 (41 Vũ Tông Phan)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 208
+  },
+  "-4676492169": {
+    "title": "KRC - LVH",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 153
+  },
+  "-4211335281": {
+    "title": "HV2- KRC",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 863
+  },
+  "-887431835": {
+    "title": "NKM - ABA MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 135
+  },
+  "-4728905681": {
+    "title": "KRC_PVB",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 4
+  },
+  "-5158042169": {
+    "title": "KRC - A220 (KDC Nam Long)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 162
+  },
+  "-1003856051511": {
+    "title": "ABA - A187 (560 Nguyễn Duy Trinh)",
+    "type": "channel",
+    "category": "aba",
+    "unread_count": 41
+  },
+  "-5260328433": {
+    "title": "KRC - A196 (56 Đường A4)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 91
+  },
+  "-5080367710": {
+    "title": "KRC - A139 (1 An Lạc)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 118
+  },
+  "-1001599147846": {
+    "title": "KRC - VTG",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 287
+  },
+  "-955688061": {
+    "title": "DS3 - ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 37
+  },
+  "-835477767": {
+    "title": "KRC - DS3",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 62
+  },
+  "-4610245241": {
+    "title": "Q7R - DC (Lô CD L1-12 Q7 Riverside Đào Trí)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 43
+  },
+  "-5138011234": {
+    "title": "ABA - A195 (Nguyễn Sơn)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 90
+  },
+  "-1004413869891": {
+    "title": "DC - A210 (Hồng Lạc)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 73
+  },
+  "-4129904176": {
+    "title": "KRC - SFR",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 21
+  },
+  "-4589466365": {
+    "title": "KRC - SSR",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 76
+  },
+  "-1004357370577": {
+    "title": "DC - VH5 (S03.05 Vinhomes)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 8
+  },
+  "-4187036269": {
+    "title": "KRC - LTC",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 311
+  },
+  "-4576739871": {
+    "title": "KRC - VH4 ( S07.02)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 151
+  },
+  "-1002776952053": {
+    "title": "KRC - HNN",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 263
+  },
+  "-4016518746": {
+    "title": "KRC - DS7",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 234
+  },
+  "-1004327581275": {
+    "title": "DC - A235 (44 Thăng Long)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 20
+  },
+  "-4767709524": {
+    "title": "NDT - DC (305 Nguyễn Duy Trinh)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 62
+  },
+  "-5097732830": {
+    "title": "KRC - A195 (Nguyễn Sơn)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 92
+  },
+  "-4133662632": {
+    "title": "KRC - VLA",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 75
+  },
+  "-4728069825": {
+    "title": "A104 - DC (5/3D Huỳnh Tấn Phát)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 6
+  },
+  "-4536114658": {
+    "title": "KRC - TVK",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 23
+  },
+  "-1001877377121": {
+    "title": "KRC - TMY",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 173
+  },
+  "-4595494496": {
+    "title": "KRC - NVK",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 140
+  },
+  "-5057155708": {
+    "title": "ABA Đông mát/Thịt cá - A134 (Nguyễn Cửu Phú)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 11
+  },
+  "-4159767480": {
+    "title": "KRC - GHA",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 204
+  },
+  "-4276040181": {
+    "title": "QHG_KRC",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 14
+  },
+  "-4855214802": {
+    "title": "KRC - Q7R",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 68
+  },
+  "-837181180": {
+    "title": "KRC - Q50",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 36
+  },
+  "-5004018482": {
+    "title": "KRC - PHL",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 241
+  },
+  "-4145698819": {
+    "title": "KRC - PTN",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 90
+  },
+  "-5254381964": {
+    "title": "ABA - A192 (Bùi Đình Túy)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 19
+  },
+  "-1001792915445": {
+    "title": "KRC - KHI",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 58
+  },
+  "-4221052636": {
+    "title": "KRC - HHM",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 148
+  },
+  "-4910994239": {
+    "title": "KRC - HTN",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 70
+  },
+  "-4924839025": {
+    "title": "KRC - A192 (Bùi Đình Túy)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 220
+  },
+  "-4219495425": {
+    "title": "KRC - NVD",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 9
+  },
+  "-889835094": {
+    "title": "NTU - KRC (46 Nguyễn Thị Tú)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 64
+  },
+  "-1001759786537": {
+    "title": "KRC - NTT",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 18
+  },
+  "-916876225": {
+    "title": "KRC - NTĐ",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 135
+  },
+  "-1001588306607": {
+    "title": "KRC - NKM",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 286
+  },
+  "-933928014": {
+    "title": "KRC - NDT",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 147
+  },
+  "-4539159559": {
+    "title": "KRC - NDH",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 308
+  },
+  "-5017224430": {
+    "title": "KRC - A125 (115 Man Thiện)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 215
+  },
+  "-4201254758": {
+    "title": "KRC - D10",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 139
+  },
+  "-4227569626": {
+    "title": "KRC - LVN",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 14
+  },
+  "-4569640428": {
+    "title": "KRC - CLD",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 460
+  },
+  "-1001600362928": {
+    "title": "KRC - LVL",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 29
+  },
+  "-908978390": {
+    "title": "KRC - BQI",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 36
+  },
+  "-4208791479": {
+    "title": "KRC - JKD",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 113
+  },
+  "-1001705640581": {
+    "title": "KRC - HTP",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 72
+  },
+  "-1002645338834": {
+    "title": "DC - BB17 Trường Sơn TSO",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 10
+  },
+  "-5281159889": {
+    "title": "KRC - A182 (S08.02 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 13
+  },
+  "-4542912089": {
+    "title": "KRC - AV4",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 403
+  },
+  "-4794317543": {
+    "title": "KRC_HHG",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 63
+  },
+  "-5287976626": {
+    "title": "KRC - A159 (Thoại Ngọc Hầu)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 103
+  },
+  "-5256482864": {
+    "title": "KRC - A154 (Liên Phường)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 3
+  },
+  "-4783198151": {
+    "title": "KRC_DMR (Diamond Riverside)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 1
+  },
+  "-1004332992942": {
+    "title": "DC - A204 (67A Nguyễn Duy Trinh)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 53
+  },
+  "-5081271186": {
+    "title": "KRC - A119 (09 Đào Trinh Nhất)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 165
+  },
+  "-4126553698": {
+    "title": "KRC - CTH",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 34
+  },
+  "-5156768332": {
+    "title": "KRC - A145 (379 Thạch Lam)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 5
+  },
+  "-1001851962682": {
+    "title": "KRC - CN1",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 18
+  },
+  "-5237455398": {
+    "title": "KRC - A148 (127 Tân Cảng)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 41
+  },
+  "-4518838531": {
+    "title": "BVB- KRC",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 258
+  },
+  "-4546894766": {
+    "title": "KRC - BTH",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 132
+  },
+  "-1004322601078": {
+    "title": "DC - A218 (Nguyễn Duy Dương)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 16
+  },
+  "-5031173752": {
+    "title": "KRC - A138 (48 Trần Văn Quang)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 87
+  },
+  "-1004410100037": {
+    "title": "DC - A219 (D-Homme)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 15
+  },
+  "-5055225160": {
+    "title": "KRC - A120 (7/29 Thành Thái)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 253
+  },
+  "-5169426606": {
+    "title": "KRC - A186 (Melody Residence)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 49
+  },
+  "-5586208104": {
+    "title": "KRC - A198 (Sunrise City View)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 261
+  },
+  "-1003958760392": {
+    "title": "DC - A193 (Homyland Riverside)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 145
+  },
+  "-4984352420": {
+    "title": "DC-HHG (Hòa Hưng)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-5009419304": {
+    "title": "KRC - A185 (BS15 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 103
+  },
+  "-5277002255": {
+    "title": "KRC - A155 (170 Nguyễn Thị Búp)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 76
+  },
+  "-5036625719": {
+    "title": "KRC - A116 (48 Trần Thị Cờ)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 127
+  },
+  "-5232998340": {
+    "title": "KRC - A183 (Đường 339 Phước Long)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 108
+  },
+  "-5202342073": {
+    "title": "KRC - A181 (Masterise Center Point)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 168
+  },
+  "-5231023620": {
+    "title": "KRC - A179 (Him Lam Phú An)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 76
+  },
+  "-5254927873": {
+    "title": "KRC - A149 (50 Lương Minh Nguyệt)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 23
+  },
+  "-5289817936": {
+    "title": "KRC - A175 (Golden Mansion)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 34
+  },
+  "-5225968216": {
+    "title": "KRC - A161 (The Park Residence)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 165
+  },
+  "-4922765575": {
+    "title": "ABA Đông Mát-NVK",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 62
+  },
+  "-5160674327": {
+    "title": "KRC - A157 (Him Lam Chợ Lớn)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 60
+  },
+  "-4687718018": {
+    "title": "KRC - A141 (X1.013 Sunrise City North)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 290
+  },
+  "-4880441469": {
+    "title": "KRC - A112 (Cô Giang)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 339
+  },
+  "-5245896554": {
+    "title": "KRC - A150 (Infinity Riviera Point)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 387
+  },
+  "-4832567003": {
+    "title": "KRC - A110 ( Jasmine 1 Hà Đô )",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 217
+  },
+  "-4870087396": {
+    "title": "ABA Đông Mát/Thịt Cá - A115 (484B Lê Quang Định)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 50
+  },
+  "-5183442232": {
+    "title": "KRC - A140 (68 Đường Số 1 Khu dân cư 6B Intresco)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 309
+  },
+  "-5220624198": {
+    "title": "KRC - A134 (4535 Nguyễn Cửu Phú)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 42
+  },
+  "-5056618818": {
+    "title": "KRC - A133 (Block G Conic Skyway)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 2
+  },
+  "-5123316336": {
+    "title": "KRC - A132 (136 Hiệp Bình)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 17
+  },
+  "-1001956656283": {
+    "title": "DC - NVQ (678 Nguyễn Văn Quá)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 4
+  },
+  "-4998833694": {
+    "title": "KRC-A121(Lý Chiêu Hoàng)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 471
+  },
+  "-4930435875": {
+    "title": "KRC - A115 (484B Lê Quang Định)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 169
+  },
+  "-4920037539": {
+    "title": "KRC - A109 (Trần Trọng Cung)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 656
+  },
+  "-1002552114547": {
+    "title": "KRC - A104 (5/3D Huỳnh Tấn Phát)",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 232
+  },
+  "-4776256360": {
+    "title": "KRC - A101( Tân Lập )",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 16
+  },
+  "-5373475260": {
+    "title": "ABA - A221 (DS6 An Lạc)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 83
+  },
+  "-4823902549": {
+    "title": "ABA ĐÔNG MÁT GHA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 25
+  },
+  "-5233572071": {
+    "title": "ABA Đông Mát/Thịt Cá - A145 (379 Thạch Lam)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 73
+  },
+  "-4525179880": {
+    "title": "KRC - VPC",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 38
+  },
+  "-4950196076": {
+    "title": "D10 - DC (01 Đường Số 10 Tân Kiểng)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 4
+  },
+  "-971553337": {
+    "title": "THD - ABA (229A Tân Hòa Đông)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 67
+  },
+  "-1003837186636": {
+    "title": "A107 - DC (05 Đường D3 Phước Long)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 24
+  },
+  "-5294138283": {
+    "title": "DC - A189 (Nhị Đồng 2)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1004312253338": {
+    "title": "DC - A229 (58 Nguyễn Hữu Tiến)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 12
+  },
+  "-4617834058": {
+    "title": "ABA/NLVJ_HTN",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 138
+  },
+  "-734854443": {
+    "title": "PHL - ABA MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 409
+  },
+  "-4735490854": {
+    "title": "[KFM - 3PL] Đông Mát - Thịt Cá",
+    "type": "group",
+    "category": "other",
+    "unread_count": 382
+  },
+  "-5094000749": {
+    "title": "Đông Mát/Thịt Cá - A139 (1 An Lạc)",
+    "type": "group",
+    "category": "other",
+    "unread_count": 372
+  },
+  "-5425409318": {
+    "title": "ABA - A207 (Palm Residence)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 65
+  },
+  "-4207720204": {
+    "title": "D10-ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 21
+  },
+  "-4063163569": {
+    "title": "BCG - Kho ABA Đông Mát",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 82
+  },
+  "-5205248121": {
+    "title": "ABA - A188 (Chung Cư Thuận Việt)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 36
+  },
+  "-5101700951": {
+    "title": "DC - A160 (Bình Phú)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 1
+  },
+  "-4694009977": {
+    "title": "VH4 - ABA Đông mát (S07.02 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 55
+  },
+  "-5187544138": {
+    "title": "ABA - A160 (Bình Phú)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 0
+  },
+  "-5289704187": {
+    "title": "KRC - A160 (Bình Phú)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 35
+  },
+  "-912522379": {
+    "title": "KRC - ĐXH",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 179
+  },
+  "-4587755984": {
+    "title": "ABA_SSR",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 188
+  },
+  "-4642722927": {
+    "title": "ABA_LPM",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 149
+  },
+  "-4141951525": {
+    "title": "ABA - PTN",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 12
+  },
+  "-4858294597": {
+    "title": "ĐÔNG MÁT/ABA - OPS",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 93
+  },
+  "-4913037367": {
+    "title": "ABA ĐÔNG MÁT/THỊT CÁ-HHM",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 145
+  },
+  "-965979457": {
+    "title": "NDT-ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 118
+  },
+  "-4624997784": {
+    "title": "NDH - ABA (1426 Nguyễn Duy Trinh)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 12
+  },
+  "-4044742673": {
+    "title": "MZK - ABA đông mát (TMDV2 Mizuki Park)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 190
+  },
+  "-4830952109": {
+    "title": "LVY - ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 165
+  },
+  "-4551905438": {
+    "title": "LVN - ABA (09 Lâm Văn Bền)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 742
+  },
+  "-1002574399398": {
+    "title": "EMR - ABA (Block A Emerald Golf View)",
+    "type": "channel",
+    "category": "aba",
+    "unread_count": 111
+  },
+  "-4844074755": {
+    "title": "EH3 - ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 207
+  },
+  "-4957522643": {
+    "title": "Đông Mát-A102",
+    "type": "group",
+    "category": "other",
+    "unread_count": 112
+  },
+  "-4133099957": {
+    "title": "CTH - ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 81
+  },
+  "-967297157": {
+    "title": "BQI -Đông Hưng",
+    "type": "group",
+    "category": "other",
+    "unread_count": 40
+  },
+  "-4189502700": {
+    "title": "AKR - ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 93
+  },
+  "-1004495534449": {
+    "title": "DC - A241 (S05.02 Vinhomes Grand Park)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 6
+  },
+  "-5132757986": {
+    "title": "ABA - A198 (Sunrise City View)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 58
+  },
+  "-5293338882": {
+    "title": "ABA - A181 (Masterise Center Point)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 80
+  },
+  "-5263861524": {
+    "title": "ABA - A157 (Him Lam Chợ Lớn)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 63
+  },
+  "-4907799710": {
+    "title": "ABA - A154 (Liên Phường)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 7
+  },
+  "-5212554383": {
+    "title": "ABA đông mát/Thịt cá - A133 (Block G Conic Skyway)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 20
+  },
+  "-5288962344": {
+    "title": "ABA - A178 (Celesta Rise)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 129
+  },
+  "-869090413": {
+    "title": "KRC-DQH",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 3
+  },
+  "-4863923232": {
+    "title": "DC-SSR",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4922136877": {
+    "title": "DC-SCV",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4140527705": {
+    "title": "DC - PTN (Quận 7) (Trả tote)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-553882113": {
+    "title": "DC - NVT Q9 (367 Nguyễn Văn Tăng)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4115684818": {
+    "title": "DC - LTC (97 Lê Thị Chợ)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4658447671": {
+    "title": "HTN - DC (17 Hồ Thị Nhung)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1003822384320": {
+    "title": "HHM - DC (165 Hoàng Hoa Thám)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5117305660": {
+    "title": "DC - A155 (170 Nguyễn Thị Búp)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1003847096835": {
+    "title": "DC - A127 (URBAN GREEN)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4249658669": {
+    "title": "QHG_DC_ store",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-5022284943": {
+    "title": "ABA Đông/Mát và Thịt Cá - A121 (123 Lý Chiêu Hoàng)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 250
+  },
+  "-4237502470": {
+    "title": "LVN - DC (09 LÂM VĂN BỀN)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 11
+  },
+  "-884744948": {
+    "title": "LVL - DC (166E Lê Văn Lương)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 20
+  },
+  "-4614044179": {
+    "title": "LVH - DC (222 Lê Văn Thịnh)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 6
+  },
+  "-4918473621": {
+    "title": "DC-LPM",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 22
+  },
+  "-4039116350": {
+    "title": "DC - KHI (98 Khánh Hội)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 109
+  },
+  "-4951125300": {
+    "title": "KDG - DC (10D Kỳ Đồng)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 19
+  },
+  "-4207174927": {
+    "title": "DC - JKD( JAMILA Khang Điền )",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 1
+  },
+  "-4151469426": {
+    "title": "DC - IAP (Quận 2) (Trả Tote)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-4836039448": {
+    "title": "DC-HV2",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 15
+  },
+  "-4832751364": {
+    "title": "DC-HTC",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 45
+  },
+  "-1001695487862": {
+    "title": "DC - HTP (571 Huỳnh Tấn Phát)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 16
+  },
+  "-4820723298": {
+    "title": "HPD - DC (01-06 TMDV Him Lam Phú Đông)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 35
+  },
+  "-4903057446": {
+    "title": "HNN - DC (296 Hoàng Ngân)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 36
+  },
+  "-4646234642": {
+    "title": "HNG - DC (Block B1 Hưng Ngân Garden)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 49
+  },
+  "-4096943078": {
+    "title": "DC - HMN (Harmona)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 11
+  },
+  "-4943081238": {
+    "title": "HLR - DC ( Block A Himlam Riverside Q7)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 15
+  },
+  "-1001663992706": {
+    "title": "HHT - DC (22 Hoàng Hoa Thám)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-4125880558": {
+    "title": "GHA - DC (The Art Gia Hòa)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 33
+  },
+  "-911151770": {
+    "title": "DC-GDU (116 Gò Dầu)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-1002686145863": {
+    "title": "DC-EMR (BD) (Trả tote-rổ)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 108
+  },
+  "-918508542": {
+    "title": "DC - ECG (Eco Green)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 41
+  },
+  "-4049218482": {
+    "title": "DC - DXH (539 Đỗ Xuân Hợp)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 35
+  },
+  "-1002166724266": {
+    "title": "DS7 - DC (99 Đường Số 7)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 74
+  },
+  "-844028449": {
+    "title": "DC - DQH (GV) (Trả tote và rổ)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-4883865942": {
+    "title": "DMR - DC (Block C Diamond Riverside)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-5053620620": {
+    "title": "DC DRY-A118 (Vĩnh Viễn)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-1001984727983": {
+    "title": "DC - DS3 (Thủ đức)-(Trả Thùng Xanh)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 14
+  },
+  "-5155923863": {
+    "title": "DC DRY - A147 (956 Huỳnh Tấn Phát)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 40
+  },
+  "-4699467473": {
+    "title": "DC DRY - A117 (The Rivana)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 6
+  },
+  "-5218263928": {
+    "title": "DC DRY - A149 (50 Lương Minh Nguyệt)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 56
+  },
+  "-5023213446": {
+    "title": "DC Dry - A145 (379 Thạch Lam)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 30
+  },
+  "-5115531127": {
+    "title": "DC Dry - A144 (16 Hoàng Anh Thanh Bình)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-4978848728": {
+    "title": "DC Dry - A126 (274 Lê Văn Sỹ)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 12
+  },
+  "-4818864785": {
+    "title": "DC Dry - A112 (Cô Giang)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 18
+  },
+  "-5126898330": {
+    "title": "DC Dry - A136 (125 Nguyễn Phúc Nguyên)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 104
+  },
+  "-4967675897": {
+    "title": "DC Dry - A115 (484B Lê Quang Định)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 16
+  },
+  "-5151971860": {
+    "title": "DC Dry - A146 (108 Bùi Thị Xuân)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 64
+  },
+  "-4936208036": {
+    "title": "DC Dry - A114 (Hưng Phú)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-5167161385": {
+    "title": "DC Dry - A131 (B01.05 Dream Home Palace)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 7
+  },
+  "-5095112455": {
+    "title": "DC Dry - A116 (48 Trần Thị Cờ)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 21
+  },
+  "-5080875293": {
+    "title": "DC Dry - A119 (09 Đào Trinh Nhất)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-4810276455": {
+    "title": "DC Dry - A111 (New City)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-5012797348": {
+    "title": "DC Dry - A138 (48 Trần Văn Quang)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 46
+  },
+  "-4992411662": {
+    "title": "DC Dry - A137 (60 Lương Định Của)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 16
+  },
+  "-4931444555": {
+    "title": "DC Dry - A113 (Phan Văn Hân)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-5183132878": {
+    "title": "DC Dry - A150 (Infinity Riviera Point)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 14
+  },
+  "-4117975293": {
+    "title": "CTH - DC (TMDV Citihome Cát Lái)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-868672635": {
+    "title": "CN1 - DC (48 CN1)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 13
+  },
+  "-4864768952": {
+    "title": "CLG - DC (64A Cửu Long)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-4567680972": {
+    "title": "DC - CLD (Quận 7)-(Trả Thùng xanh)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 10
+  },
+  "-613928063": {
+    "title": "CKO - DC (85 Cây Keo)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-4946147649": {
+    "title": "CHR - DC (S01.11 Block A1 Charm Sapphire)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 21
+  },
+  "-4880956911": {
+    "title": "DC - BVB",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-4854369578": {
+    "title": "DC-BTH",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 100
+  },
+  "-4010782901": {
+    "title": "DC - BCG (BD) (Trả tote- rổ)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 15
+  },
+  "-1001838756395": {
+    "title": "DC - BQI (Quận BT) - (Trả tote và rổ)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 14
+  },
+  "-4903740099": {
+    "title": "AV4 - DC (SAV_04-00.03 The Sun Avenue)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-4114032701": {
+    "title": "DC - AKR (Akari City)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 4
+  },
+  "-4578848570": {
+    "title": "DC-ACU- 01 Chung cư An Cư An Phú",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-5405698526": {
+    "title": "DC - A221 (DS6 An Lạc)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 5
+  },
+  "-5054271219": {
+    "title": "DC - A212 (D1 Phước Long)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 33
+  },
+  "-5318898976": {
+    "title": "DC - A207 (Palm Residence)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 5
+  },
+  "-5488543064": {
+    "title": "DC - A205 (DS59 An Hội Tây)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 12
+  },
+  "-5143606706": {
+    "title": "DC - A203 (Tân Thới Nhất 17)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 57
+  },
+  "-5235044749": {
+    "title": "DC - A202 (DS10 Bình Hưng)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 12
+  },
+  "-5531243065": {
+    "title": "DC - A200 (H36 KDC Thới An)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-5147079164": {
+    "title": "DC - A199 (Bàu Cát)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 1
+  },
+  "-5235410017": {
+    "title": "DC - A196 (56 Đường A4)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 62
+  },
+  "-5060765029": {
+    "title": "DC - A195 (Nguyễn Sơn)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 48
+  },
+  "-5171521749": {
+    "title": "DC - A194 (Millennium)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 20
+  },
+  "-5134055233": {
+    "title": "DC - A192 (Bùi Đình Túy)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 34
+  },
+  "-5114500318": {
+    "title": "DC - A191 (Nguyễn Hữu Cầu)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 15
+  },
+  "-5263541191": {
+    "title": "DC - A190 (Botanica Premier)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-5148630038": {
+    "title": "DC - A188 (Chung Cư Thuận Việt)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-5264829572": {
+    "title": "DC - A186 (Melody Residence)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-5194004276": {
+    "title": "DC - A185 (BS15 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-5159086280": {
+    "title": "DC - A184 (Saigon Mia)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 15
+  },
+  "-5079560017": {
+    "title": "DC - A183 (Đường 339 Phước Long)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-5114889462": {
+    "title": "DC - A182 (S08.02 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-5232324560": {
+    "title": "DC - A181 (Masterise Center Point)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 17
+  },
+  "-5176145668": {
+    "title": "DC - A179 (Him Lam Phú An)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 19
+  },
+  "-5029494328": {
+    "title": "DC - A178 (Celesta Rise)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-5075301822": {
+    "title": "DC - A176 (Sunrise Riverside)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-5016220116": {
+    "title": "DC - A175 (Golden Mansion)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 20
+  },
+  "-5270352656": {
+    "title": "DC - A171 (Phạm Thế Hiển)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 74
+  },
+  "-5203125666": {
+    "title": "DC - A170 (Nguyễn Phúc Chu)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 45
+  },
+  "-5152592753": {
+    "title": "DC - A169 (Phúc Yên 2)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 6
+  },
+  "-5056559672": {
+    "title": "DC - A167 (9 View)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 111
+  },
+  "-5183342892": {
+    "title": "DC - A166 (Happy Valley)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 13
+  },
+  "-5100652138": {
+    "title": "DC - A161 (The Park Residence)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-5272569057": {
+    "title": "DC - A159 (Thoại Ngọc Hầu)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 43
+  },
+  "-5464166673": {
+    "title": "DC - A158 (Opal Garden)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 70
+  },
+  "-5133541968": {
+    "title": "DC - A157 (Him Lam Chợ Lớn)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 37
+  },
+  "-5233202779": {
+    "title": "DC - A156 (Dương Đình Hội)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-5212599534": {
+    "title": "DC - A154 (Liên Phường)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-5224980650": {
+    "title": "DC - A148 (127 Tân Cảng)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-5043861342": {
+    "title": "DC - A143 (Khuông Việt)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 20
+  },
+  "-5225429665": {
+    "title": "DC - A141 Dry",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-5184607226": {
+    "title": "A140- DC (68 Đường Số 1)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 1
+  },
+  "-5121170674": {
+    "title": "DC - A133",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-1003741513724": {
+    "title": "DC - A128 (Chung Cư CH3)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 105
+  },
+  "-1003612552110": {
+    "title": "Dry/DC- A130( 41 Vũ Tông Phan)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 37
+  },
+  "-5014585301": {
+    "title": "A124 - DC (74 Đường Số 1 Chung Cư Sky 9)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 61
+  },
+  "-5278653818": {
+    "title": "DC - A121 (Lý Chiêu Hoàng)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 69
+  },
+  "-1004204799580": {
+    "title": "DC - A120 (7/29 Thành Thái)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-4962963876": {
+    "title": "DC - A109 (Trần Trọng Cung)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 16
+  },
+  "-1003031434482": {
+    "title": "A110 - DC (Jasmine 1 Hà Đô Centrosa)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-4860325352": {
+    "title": "A106 - DC (T1-5 TMDV Orchard Garden)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 2
+  },
+  "-4867362624": {
+    "title": "A105 - DC (02 Lê Lợi)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-4862339959": {
+    "title": "A103 - DC (222 Lê Văn Lương)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 15
+  },
+  "-4981737499": {
+    "title": "A102 - DC (128A Kha Vạn Cân)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 26
+  },
+  "-4887768556": {
+    "title": "A101 - DC (27 Tân Lập)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 3
+  },
+  "-5230784912": {
+    "title": "KRC - A178 (Celesta Rise)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 149
+  },
+  "-5203833846": {
+    "title": "ABA - A184 (Saigon Mia)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 270
+  },
+  "-5315774877": {
+    "title": "KRC - A212 (D1 Phước Long)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 222
+  },
+  "-5125522049": {
+    "title": "KRC - A194 (Millennium)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 47
+  },
+  "-5020576115": {
+    "title": "KRC - A165 (Golden Star)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 210
+  },
+  "-1003925120550": {
+    "title": "VPC - DC (02 Nguyễn Thị Nhung)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 6
+  },
+  "-4947055311": {
+    "title": "ABA ĐÔNG MÁT-A105",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 18
+  },
+  "-4780642849": {
+    "title": "KRC-CHR",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 7
+  },
+  "-4796858468": {
+    "title": "LVY - KRC (236A Lê Văn Sỹ)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 12
+  },
+  "-4879450613": {
+    "title": "KRC - LPM",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 132
+  },
+  "-4517101413": {
+    "title": "KRC - HTC",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 267
+  },
+  "-4923666366": {
+    "title": "KRC - HNG",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 56
+  },
+  "-4582456571": {
+    "title": "KRC- EMR",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 139
+  },
+  "-5493948931": {
+    "title": "KRC - A221 (DS6 An Lạc)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 108
+  },
+  "-5487815548": {
+    "title": "KRC - A205 (DS59 An Hội Tây)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 12
+  },
+  "-4993266266": {
+    "title": "KRC - A203 (Tân Thới Nhất 17)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 243
+  },
+  "-5013502390": {
+    "title": "KRC - A202 (DS10 Bình Hưng)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 131
+  },
+  "-5004207617": {
+    "title": "KRC - A191 (Nguyễn Hữu Cầu)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 26
+  },
+  "-5286777330": {
+    "title": "KRC - A189 (Nhị Đồng 2)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 114
+  },
+  "-4999105600": {
+    "title": "KRC - A187 (560 Nguyễn Duy Trinh)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 59
+  },
+  "-5137746392": {
+    "title": "KRC - A177 (Sky Garden 2)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 27
+  },
+  "-5153485294": {
+    "title": "KRC - A176 (Sunrise Riverside)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 4
+  },
+  "-5149214253": {
+    "title": "KRC - A174 (Bàn Cờ)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 121
+  },
+  "-5341251224": {
+    "title": "KRC - A172 (Lê Văn Chí)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 160
+  },
+  "-5198232099": {
+    "title": "KRC - A171 (Phạm Thế Hiển)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 91
+  },
+  "-5169767732": {
+    "title": "KRC - A169 (Phúc Yên 2)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 205
+  },
+  "-5238910681": {
+    "title": "KRC - A167 (9 View)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 87
+  },
+  "-5383543464": {
+    "title": "KRC - A158 (Opal Garden)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 1
+  },
+  "-5282765822": {
+    "title": "KRC - A156 (Dương Đình Hội)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 178
+  },
+  "-5185542421": {
+    "title": "KRC - A151 (20 Lê Đức Thọ)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 133
+  },
+  "-5099001093": {
+    "title": "KRC - A147 (956 Huỳnh Tấn Phát)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 99
+  },
+  "-5191889783": {
+    "title": "KRC - A146 (108 Bùi Thị Xuân)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 200
+  },
+  "-4863824080": {
+    "title": "KRC - A117 (The Rivana)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 9
+  },
+  "-4810931245": {
+    "title": "KRC_A102_Kha Vạn Cân",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 13
+  },
+  "-719226115": {
+    "title": "NHG - ABA MĐ (15 Nguyên Hồng)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 96
+  },
+  "-4254286776": {
+    "title": "Aba - NTO",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 129
+  },
+  "-4685936814": {
+    "title": "KDG - ABA (10D Kỳ Đồng)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 108
+  },
+  "-4218466578": {
+    "title": "JKD- ABA MĐ - NLVJ đông mát",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 38
+  },
+  "-4533722045": {
+    "title": "HPD - ABA (01-06 TMDV Him Lam Phú Đông)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 107
+  },
+  "-4623899543": {
+    "title": "HHG - ABA (103 Hòa Hưng)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 120
+  },
+  "-915258555": {
+    "title": "GDU - ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 214
+  },
+  "-954752748": {
+    "title": "DXH - ABA (539 Đỗ Xuân Hợp)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 203
+  },
+  "-852406010": {
+    "title": "DQH-ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 38
+  },
+  "-822801997": {
+    "title": "CN1 - ABA MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 28
+  },
+  "-4503460791": {
+    "title": "ABA_AV4_The Sun Avenue",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 150
+  },
+  "-4513412580": {
+    "title": "ACU - ABA thịt cá - đông mát",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 113
+  },
+  "-5060013044": {
+    "title": "Aba-Đông Mát - A132 (136 Hiệp Bình)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 258
+  },
+  "-4850759942": {
+    "title": "ABA ĐÔNG MÁT-PVB",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 35
+  },
+  "-1002878256189": {
+    "title": "ABA ĐÔNG MÁT-TVK",
+    "type": "channel",
+    "category": "aba",
+    "unread_count": 93
+  },
+  "-4840150141": {
+    "title": "ABA ĐÔNG MÁT-BTH",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 141
+  },
+  "-4758804950": {
+    "title": "ABA Đông Mát-VH7",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 29
+  },
+  "-4843390858": {
+    "title": "ABA Đông Mát-HNG (Hưng Ngân)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 111
+  },
+  "-5052944571": {
+    "title": "ABA Đông Mát/Thịt cá - A149 (Lương Minh Nguyệt)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 85
+  },
+  "-5000807561": {
+    "title": "ABA Đông Mát/Thịt Cá - A137 (60 Lương Định Của)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 196
+  },
+  "-5263695143": {
+    "title": "ABA Đông mát/Thịt cá - A140 (68 đường số 1)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 1
+  },
+  "-5056493930": {
+    "title": "ABA đông mát/thịt cá - A130 (Vũ Tông Phan)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 64
+  },
+  "-5204014049": {
+    "title": "ABA - A205 (DS59 An Hội Tây)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 75
+  },
+  "-5242263578": {
+    "title": "ABA - A203 (Tân Thới Nhất 17)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 104
+  },
+  "-5125738337": {
+    "title": "ABA - A200 (H36 KDC Thới An)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 58
+  },
+  "-5034156634": {
+    "title": "ABA - A196 (56 Đường A4)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 93
+  },
+  "-5290327565": {
+    "title": "ABA - A194 (Millennium)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 61
+  },
+  "-5030598033": {
+    "title": "ABA - A193 (Homyland Riverside)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 33
+  },
+  "-5157171466": {
+    "title": "ABA - A191 (Nguyễn Hữu Cầu)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 82
+  },
+  "-5162953573": {
+    "title": "ABA - A190 (Botanica Premier)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 57
+  },
+  "-5291554022": {
+    "title": "ABA - A186 (Melody Residence)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 78
+  },
+  "-5163672851": {
+    "title": "ABA - A185 (BS15 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 57
+  },
+  "-5268822151": {
+    "title": "ABA - A182 (S08.02 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 58
+  },
+  "-5088265050": {
+    "title": "ABA - A176 (Sunrise Riverside)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 55
+  },
+  "-5169150901": {
+    "title": "ABA - A175 (Golden Mansion)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 39
+  },
+  "-5202511646": {
+    "title": "ABA - A167 (9 View)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 66
+  },
+  "-5135406910": {
+    "title": "ABA - A166 (Happy Valley)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 77
+  },
+  "-5223853892": {
+    "title": "ABA - A164 (Opal Boulevard)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 94
+  },
+  "-5210410858": {
+    "title": "ABA - A163 (Alnata Plus Celadon)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 3
+  },
+  "-5188493690": {
+    "title": "ABA - A161 (The Park Residence)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 94
+  },
+  "-5018175502": {
+    "title": "ABA - A159 (Thoại Ngọc Hầu)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 83
+  },
+  "-5099008566": {
+    "title": "ABA - A156 (Dương Đình Hội)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 172
+  },
+  "-5143331178": {
+    "title": "ABA - A155",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 0
+  },
+  "-5102570262": {
+    "title": "ABA - A141 (X1.013 Sunrise City North)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 63
+  },
+  "-4978161635": {
+    "title": "Đông Mát/ABA - A108 (38E Cây Keo)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 127
+  },
+  "-4746420333": {
+    "title": "Đông Mát/ABA - A106 (Orchard Garden)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 186
+  },
+  "-789904409": {
+    "title": "DC - PHG (Bình chánh)-(Trả tote-rổ)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 22
+  },
+  "-1002103007730": {
+    "title": "IC KDB-WMS",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 115
+  },
+  "-5588180836": {
+    "title": "KRC - WGA (Westgate An Gia)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 253
+  },
+  "-4805468212": {
+    "title": "VH6 - DC (GH5 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 11
+  },
+  "-1001878454662": {
+    "title": "DC - 410 PHI (410 Phan Huy Ích)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 1
+  },
+  "-4879460816": {
+    "title": "DC-OPS",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 77
+  },
+  "-1003868954223": {
+    "title": "DC-MTE",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4097174073": {
+    "title": "MZK - DC (TMDV2 Mizuki Park)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 80
+  },
+  "-5009402250": {
+    "title": "ABA Đông/Mát Thịt Cá - A119 (09 Đào Trinh Nhất)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 1
+  },
+  "-4870472668": {
+    "title": "DC-WGA",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5005449812": {
+    "title": "ABA Đông/Mát Thịt Cá - A126 (274 Lê Văn Sỹ)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 21
+  },
+  "-800905437": {
+    "title": "DC - PHL (Phạm Hữu Lầu Q7)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1003771722275": {
+    "title": "DC_PKD",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1004389700726": {
+    "title": "DC - NTN (Nguyễn Trọng Tuyển)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4873359487": {
+    "title": "VH7 - DC (BS11 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4186843633": {
+    "title": "DC - VLA (128 Vườn Lài)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1001844940870": {
+    "title": "DC - TNT (195 Thống Nhất)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1001796134425": {
+    "title": "DC - TMY(31 Tân Mỹ)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1001703850834": {
+    "title": "DC - NTT (436 Nguyễn Thị Thập)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4752734610": {
+    "title": "LOG - Xử lý lệch nội bộ",
+    "type": "group",
+    "category": "other",
+    "unread_count": 394
+  },
+  "-5094638485": {
+    "title": "Đông/Mát-A118 (Vĩnh Viễn)",
+    "type": "group",
+    "category": "other",
+    "unread_count": 144
+  },
+  "-764538790": {
+    "title": "NVQ-ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 57
+  },
+  "-885961261": {
+    "title": "KRC - NVQ",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 245
+  },
+  "-5152526449": {
+    "title": "Đông/Mát + Thịt Cá - A131 (B01.05 Dream Home Palace)",
+    "type": "group",
+    "category": "other",
+    "unread_count": 110
+  },
+  "-4972623393": {
+    "title": "DC-PPZ",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 51
+  },
+  "-874764140": {
+    "title": "NVT - ABA MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 75
+  },
+  "-4901512510": {
+    "title": "ABA - PKD",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 30
+  },
+  "-887863930": {
+    "title": "PHG - ABA MĐ",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 176
+  },
+  "-1002900710978": {
+    "title": "A110 - ABA",
+    "type": "channel",
+    "category": "aba",
+    "unread_count": 16
+  },
+  "-4834646921": {
+    "title": "KRC -THN",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 135
+  },
+  "-4795250025": {
+    "title": "KRC_OPS (Opal Skyline)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 98
+  },
+  "-4842272947": {
+    "title": "ABA ĐÔNG MÁT-CLG",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 197
+  },
+  "-4876357427": {
+    "title": "RS4- ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 109
+  },
+  "-4136471345": {
+    "title": "NVD- ABA",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 229
+  },
+  "-5158389296": {
+    "title": "Đông/Mát + Thịt Cá - A136 (125 Nguyễn Phúc Nguyên)",
+    "type": "group",
+    "category": "other",
+    "unread_count": 42
+  },
+  "-1002992073784": {
+    "title": "KRC - RS4",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 115
+  },
+  "-913905784": {
+    "title": "TNT - ABA Thịt Cá - Đông Mát",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 153
+  },
+  "-787138197": {
+    "title": "DC - NHG (Nguyên Hồng)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 79
+  },
+  "-4246704011": {
+    "title": "NVD - DC (42 Nguyễn Văn Đậu)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1001873237756": {
+    "title": "KRC - TNO",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 16
+  },
+  "-620755596": {
+    "title": "KFM - SEEDLOG Support",
+    "type": "group",
+    "category": "other",
+    "unread_count": 147
+  },
+  "-4850342862": {
+    "title": "ABA Đông Mát/Thịt Cá - A114 (Hưng Phú)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 71
+  },
+  "-4192610070": {
+    "title": "VLA - ABA MĐ - NLVJ đông mát",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 23
+  },
+  "-695346068": {
+    "title": "VTG - DC (86B Vũ Tùng)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 9
+  },
+  "-4870092396": {
+    "title": "CLN - DC",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-636891030": {
+    "title": "DC - VHT(54 Vũ Huy Tấn)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 12
+  },
+  "-4971875234": {
+    "title": "VH5 - DC (S03.05 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4056652819": {
+    "title": "DC - VH3 (S1.05 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 8
+  },
+  "-4077409269": {
+    "title": "VH2 - DC (S10.02 Vinhomes Grand Park)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 8
+  },
+  "-4556531280": {
+    "title": "DC_TVK",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4046220815": {
+    "title": "DC - TNO (46 Trần Não)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 15
+  },
+  "-4982081891": {
+    "title": "DC-THN",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 41
+  },
+  "-1002012247830": {
+    "title": "DC-THD (Q6-Trả Thùng xanh và rổ)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4928360925": {
+    "title": "RVS - DC (C0.01 Riverside Phú Mỹ Hưng)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 13
+  },
+  "-1001907794660": {
+    "title": "Q50 - DC (511 Quốc lộ 50)",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 103
+  },
+  "-4870440616": {
+    "title": "NTO - DC (108 Ngô Tất Tố)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 5
+  },
+  "-733176842": {
+    "title": "DC - NKM(371 Nguyễn Kiệm)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 33
+  },
+  "-4641160091": {
+    "title": "NDH - DC (1426 Nguyễn Duy Trinh)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 59
+  },
+  "-4965569924": {
+    "title": "LVY - DC (236A Lê Văn Sỹ)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 9
+  },
+  "-716998041": {
+    "title": "DC - LVT (Lê Văn Thọ)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 116
+  },
+  "-1003119926290": {
+    "title": "AIDI & Kho Đông Mát KFM",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 7
+  },
+  "-1001620119166": {
+    "title": "KRC - THĐ",
+    "type": "channel",
+    "category": "krc",
+    "unread_count": 6
+  },
+  "-741745588": {
+    "title": "Q50 - ABA (511 Quốc Lộ 50)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 88
+  },
+  "-5039669634": {
+    "title": "ABA Đông/mát và Thịt Cá - A125 (Man Thiện)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 142
+  },
+  "-1004409174030": {
+    "title": "DC - A129 - Midtown",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5406820158": {
+    "title": "DC - LVY (236A Lê Văn Sỹ)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5116338919": {
+    "title": "CÍUUUU",
+    "type": "group",
+    "category": "other",
+    "unread_count": 14
+  },
+  "-1001424076690": {
+    "title": "KFM - SCF: ĐỔI TRẢ HÀNG HÓA DC KHÔ",
+    "type": "channel",
+    "category": "dc",
+    "unread_count": 15
+  },
+  "-1003793951751": {
+    "title": "NSO- KFM- BDU- A237- TMDV 1 Chung cư A&T Sky Gaden- Khai Trương 22/08/2026",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 100
+  },
+  "-5240250375": {
+    "title": "DC - A193 (Homyland Riverside)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 5
+  },
   "-5300068522": {
     "title": "DC - TMY (Thử)",
-    "type": "group"
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5218907021": {
+    "title": "KFM - CPG: nhóm vận hành",
+    "type": "group",
+    "category": "other",
+    "unread_count": 77
+  },
+  "-4906644767": {
+    "title": "ABA Đông Mát/Thịt Cá - A165 (Golden Star)",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 0
+  },
+  "-5115999359": {
+    "title": "GHKNN_SCM x 58 ST",
+    "type": "group",
+    "category": "other",
+    "unread_count": 0
+  },
+  "-5383023085": {
+    "title": "DC - A144 (thử)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5118344258": {
+    "title": "DC - A129 - Midtown",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-832566205": {
+    "title": "Cập nhật Thùng/Rổ/Pallet_DC & ST",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5251873471": {
+    "title": "Hàng Đông - Mát - A129 - Midtown A129",
+    "type": "group",
+    "category": "other",
+    "unread_count": 0
+  },
+  "-1003995817910": {
+    "title": "Hàng Đông - Mát - A129 - Midtown A129",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 0
+  },
+  "-4599134489": {
+    "title": "KFM - DC KRC - File chia KRC tự động",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 110
+  },
+  "-5557803314": {
+    "title": "IC - MeatFish - Miền Đông",
+    "type": "group",
+    "category": "other",
+    "unread_count": 0
+  },
+  "-4649086309": {
+    "title": "Support Kho ITL - KFM",
+    "type": "group",
+    "category": "other",
+    "unread_count": 45
+  },
+  "-1002398528687": {
+    "title": "PROJECT - Tăng TKCX",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 7
+  },
+  "-1003414292507": {
+    "title": "Bonding Quý X - 202X",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 5
+  },
+  "-5250588283": {
+    "title": "Đối Soát Thùng xanh/rổ",
+    "type": "group",
+    "category": "other",
+    "unread_count": 0
+  },
+  "-5404865328": {
+    "title": "DC - A225 (ĐS12 Tam Bình)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5478025073": {
+    "title": "DC - Q50 (Quốc Lộ 50)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5564355018": {
+    "title": "DC - VH5 (S03.05 Vinhomes)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5169655411": {
+    "title": "DC - A193 (Homyland Riverside)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-1003116641555": {
+    "title": "STS & Kho Khô Bình Thắng - Đặt, Chia, Xuất",
+    "type": "channel",
+    "category": "other",
+    "unread_count": 17
+  },
+  "-5129187948": {
+    "title": "SCM- KRC Nội bộ",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 0
+  },
+  "-5125098456": {
+    "title": "DC - A120 (7/29 Thành Thái)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4612672037": {
+    "title": "HHM - DC (165 Hoàng Hoa Thám)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4675677783": {
+    "title": "Logicstic _ inventory",
+    "type": "group",
+    "category": "other",
+    "unread_count": 0
+  },
+  "-5202416092": {
+    "title": "SCM - KRC (hình ảnh chênh lệch)",
+    "type": "group",
+    "category": "krc",
+    "unread_count": 0
+  },
+  "-4587582513": {
+    "title": "VPC - DC (02 Nguyễn Thị Nhung)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5215707441": {
+    "title": "Dry/DC- A130( 41 Vũ Tông Phan)",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4971574129": {
+    "title": "DC_PKD",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-5198550199": {
+    "title": "ABA - 560 Nguyễn Duy Trinh",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 0
+  },
+  "-5168412780": {
+    "title": "DC - 560 Nguyễn Duy Trinh",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4610200596": {
+    "title": "DC-MTE",
+    "type": "group",
+    "category": "dc",
+    "unread_count": 0
+  },
+  "-4953103230": {
+    "title": "THU HỒI RỔ - thứ 5-6-7",
+    "type": "group",
+    "category": "other",
+    "unread_count": 0
+  },
+  "-5052306337": {
+    "title": "Đông/Mát-A124(đường số 1-Sky9)",
+    "type": "group",
+    "category": "other",
+    "unread_count": 2
+  },
+  "-4997004286": {
+    "title": "ABA Supports",
+    "type": "group",
+    "category": "aba",
+    "unread_count": 2
   }
 }

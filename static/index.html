@@ -80,7 +80,7 @@
             <div class="card-body">
               <div class="form-group">
                 <label for="messageText">Nội dung tin nhắn gửi tới cửa hàng ST:</label>
-                <textarea id="messageText" placeholder="Nhập nội dung tin nhắn... Bạn có thể nhấn Ctrl+V để DÁN NHIỀU HÌNH ẢNH trực tiếp vào đây!" rows="7"></textarea>
+                <textarea id="messageText" placeholder="Nhập nội dung tin nhắn... Bạn có thể nhấn Ctrl+V để DÁN NHIỀU HÌNH ẢNH trực tiếp vào đây!" rows="4"></textarea>
               </div>
 
               <!-- Attachment Toolbar -->
@@ -172,10 +172,10 @@
 
             <div class="card-body">
               <!-- Sheet Sync Trigger Banner -->
-              <div class="sheet-sync-banner" style="flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.5rem;">
+              <div class="sheet-sync-banner" style="flex-direction: column; align-items: flex-start; gap: 0.8rem; padding: 1rem;">
                 <div style="width: 100%;">
-                  <div style="font-weight: 800; font-size: 1.1rem; color: #67e8f9;">📊 Phiếu Chuyển Hàng Đổi Trả Kho SLG (Đối Soát SLDT)</div>
-                  <div style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 0.4rem; line-height: 1.5;">
+                  <div style="font-weight: 800; font-size: 0.95rem; color: #67e8f9;">📊 Phiếu Chuyển Hàng Đổi Trả Kho SLG (Đối Soát SLDT)</div>
+                  <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.3rem; line-height: 1.45;">
                     Tự động kết nối Google Sheet, lọc cột AQ (Classify) theo 3 trạng thái:<br>
                     • <i>Chờ ST phản hồi</i> | <i>Chờ DC nhận hàng</i> | <i>Hàng còn tại Store - Sẽ chuyển theo chuyến gần nhất</i><br>
                     Hệ thống sẽ nhóm dữ liệu theo từng <b>ID ST</b> và xuất Bảng Ảnh PNG đầy đủ thông tin (11 cột).
@@ -183,29 +183,29 @@
                 </div>
 
                 <!-- Textarea for Customizing Message Template -->
-                <div class="form-group" style="width: 100%; margin-top: 0.5rem;">
-                  <label for="sldtMessageText" style="color: #67e8f9; font-size: 0.9rem; font-weight: 700;">
+                <div class="form-group" style="width: 100%; margin-top: 0.3rem;">
+                  <label for="sldtMessageText" style="color: #67e8f9; font-size: 0.8rem; font-weight: 700;">
                     <i class="fa-pen-to-square fa-solid"></i> Nội dung tin nhắn kèm Bảng Ảnh (Bạn có thể chỉnh sửa tại đây):
                   </label>
-                  <textarea id="sldtMessageText" rows="6" style="background: rgba(15, 23, 42, 0.85); border-color: rgba(103, 232, 249, 0.3);">Ly gửi DS phiếu đối trả của tuần W29.2026 DC chưa nhận được hàng/chưa nhận được chứng từ.
+                  <textarea id="sldtMessageText" rows="4" style="background: rgba(15, 23, 42, 0.85); border-color: rgba(103, 232, 249, 0.3);">Ly gửi DS phiếu đối trả của tuần W29.2026 DC chưa nhận được hàng/chưa nhận được chứng từ.
 Hàng thực tế nếu đã bàn giao cho VT anh chị gửi giúp Ly ảnh chụp Phiếu chuyển/PGH.
 
 *Sau hôm nay SCM sẽ trả tồn những phiếu này về ST.
 Cảm ơn các anh chị.</textarea>
-                  <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">
+                  <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 3px;">
                     💡 <i>Danh sách Tag tên xanh @SM và @TC của từng nhóm cửa hàng sẽ tự động được chèn xuống cuối tin nhắn này khi phát tin.</i>
                   </div>
                 </div>
 
                 <!-- TỰ CHỌN NHÓM CẦN GỬI CỦA ĐỐI SOÁT SLDT -->
-                <div style="width: 100%; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(103, 232, 249, 0.25); border-radius: var(--radius-sm); padding: 1rem; margin-top: 0.5rem;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="font-weight: 700; font-size: 0.9rem; color: #67e8f9;"><i class="fa-user-check fa-solid"></i> Tự Chọn Nhóm Telegram ST Nhận Tin Đối Soát:</span>
-                    <button type="button" class="btn btn-text" id="btnSldtToggleSelectAll" style="font-size: 0.78rem;">Chọn tất cả</button>
+                <div style="width: 100%; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(103, 232, 249, 0.25); border-radius: var(--radius-sm); padding: 0.8rem; margin-top: 0.3rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="font-weight: 700; font-size: 0.82rem; color: #67e8f9;"><i class="fa-user-check fa-solid"></i> Tự Chọn Nhóm Telegram ST Nhận Tin Đối Soát:</span>
+                    <button type="button" class="btn btn-text" id="btnSldtToggleSelectAll" style="font-size: 0.72rem;">Chọn tất cả</button>
                   </div>
 
                   <!-- Category Filter Pills (DC, KRC, ABA, Khác) -->
-                  <div class="group-category-tabs" style="margin-bottom: 8px;">
+                  <div class="group-category-tabs" style="margin-bottom: 6px;">
                     <button type="button" class="sldt-group-cat-tab active" data-cat="all">Tất cả (<span id="sldtCatCountAll">0</span>)</button>
                     <button type="button" class="sldt-group-cat-tab" data-cat="dc">DC (<span id="sldtCatCountDc">0</span>)</button>
                     <button type="button" class="sldt-group-cat-tab" data-cat="krc">KRC (<span id="sldtCatCountKrc">0</span>)</button>
@@ -213,23 +213,23 @@ Cảm ơn các anh chị.</textarea>
                     <button type="button" class="sldt-group-cat-tab" data-cat="other">Khác (<span id="sldtCatCountOther">0</span>)</button>
                   </div>
 
-                  <div class="search-box" style="margin-bottom: 8px;">
+                  <div class="search-box" style="margin-bottom: 6px;">
                     <i class="fa-magnifying-glass fa-solid"></i>
                     <input type="text" id="sldtSearchGroup" placeholder="Tìm kiếm tên nhóm ST nhận tin đối soát...">
                   </div>
 
-                  <div class="groups-list" id="sldtGroupsList" style="max-height: 180px;">
+                  <div class="groups-list" id="sldtGroupsList" style="max-height: 150px;">
                     <div class="loading-spinner"><i class="fa-circle-notch fa-spin fa-solid"></i> Đang tải nhóm...</div>
                   </div>
                 </div>
 
                 <!-- Action Buttons Container -->
-                <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 0.8rem;">
-                  <button type="button" class="btn btn-primary btn-glow" id="btnSyncAutoSheet" style="width: 100%; padding: 14px; font-size: 1.02rem; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">
+                <div style="display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: 0.5rem;">
+                  <button type="button" class="btn btn-primary btn-glow" id="btnSyncAutoSheet" style="width: 100%; padding: 10px; font-size: 0.86rem; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">
                     <i class="fa-paper-plane fa-solid"></i> 🚀 GỬI TỰ ĐỘNG CHO ST CÓ TÊN TRONG LINK SHEET
                   </button>
                   
-                  <button type="button" class="btn btn-secondary" id="btnSyncStBroadcast" style="width: 100%; padding: 12px; font-size: 0.92rem; border-color: rgba(168, 85, 247, 0.4); color: #e9d5ff; background: rgba(168, 85, 247, 0.1);">
+                  <button type="button" class="btn btn-secondary" id="btnSyncStBroadcast" style="width: 100%; padding: 8px; font-size: 0.8rem; border-color: rgba(168, 85, 247, 0.4); color: #e9d5ff; background: rgba(168, 85, 247, 0.1);">
                     <i class="fa-user-check fa-solid"></i> 🎯 GỬI CHO CÁC NHÓM ĐÃ CHỌN BÊN DƯỚI (<span id="sldtSelectedGroupCount">0</span> Nhóm)
                   </button>
                 </div>
@@ -289,26 +289,26 @@ Cảm ơn các anh chị.</textarea>
       <div class="tab-pane" id="tab-doi-soat-kho-rau">
         <main class="dashboard-single-column">
           <!-- KPI Summary Cards -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-            <div class="card" style="padding: 1.2rem; border-left: 4px solid #10b981;">
-              <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.3rem;">TỔNG PHIẾU ĐỐI SOÁT</div>
-              <div style="font-size: 1.8rem; font-weight: bold; color: #f8fafc;" id="krTotalRecords">2,977</div>
-              <div style="font-size: 0.8rem; color: #10b981; margin-top: 0.3rem;"><i class="fa-solid fa-check-circle"></i> Đã hoàn thành 2,976 phiếu</div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem; margin-bottom: 1rem;">
+            <div class="card" style="padding: 0.8rem 1rem; border-left: 3px solid #10b981;">
+              <div style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 0.2rem; font-weight: 600;">TỔNG PHIẾU ĐỐI SOÁT</div>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #f8fafc;" id="krTotalRecords">2,977</div>
+              <div style="font-size: 0.72rem; color: #10b981; margin-top: 0.2rem;"><i class="fa-solid fa-check-circle"></i> Đã hoàn thành 2,976 phiếu</div>
             </div>
-            <div class="card" style="padding: 1.2rem; border-left: 4px solid #f59e0b;">
-              <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.3rem;">LỖI DO SIÊU THỊ</div>
-              <div style="font-size: 1.8rem; font-weight: bold; color: #f59e0b;" id="krStoreFaults">1,739</div>
-              <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.3rem;">Nhập thiếu, sai SL, rổ không tem</div>
+            <div class="card" style="padding: 0.8rem 1rem; border-left: 3px solid #f59e0b;">
+              <div style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 0.2rem; font-weight: 600;">LỖI DO SIÊU THỊ</div>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #f59e0b;" id="krStoreFaults">1,739</div>
+              <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 0.2rem;">Nhập thiếu, sai SL, rổ không tem</div>
             </div>
-            <div class="card" style="padding: 1.2rem; border-left: 4px solid #6366f1;">
-              <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.3rem;">LỖI DO KHO (DC)</div>
-              <div style="font-size: 1.8rem; font-weight: bold; color: #818cf8;" id="krDcFaults">1,237</div>
-              <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.3rem;">Xuất sai SL, kê sai kiện, lỗi HT</div>
+            <div class="card" style="padding: 0.8rem 1rem; border-left: 3px solid #6366f1;">
+              <div style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 0.2rem; font-weight: 600;">LỖI DO KHO (DC)</div>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #818cf8;" id="krDcFaults">1,237</div>
+              <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 0.2rem;">Xuất sai SL, kê sai kiện, lỗi HT</div>
             </div>
-            <div class="card" style="padding: 1.2rem; border-left: 4px solid #ef4444;">
-              <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.3rem;">TỔNG TIỀN BỒI HOÀN (DATAPAY)</div>
-              <div style="font-size: 1.8rem; font-weight: bold; color: #f87171;" id="krTotalDatapay">60,860,000 đ</div>
-              <div style="font-size: 0.8rem; color: #fca5a5; margin-top: 0.3rem;"><span id="krTotalStoresOwe">222</span> Siêu thị • <span id="krTotalBasketsOwe">638</span> rổ</div>
+            <div class="card" style="padding: 0.8rem 1rem; border-left: 3px solid #ef4444;">
+              <div style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 0.2rem; font-weight: 600;">TỔNG TIỀN BỒI HOÀN (DATAPAY)</div>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #f87171;" id="krTotalDatapay">60,860,000 đ</div>
+              <div style="font-size: 0.72rem; color: #fca5a5; margin-top: 0.2rem;"><span id="krTotalStoresOwe">222</span> Siêu thị • <span id="krTotalBasketsOwe">638</span> rổ</div>
             </div>
           </div>
 

@@ -307,12 +307,32 @@ async def root():
 async def get_status():
     groups = load_json(GROUPS_FILE, {})
     mentions = load_json(MENTIONS_FILE, [])
+    userbot_auth = False
+    try:
+        from userbot_sender import is_authorized
+        userbot_auth = await is_authorized()
+    except Exception:
+        userbot_auth = False
+
     return {
         "status": "online",
         "bot_token_valid": bool(BOT_TOKEN and BOT_TOKEN != "YOUR_TELEGRAM_BOT_TOKEN_HERE"),
+        "userbot_auth": userbot_auth,
+        "userbot_username": "JinLi072",
+        "userbot_name": "Ly Nguyễn (@JinLi072)",
         "groups_count": len(groups),
         "mentions_count": len(mentions)
     }
+
+@app.post("/api/userbot/sync_groups")
+async def api_sync_userbot_groups():
+    """Đồng bộ toàn bộ danh sách nhóm chat của @JinLi072 vào groups.json."""
+    try:
+        from sync_user_groups import sync_groups
+        total = await sync_groups()
+        return {"status": "success", "total_groups": total}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/groups")
 async def get_groups():

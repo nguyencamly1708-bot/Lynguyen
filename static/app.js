@@ -78,7 +78,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
       if (data.status === "online") {
         botStatusBadge.style.borderColor = "rgba(16, 185, 129, 0.25)";
-        botStatusText.textContent = `Bot Hoạt Động (${data.groups_count} nhóm)`;
+        if (data.userbot_auth) {
+          botStatusText.innerHTML = `<span style="color: #38bdf8; font-weight: 700;">@${escapeHtml(data.userbot_username)}</span> Hoạt Động (${data.groups_count} nhóm)`;
+        } else {
+          botStatusText.textContent = `Bot Hoạt Động (${data.groups_count} nhóm)`;
+        }
       } else {
         botStatusText.textContent = "Bot Mất Kết Nối";
       }
