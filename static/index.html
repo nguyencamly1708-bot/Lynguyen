@@ -205,9 +205,10 @@ Cảm ơn các anh chị.</textarea>
                     <button type="button" class="btn btn-text" id="btnSldtToggleSelectAll" style="font-size: 0.72rem;">Chọn tất cả</button>
                   </div>
 
-                  <!-- Category Filter Pills (DC, KRC, ABA, Khác) -->
+                  <!-- Category Filter Pills (Tất cả, Có trong Sheet, DC, KRC, ABA, Khác) -->
                   <div class="group-category-tabs" style="margin-bottom: 6px;">
                     <button type="button" class="sldt-group-cat-tab active" data-cat="all">Tất cả (<span id="sldtCatCountAll">0</span>)</button>
+                    <button type="button" class="sldt-group-cat-tab" data-cat="sheet" style="border-color: rgba(16, 185, 129, 0.4); color: #34d399;">📊 Có trong Sheet (<span id="sldtCatCountSheet">0</span>)</button>
                     <button type="button" class="sldt-group-cat-tab" data-cat="dc">DC (<span id="sldtCatCountDc">0</span>)</button>
                     <button type="button" class="sldt-group-cat-tab" data-cat="krc">KRC (<span id="sldtCatCountKrc">0</span>)</button>
                     <button type="button" class="sldt-group-cat-tab" data-cat="aba">ABA (<span id="sldtCatCountAba">0</span>)</button>
@@ -216,22 +217,24 @@ Cảm ơn các anh chị.</textarea>
 
                   <div class="search-box" style="margin-bottom: 6px;">
                     <i class="fa-magnifying-glass fa-solid"></i>
-                    <input type="text" id="sldtSearchGroup" placeholder="Tìm kiếm tên nhóm ST nhận tin đối soát...">
+                    <input type="text" id="sldtSearchGroup" placeholder="Tìm kiếm theo mã ST (AV4, JKD, BQI...) hoặc tên nhóm...">
                   </div>
 
-                  <div class="groups-list" id="sldtGroupsList" style="max-height: 150px;">
+                  <div class="groups-list" id="sldtGroupsList" style="max-height: 180px;">
                     <div class="loading-spinner"><i class="fa-circle-notch fa-spin fa-solid"></i> Đang tải nhóm...</div>
                   </div>
                 </div>
 
                 <!-- Action Buttons Container -->
                 <div style="display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: 0.5rem;">
+                  <!-- Nút 1: Gửi tự động cho tất cả ST có trong Sheet -->
                   <button type="button" class="btn btn-primary btn-glow" id="btnSyncAutoSheet" style="width: 100%; padding: 10px; font-size: 0.86rem; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">
-                    <i class="fa-paper-plane fa-solid"></i> 🚀 GỬI TỰ ĐỘNG CHO ST CÓ TÊN TRONG LINK SHEET
+                    <i class="fa-paper-plane fa-solid"></i> 🚀 GỬI TỰ ĐỘNG CHO TẤT CẢ ST CÓ TÊN TRONG LINK SHEET
                   </button>
                   
-                  <button type="button" class="btn btn-secondary" id="btnSyncStBroadcast" style="width: 100%; padding: 8px; font-size: 0.8rem; border-color: rgba(168, 85, 247, 0.4); color: #e9d5ff; background: rgba(168, 85, 247, 0.1);">
-                    <i class="fa-user-check fa-solid"></i> 🎯 GỬI CHO CÁC NHÓM ĐÃ CHỌN BÊN DƯỚI (<span id="sldtSelectedGroupCount">0</span> Nhóm)
+                  <!-- Nút 2: Tự chọn ST muốn gửi khi tick vào nhóm -->
+                  <button type="button" class="btn btn-glow" id="btnSyncStBroadcast" style="width: 100%; padding: 11px; font-size: 0.88rem; border: 1px solid #c084fc; color: #ffffff; background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); font-weight: 700; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35);">
+                    <i class="fa-circle-check fa-solid"></i> 🎯 GỬI CHO CÁC ST ĐÃ TICK CHỌN BÊN TRÊN (<span id="sldtSelectedGroupCount">0</span> Nhóm)
                   </button>
                 </div>
               </div>

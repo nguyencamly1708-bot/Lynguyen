@@ -389,6 +389,35 @@ async def api_sync_userbot_groups():
 async def get_groups():
     return load_json(GROUPS_FILE, {})
 
+@app.get("/api/sldt/stores")
+async def get_sldt_sheet_stores():
+    """Lấy danh sách các ID ST đang có phiếu chờ xử lý trong Google Sheet cùng nhóm DC tương ứng."""
+    try:
+        grouped = fetch_and_parse_sheet()
+        groups = load_json(GROUPS_FILE, {})
+        matched_info = {}
+        sheet_chat_ids = set()
+
+        for st, items in grouped.items():
+            gid, title = find_dc_group_for_st(groups, st)
+            if gid:
+                sheet_chat_ids.add(str(gid))
+            matched_info[st] = {
+                "items_count": len(items),
+                "chat_id": str(gid) if gid else None,
+                "group_title": title
+            }
+
+        return {
+            "status": "success",
+            "total_stores": len(grouped),
+            "stores": matched_info,
+            "sheet_group_ids": list(sheet_chat_ids)
+        }
+    except Exception as e:
+        logger.warning(f"Lỗi get_sldt_sheet_stores: {e}")
+        return {"status": "error", "detail": str(e), "stores": {}, "sheet_group_ids": []}
+
 @app.get("/api/history")
 async def get_history():
     return load_json(HISTORY_FILE, [])
@@ -585,12 +614,17 @@ async def sync_and_broadcast_st(req: SyncSheetRequest):
                 target_chat_ids = set()
 
                 if req.target_groups:
-                    # Gửi theo các nhóm người dùng tự chọn trên giao diện
+                    # Gửi theo các nhóm người dùng tự chọn trên giao diện (chỉ gửi ST tương ứng với nhóm được tick)
+                    pattern = re.compile(rf"\b{re.escape(id_st.strip())}\b", re.IGNORECASE)
                     for gid in req.target_groups:
                         cid = int(gid)
                         gtitle = groups.get(str(gid), {}).get("title", "")
-                        if id_st.lower() in gtitle.lower() or len(req.target_groups) <= 5:
+                        if pattern.search(gtitle) or f"dc - {id_st.strip().lower()}" in gtitle.lower() or f"{id_st.strip().lower()} - dc" in gtitle.lower():
                             target_chat_ids.add(cid)
+                    
+                    if not target_chat_ids:
+                        # Bỏ qua các ST khác không nằm trong các nhóm được tick chọn
+                        continue
                 else:
                     # Tự động tìm nhóm DC của ST theo tên ID ST ở cột A
                     dc_gid, dc_title = find_dc_group_for_st(groups, id_st)

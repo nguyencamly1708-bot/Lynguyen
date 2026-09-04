@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentGroups = {};
   let selectedGroupIds = new Set();
   let sldtSelectedGroupIds = new Set();
+  let sldtSheetGroupIds = new Set();
   let allSelected = true;
   let currentCategory = "all";
   let sldtCurrentCategory = "all";
@@ -97,7 +98,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch("/api/groups");
       currentGroups = await res.json();
       selectedGroupIds = new Set(Object.keys(currentGroups));
-      sldtSelectedGroupIds = new Set(Object.keys(currentGroups));
+      sldtSelectedGroupIds = new Set(); // Mặc định không tick chọn sẵn 645 nhóm, để người dùng tự tick
+
+      // Lấy danh sách các nhóm DC có phiếu thực tế trong Google Sheet
+      try {
+        const sldtRes = await fetch("/api/sldt/stores");
+        const sldtData = await sldtRes.json();
+        if (sldtData.sheet_group_ids) {
+          sldtSheetGroupIds = new Set(sldtData.sheet_group_ids.map(String));
+        }
+      } catch (e) {
+        console.warn("Không tải được danh sách ST từ sheet:", e);
+      }
 
       renderGroupsList(currentGroups);
       renderSldtGroupsList(currentGroups);
@@ -242,10 +254,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 2.1 Tải & Chọn Nhóm Riêng Cho Mục ĐỐI SOÁT SLDT
   function updateSldtCategoryCounts(groups) {
-    let countAll = 0, countDc = 0, countKrc = 0, countAba = 0, countOther = 0;
-    Object.values(groups).forEach(g => {
+    let countAll = 0, countSheet = 0, countDc = 0, countKrc = 0, countAba = 0, countOther = 0;
+    Object.entries(groups).forEach(([gid, g]) => {
       const cat = getGroupCategory(g.title);
       countAll++;
+      if (sldtSheetGroupIds.has(String(gid))) countSheet++;
       if (cat === "dc") countDc++;
       else if (cat === "krc") countKrc++;
       else if (cat === "aba") countAba++;
@@ -253,21 +266,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const elAll = document.getElementById("sldtCatCountAll");
+    const elSheet = document.getElementById("sldtCatCountSheet");
     const elDc = document.getElementById("sldtCatCountDc");
     const elKrc = document.getElementById("sldtCatCountKrc");
     const elAba = document.getElementById("sldtCatCountAba");
     const elOther = document.getElementById("sldtCatCountOther");
 
     if (elAll) elAll.textContent = countAll;
+    if (elSheet) elSheet.textContent = countSheet;
     if (elDc) elDc.textContent = countDc;
     if (elKrc) elKrc.textContent = countKrc;
     if (elAba) elAba.textContent = countAba;
     if (elOther) elOther.textContent = countOther;
   }
 
+  function updateSldtSelectedCount() {
+    const countEl = document.getElementById("sldtSelectedGroupCount");
+    if (countEl) countEl.textContent = sldtSelectedGroupIds.size;
+    if (btnSyncStBroadcast) {
+      btnSyncStBroadcast.innerHTML = `<i class="fa-circle-check fa-solid"></i> 🎯 GỬI CHO CÁC ST ĐÃ TICK CHỌN BÊN TRÊN (<span id="sldtSelectedGroupCount">${sldtSelectedGroupIds.size}</span> Nhóm)`;
+    }
+  }
+
   function renderSldtGroupsList(groups, filterText = "") {
     const sldtGroupsList = document.getElementById("sldtGroupsList");
-    const sldtSelectedGroupCount = document.getElementById("sldtSelectedGroupCount");
 
     if (!sldtGroupsList) return;
 
@@ -276,11 +298,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const entries = Object.entries(groups).filter(([gid, data]) => {
       const matchSearch = data.title.toLowerCase().includes((filterText || "").toLowerCase());
       const cat = getGroupCategory(data.title);
-      const matchCat = (sldtCurrentCategory === "all") || (cat === sldtCurrentCategory);
+      let matchCat = true;
+      if (sldtCurrentCategory === "sheet") {
+        matchCat = sldtSheetGroupIds.has(String(gid));
+      } else if (sldtCurrentCategory !== "all") {
+        matchCat = (cat === sldtCurrentCategory);
+      }
       return matchSearch && matchCat;
     });
 
-    if (sldtSelectedGroupCount) sldtSelectedGroupCount.textContent = sldtSelectedGroupIds.size;
+    updateSldtSelectedCount();
 
     if (entries.length === 0) {
       sldtGroupsList.innerHTML = `<div class="empty-state">Không tìm thấy nhóm phù hợp trong mục này.</div>`;
@@ -289,19 +316,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     sldtGroupsList.innerHTML = entries.map(([gid, data]) => {
       const isChecked = sldtSelectedGroupIds.has(gid);
+      const inSheet = sldtSheetGroupIds.has(String(gid));
       return `
         <div class="group-card-item ${isChecked ? 'selected' : ''}" data-sgid="${gid}">
           <div class="group-left-area">
             <input type="checkbox" value="${gid}" class="sldt-group-checkbox" ${isChecked ? 'checked' : ''}>
             <div>
-              <div class="group-title">👥 ${escapeHtml(data.title)}</div>
+              <div class="group-title">
+                👥 ${escapeHtml(data.title)}
+                ${inSheet ? '<span class="badge badge-cyan" style="font-size: 0.65rem; padding: 1px 5px; margin-left: 5px;">Có trong Sheet</span>' : ''}
+              </div>
               <div class="group-id">ID: ${gid}</div>
             </div>
           </div>
+          <button type="button" class="btn-send-single-sldt" data-gid="${gid}" data-title="${escapeHtml(data.title)}" title="Gửi riêng Bảng Ảnh cho ST này">
+            <i class="fa-paper-plane fa-solid"></i> Gửi ST này
+          </button>
         </div>
       `;
     }).join("");
 
+    // Xử lý sự kiện tick checkbox chọn từng ST
     document.querySelectorAll(".sldt-group-checkbox").forEach(cb => {
       cb.addEventListener("change", (e) => {
         const gid = e.target.value;
@@ -312,7 +347,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         const item = document.querySelector(`.group-card-item[data-sgid="${gid}"]`);
         if (item) item.classList.toggle("selected", e.target.checked);
-        if (sldtSelectedGroupCount) sldtSelectedGroupCount.textContent = sldtSelectedGroupIds.size;
+        updateSldtSelectedCount();
+      });
+    });
+
+    // Xử lý nút "Gửi ST này" trên từng hàng
+    document.querySelectorAll(".btn-send-single-sldt").forEach(btn => {
+      btn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        const gid = btn.getAttribute("data-gid");
+        const title = btn.getAttribute("data-title");
+        await sendSldtBroadcast([gid], title);
       });
     });
   }
@@ -342,12 +387,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const currentCategoryEntries = Object.entries(currentGroups).filter(([gid, data]) => {
         const matchSearch = data.title.toLowerCase().includes(searchVal.toLowerCase());
         const cat = getGroupCategory(data.title);
-        const matchCat = (sldtCurrentCategory === "all") || (cat === sldtCurrentCategory);
+        let matchCat = true;
+        if (sldtCurrentCategory === "sheet") {
+          matchCat = sldtSheetGroupIds.has(String(gid));
+        } else if (sldtCurrentCategory !== "all") {
+          matchCat = (cat === sldtCurrentCategory);
+        }
         return matchSearch && matchCat;
       });
 
       const currentGids = currentCategoryEntries.map(([gid]) => gid);
-      const allSelected = currentGids.every(gid => sldtSelectedGroupIds.has(gid));
+      const allSelected = currentGids.length > 0 && currentGids.every(gid => sldtSelectedGroupIds.has(gid));
 
       if (allSelected) {
         currentGids.forEach(gid => sldtSelectedGroupIds.delete(gid));
@@ -777,18 +827,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  btnSyncStBroadcast.addEventListener("click", async () => {
+  async function sendSldtBroadcast(targetGroupsArray, label = "") {
     const customMessage = sldtMessageText ? sldtMessageText.value.trim() : "";
-    const targetGroupsArray = Array.from(sldtSelectedGroupIds);
-
-    if (targetGroupsArray.length === 0) {
-      showToast("Vui lòng chọn ít nhất 1 nhóm Telegram ST để phát tin đối soát!", "warning");
+    if (!targetGroupsArray || targetGroupsArray.length === 0) {
+      showToast("Vui lòng tick chọn ít nhất 1 nhóm ST để phát tin!", "warning");
       return;
     }
 
-    btnSyncStBroadcast.disabled = true;
-    btnSyncStBroadcast.innerHTML = `<i class="fa-circle-notch fa-spin fa-solid"></i> Đang Lọc Sheet & Gửi Bảng Ảnh Cho ${targetGroupsArray.length} Nhóm...`;
-    showToast(`Đang đồng bộ dữ liệu Google Sheet và gửi Bảng Ảnh tới ${targetGroupsArray.length} nhóm được chọn...`, "info");
+    if (btnSyncStBroadcast) {
+      btnSyncStBroadcast.disabled = true;
+      btnSyncStBroadcast.innerHTML = `<i class="fa-circle-notch fa-spin fa-solid"></i> Đang Lọc Sheet & Gửi Cho ${targetGroupsArray.length} Nhóm...`;
+    }
+    showToast(`Đang lọc Sheet và gửi Bảng Ảnh tới ${label || (targetGroupsArray.length + ' nhóm')} qua tài khoản @JinLi072...`, "info");
 
     try {
       const res = await fetch("/api/sync_and_broadcast_st", {
@@ -799,7 +849,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
 
       if (res.ok) {
-        showToast(`Thành công! Đã phát Bảng Ảnh Đối Soát SLDT cho ${data.success_results.length} nhóm ST!`, "success");
+        showToast(`Thành công! Đã gửi Bảng Ảnh Đối Soát cho ${data.success_results.length} nhóm ST qua @JinLi072!`, "success");
         loadHistory();
       } else {
         showToast(data.detail || "Lỗi đồng bộ Sheet", "error");
@@ -807,10 +857,23 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       showToast("Lỗi kết nối máy chủ", "error");
     } finally {
-      btnSyncStBroadcast.disabled = false;
-      btnSyncStBroadcast.innerHTML = `<i class="fa-file-image fa-solid"></i> 🚀 GỬI TIN NHẮN VÀ BẢNG ẢNH ĐỐI SOÁT SLDT (<span id="sldtSelectedGroupCount">${sldtSelectedGroupIds.size}</span> Nhóm)`;
+      if (btnSyncStBroadcast) {
+        btnSyncStBroadcast.disabled = false;
+      }
+      updateSldtSelectedCount();
     }
-  });
+  }
+
+  if (btnSyncStBroadcast) {
+    btnSyncStBroadcast.addEventListener("click", async () => {
+      const targetGroupsArray = Array.from(sldtSelectedGroupIds);
+      if (targetGroupsArray.length === 0) {
+        showToast("Vui lòng tick chọn ít nhất 1 nhóm ST ở danh sách bên trên!", "warning");
+        return;
+      }
+      await sendSldtBroadcast(targetGroupsArray, `${targetGroupsArray.length} Nhóm Đã Chọn`);
+    });
+  }
 
   btnRefresh.addEventListener("click", () => {
     loadGroups();

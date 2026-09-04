@@ -534,6 +534,8 @@ textarea:focus {
 .group-title { font-weight: 600; font-size: 0.8rem; }
 .group-id { font-size: 0.68rem; color: var(--text-muted); }
 .btn-send-single { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; border-radius: 4px; padding: 3px 8px; font-size: 0.72rem; cursor: pointer; }
+.btn-send-single-sldt { background: rgba(168, 85, 247, 0.2); border: 1px solid rgba(168, 85, 247, 0.45); color: #e9d5ff; border-radius: 4px; padding: 3px 8px; font-size: 0.72rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: var(--transition); }
+.btn-send-single-sldt:hover { background: rgba(168, 85, 247, 0.4); color: #ffffff; box-shadow: 0 0 8px rgba(168, 85, 247, 0.4); }
 
 /* Mentions & History */
 .mentions-list, .history-list {
