@@ -33,7 +33,7 @@ HISTORY_FILE = "history.json"
 MENTIONS_FILE = "mentions.json"
 MEMBERS_FILE = "members.json"
 UPLOAD_DIR = "uploads"
-SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1GcAQs5mEtm6Itp5c6K8OgsEPhFxBUeYModTm6yb0efY/export?format=csv&gid=0"
+SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1qBEY7LP4FxCsrshblu0XQpBt2CCS5dX5pLiq9rAcXRk/export?format=csv&gid=788866159"
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
@@ -85,85 +85,136 @@ class BroadcastRequest(BaseModel):
 class SyncSheetRequest(BaseModel):
     target_groups: list[str]
 
-# Hàm tạo Bảng Ảnh PNG chuyên nghiệp hiển thị 100% ĐẦY ĐỦ THÔNG TIN
+import re
+
+def find_dc_group_for_st(groups: dict, id_st: str):
+    """
+    Tìm nhóm DC phù hợp cho ID ST trong groups.json:
+    Ưu tiên 1: Nhóm có chữ DC và chứa ID ST dưới dạng từ riêng biệt.
+    Ưu tiên 2: Nhóm chứa 'DC - ID ST' hoặc 'ID ST - DC'.
+    Ưu tiên 3: Bất kỳ nhóm nào chứa ID ST.
+    """
+    id_st_clean = id_st.strip()
+    pattern = re.compile(rf"\b{re.escape(id_st_clean)}\b", re.IGNORECASE)
+
+    # 1. Nhóm có chữ DC và chứa ID ST
+    for gid, gdata in groups.items():
+        title = gdata.get("title", "")
+        cat = gdata.get("category", "")
+        is_dc = (cat == "dc") or ("DC" in title.upper())
+        if is_dc and pattern.search(title):
+            return int(gid), title
+
+    # 2. Nhóm chứa 'DC - ID ST' hoặc 'ID ST - DC'
+    for gid, gdata in groups.items():
+        title = gdata.get("title", "")
+        if f"dc - {id_st_clean}".lower() in title.lower() or f"{id_st_clean} - dc".lower() in title.lower():
+            return int(gid), title
+
+    # 3. Bất kỳ nhóm nào chứa ID ST
+    for gid, gdata in groups.items():
+        title = gdata.get("title", "")
+        if pattern.search(title):
+            return int(gid), title
+
+    return None, None
+
+# Hàm tạo Bảng Ảnh PNG chuẩn mẫu "Đối soát SCM" (Header xanh lá, Bảng viền cam chuẩn ảnh mẫu)
 def generate_st_table_image(id_st: str, items: list, output_path: str):
-    headers = [
-        "ID ST", "Ngày chuyển", "Chi nhánh chuyển", "Chi nhánh nhận",
-        "Mã hàng", "Tên hàng", "ĐVT", "SL chuyển", "Mã phiếu",
-        "Trạng thái", "Thời gian tạo"
-    ]
+    headers = ["ID ST", "Mã phiếu", "Mã hàng", "Tên Hàng", "ĐVT", "SL chuyển"]
 
     try:
-        font = ImageFont.truetype("arial.ttf", 13)
-        font_bold = ImageFont.truetype("arialbd.ttf", 13)
+        font_title = ImageFont.truetype("arialbd.ttf", 22)
+        font_header = ImageFont.truetype("arialbd.ttf", 13)
+        font_row = ImageFont.truetype("arial.ttf", 13)
+        font_row_bold = ImageFont.truetype("arialbd.ttf", 13)
     except Exception:
-        font = ImageFont.load_default()
-        font_bold = font
+        font_title = ImageFont.load_default()
+        font_header = font_title
+        font_row = font_title
+        font_row_bold = font_title
 
-    min_widths = [65, 95, 200, 180, 120, 300, 50, 75, 95, 100, 130]
+    min_widths = [75, 110, 120, 280, 65, 95]
     col_widths = list(min_widths)
 
     for item in items:
-        row_data = [
+        row_vals = [
             item.get("id_st", id_st),
-            item.get("ngay_chuyen", ""),
-            item.get("cn_chuyen", ""),
-            item.get("cn_nhan", ""),
+            item.get("ma_phieu", ""),
             item.get("ma_hang", ""),
             item.get("ten_hang", ""),
             item.get("dvt", ""),
-            str(item.get("sl_chuyen", "")),
-            item.get("ma_phieu", ""),
-            item.get("trang_thai", ""),
-            item.get("tg_tao", "")
+            str(item.get("sl_chuyen", ""))
         ]
-        for i, val in enumerate(row_data):
-            text_str = str(val)
-            bbox = font.getbbox(text_str)
-            text_w = (bbox[2] - bbox[0]) + 30
-            if text_w > col_widths[i]:
-                col_widths[i] = text_w
+        for i, val in enumerate(row_vals):
+            bbox = font_row.getbbox(str(val))
+            w = (bbox[2] - bbox[0]) + 24
+            if w > col_widths[i]:
+                col_widths[i] = w
 
-    row_height = 38
-    total_width = sum(col_widths) + 20
-    total_height = row_height * (len(items) + 1) + 20
-    
-    img = Image.new("RGB", (total_width, total_height), color=(255, 255, 255))
+    table_width = sum(col_widths)
+    margin_x = 16
+    margin_y = 16
+    title_height = 48
+    header_height = 36
+    row_height = 34
+
+    total_width = table_width + (margin_x * 2)
+    total_height = margin_y + title_height + header_height + (len(items) * row_height) + margin_y
+
+    img = Image.new("RGB", (total_width, total_height), color=(15, 23, 42))
     draw = ImageDraw.Draw(img)
 
-    y = 10
-    draw.rectangle([10, y, total_width - 10, y + row_height], fill=(240, 242, 245), outline=(200, 200, 200))
-    
-    x = 15
+    # 1. Tiêu đề "Đối soát SCM" chữ xanh lá
+    draw.text((margin_x + 4, margin_y + 8), "Đối soát SCM", fill=(34, 197, 94), font=font_title)
+
+    # 2. Header bảng màu Cam #EA580C
+    header_y = margin_y + title_height
+    draw.rectangle(
+        [margin_x, header_y, margin_x + table_width, header_y + header_height],
+        fill=(234, 88, 12)
+    )
+
+    curr_x = margin_x
     for i, h in enumerate(headers):
-        draw.text((x, y + 10), h, fill=(0, 0, 0), font=font_bold)
-        x += col_widths[i]
-        
-    y += row_height
+        draw.text((curr_x + 10, header_y + 9), h, fill=(255, 255, 255), font=font_header)
+        curr_x += col_widths[i]
+
+    # 3. Dòng dữ liệu xen kẽ
+    curr_y = header_y + header_height
     for idx, item in enumerate(items):
-        bg_color = (255, 255, 255) if idx % 2 == 0 else (248, 250, 252)
-        draw.rectangle([10, y, total_width - 10, y + row_height], fill=bg_color, outline=(226, 232, 240))
-        
-        row_data = [
+        bg = (255, 255, 255) if idx % 2 == 0 else (248, 250, 252)
+        draw.rectangle(
+            [margin_x, curr_y, margin_x + table_width, curr_y + row_height],
+            fill=bg,
+            outline=(226, 232, 240)
+        )
+
+        row_vals = [
             item.get("id_st", id_st),
-            item.get("ngay_chuyen", ""),
-            item.get("cn_chuyen", ""),
-            item.get("cn_nhan", ""),
+            item.get("ma_phieu", ""),
             item.get("ma_hang", ""),
             item.get("ten_hang", ""),
             item.get("dvt", ""),
-            str(item.get("sl_chuyen", "")),
-            item.get("ma_phieu", ""),
-            item.get("trang_thai", ""),
-            item.get("tg_tao", "")
+            str(item.get("sl_chuyen", ""))
         ]
-        
-        x = 15
-        for i, val in enumerate(row_data):
-            draw.text((x, y + 9), str(val), fill=(30, 41, 59), font=font)
-            x += col_widths[i]
-            
-        y += row_height
+
+        curr_x = margin_x
+        for i, val in enumerate(row_vals):
+            val_str = str(val)
+            f = font_row_bold if i in [0, 1] else font_row
+            color = (15, 23, 42)
+            draw.text((curr_x + 10, curr_y + 8), val_str, fill=color, font=f)
+            curr_x += col_widths[i]
+
+        curr_y += row_height
+
+    # Viền bao ngoài bảng
+    draw.rectangle(
+        [margin_x, header_y, margin_x + table_width, curr_y],
+        outline=(203, 213, 225),
+        width=1
+    )
 
     img.save(output_path)
     return output_path
@@ -452,27 +503,25 @@ async def get_sm_tc_tags_for_group(client: httpx.AsyncClient, chat_id: int) -> s
 def fetch_and_parse_sheet():
     res = httpx.get(SHEET_CSV_URL, timeout=30.0, follow_redirects=True)
     if res.status_code != 200:
-        raise Exception("Không thể kết nối Google Sheets!")
+        raise Exception(f"Không thể kết nối Google Sheets! (Mã HTTP: {res.status_code})")
 
     content = res.content.decode("utf-8-sig", errors="ignore")
     rows = list(csv.reader(io.StringIO(content)))
     if not rows:
         raise Exception("Google Sheets rỗng!")
 
-    classify_idx = 42 # Cột AQ
-    targets = [
-        "chờ st phản hồi",
-        "chờ dc nhận hàng",
-        "hàng còn tại stote - sẽ chuyển theo chuyến gần nhất",
-        "hàng còn tại store - sẽ chuyển theo chuyến gần nhất"
-    ]
-
+    # Cột AQ [Classify] = index 42
+    # Cột AR [Xử lý] = index 43
+    # Điều kiện để gửi tin spam ST:
+    # 1. Cột AQ [Classify]: chỉ chọn "chờ ST phản hồi"
+    # 2. Cột AR [Xử lý]: chỉ chọn "đang xử lý"
     grouped_by_st = {}
     for r in rows[1:]:
-        if len(r) > classify_idx:
-            classify_val = r[classify_idx].strip()
-            val_lower = classify_val.lower()
-            if any(t in val_lower for t in targets):
+        if len(r) > 43:
+            aq_val = r[42].strip().lower()
+            ar_val = r[43].strip().lower()
+
+            if "chờ st phản hồi" in aq_val and "đang xử lý" in ar_val:
                 id_st = r[0].strip() if len(r) > 0 else "Khác"
                 ngay_chuyen = r[1].strip() if len(r) > 1 else ""
                 cn_chuyen = r[3].strip() if len(r) > 3 else ""
@@ -487,7 +536,7 @@ def fetch_and_parse_sheet():
 
                 if id_st not in grouped_by_st:
                     grouped_by_st[id_st] = []
-                
+
                 grouped_by_st[id_st].append({
                     "id_st": id_st,
                     "ngay_chuyen": ngay_chuyen,
@@ -503,7 +552,7 @@ def fetch_and_parse_sheet():
                 })
 
     if not grouped_by_st:
-        raise Exception("Không có dữ liệu thỏa điều kiện lọc!")
+        raise Exception("Không tìm thấy dòng dữ liệu nào thỏa điều kiện (Cột AQ='Chờ ST phản hồi' & Cột AR='Đang xử lý')!")
 
     return grouped_by_st
 
@@ -511,17 +560,19 @@ class SyncSheetRequest(BaseModel):
     custom_message: Optional[str] = None
     target_groups: Optional[List[str]] = None
 
-# Endpoint ĐỒNG BỘ GOOGLE SHEET & PHÁT TIN ĐỐI SOÁT THỦ CÔNG / TỰ ĐỘNG
+# Endpoint ĐỒNG BỘ GOOGLE SHEET & PHÁT TIN ĐỐI SOÁT SLDT QUA USERBOT @JinLi072
 @app.post("/api/sync_and_broadcast_st")
 async def sync_and_broadcast_st(req: SyncSheetRequest):
-    if not BOT_TOKEN:
-        raise HTTPException(status_code=500, detail="BOT_TOKEN chưa được thiết lập!")
+    try:
+        from userbot_sender import is_authorized as check_userbot_auth, send_message_as_user, get_group_sm_tc_tags
+        userbot_active = await check_userbot_auth()
+    except Exception as e:
+        logger.warning(f"Lỗi import userbot_sender: {e}")
+        userbot_active = False
 
     try:
         grouped_by_st = fetch_and_parse_sheet()
         groups = load_json(GROUPS_FILE, {})
-
-        target_chat_filter = set(int(g) for g in req.target_groups) if req.target_groups else None
 
         base_message = req.custom_message.strip() if (req.custom_message and req.custom_message.strip()) else "Ly gửi DS phiếu đối trả của tuần W29.2026 DC chưa nhận được hàng/chưa nhận được chứng từ.\nHàng thực tế nếu đã bàn giao cho VT anh chị gửi giúp Ly ảnh chụp Phiếu chuyển/PGH.\n\n*Sau hôm nay SCM sẽ trả tồn những phiếu này về ST.\nCảm ơn các anh chị."
 
@@ -529,61 +580,85 @@ async def sync_and_broadcast_st(req: SyncSheetRequest):
         failed_results = []
         sent_records = []
 
-        async with httpx.AsyncClient(timeout=60.0) as client:
+        async with httpx.AsyncClient(timeout=60.0) as http_client:
             for id_st, items in grouped_by_st.items():
                 target_chat_ids = set()
 
                 if req.target_groups:
+                    # Gửi theo các nhóm người dùng tự chọn trên giao diện
                     for gid in req.target_groups:
                         cid = int(gid)
                         gtitle = groups.get(str(gid), {}).get("title", "")
                         if id_st.lower() in gtitle.lower() or len(req.target_groups) <= 5:
                             target_chat_ids.add(cid)
                 else:
-                    for gid, gdata in groups.items():
-                        gtitle = gdata.get("title", "")
-                        if id_st.lower() in gtitle.lower():
-                            target_chat_ids.add(int(gid))
+                    # Tự động tìm nhóm DC của ST theo tên ID ST ở cột A
+                    dc_gid, dc_title = find_dc_group_for_st(groups, id_st)
+                    if dc_gid:
+                        target_chat_ids.add(dc_gid)
 
                 if not target_chat_ids:
-                    logger.warning(f"Không tìm thấy nhóm Telegram cho ID ST '{id_st}' hoặc chưa được chọn")
-                    failed_results.append(f"ST {id_st} (Bỏ qua / Chưa chọn Nhóm)")
+                    logger.warning(f"Không tìm thấy nhóm Telegram DC cho ID ST '{id_st}'")
+                    failed_results.append(f"ST {id_st} (Chưa tìm thấy nhóm DC)")
                     continue
 
+                # Tạo Bảng Ảnh SCM theo mẫu
                 image_filename = f"table_{id_st}_{datetime.datetime.now().strftime('%H%M%S')}.png"
                 image_path = os.path.join(UPLOAD_DIR, image_filename)
                 generate_st_table_image(id_st, items, image_path)
 
-                url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendPhoto"
                 for chat_id in target_chat_ids:
+                    gtitle = groups.get(str(chat_id), {}).get("title", f"Nhóm ({chat_id})")
                     try:
-                        sm_tc_tags = await get_sm_tc_tags_for_group(client, chat_id)
+                        # 3. Tag tên những người trong nhóm có chữ SM và TC
+                        sm_tc_tags = ""
+                        if userbot_active:
+                            try:
+                                sm_tc_tags = await get_group_sm_tc_tags(chat_id)
+                            except Exception as e:
+                                logger.warning(f"Không lấy được SM/TC qua Telethon cho {chat_id}: {e}")
+
+                        if not sm_tc_tags:
+                            sm_tc_tags = await get_sm_tc_tags_for_group(http_client, chat_id)
+
                         tag_block = f"\n\n{sm_tc_tags}" if sm_tc_tags else ""
                         caption_text = f"{base_message}{tag_block}"
 
-                        with open(image_path, "rb") as img_f:
-                            files = {"photo": (image_filename, img_f.read(), "image/png")}
-                            data = {"chat_id": str(chat_id), "caption": caption_text, "parse_mode": "HTML"}
-                            res = await client.post(url, data=data, files=files)
+                        # Gửi tin nhắn qua tài khoản cá nhân @JinLi072 (hoặc Bot Token nếu userbot chưa đăng nhập)
+                        if userbot_active:
+                            send_res = await send_message_as_user(chat_id, caption_text, file_path=image_path, parse_mode="html")
+                            msg_id = send_res.get("message_id")
+                            if msg_id:
+                                sent_records.append({
+                                    "chat_id": chat_id,
+                                    "group_title": gtitle,
+                                    "message_id": msg_id,
+                                    "revoked": False
+                                })
+                            success_results.append(f"ST {id_st} ➔ {gtitle} (@JinLi072)")
+                        else:
+                            url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendPhoto"
+                            with open(image_path, "rb") as img_f:
+                                files = {"photo": (image_filename, img_f.read(), "image/png")}
+                                data = {"chat_id": str(chat_id), "caption": caption_text, "parse_mode": "HTML"}
+                                res = await http_client.post(url, data=data, files=files)
+                                if res.status_code == 200:
+                                    res_data = res.json()
+                                    msg_id = res_data.get("result", {}).get("message_id")
+                                    if msg_id:
+                                        sent_records.append({
+                                            "chat_id": chat_id,
+                                            "group_title": gtitle,
+                                            "message_id": msg_id,
+                                            "revoked": False
+                                        })
+                                    success_results.append(f"ST {id_st} ➔ {gtitle}")
+                                else:
+                                    failed_results.append(f"ST {id_st} ➔ {gtitle} ({res.text[:50]})")
 
-                            if res.status_code == 200:
-                                res_data = res.json()
-                                msg_id = res_data.get("result", {}).get("message_id")
-                                gtitle = groups.get(str(chat_id), {}).get("title", f"Nhóm ({chat_id})")
-                                if msg_id:
-                                    sent_records.append({
-                                        "chat_id": chat_id,
-                                        "group_title": gtitle,
-                                        "message_id": msg_id,
-                                        "revoked": False
-                                    })
-                                success_results.append(f"ST {id_st} ➔ {gtitle}")
-                            else:
-                                failed_results.append(f"ST {id_st} ➔ {groups.get(str(chat_id), {}).get('title')} ({res.text[:50]})")
                         await asyncio.sleep(1.5)
                     except Exception as e:
-                        failed_results.append(f"ST {id_st} (Lỗi gửi: {e})")
-
+                        failed_results.append(f"ST {id_st} ➔ {gtitle} (Lỗi: {e})")
 
                 if os.path.exists(image_path):
                     try:
@@ -591,11 +666,12 @@ async def sync_and_broadcast_st(req: SyncSheetRequest):
                     except Exception:
                         pass
 
+        sender_label = "@JinLi072" if userbot_active else "Bot"
         history = load_json(HISTORY_FILE, [])
         history.append({
             "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "type": "sldt",
-            "message": f"📊 Đối soát SLDT [{len(grouped_by_st)} ST] + Bảng Ảnh (11 cột)",
+            "message": f"📊 Đối soát SLDT [{len(grouped_by_st)} ST] ({sender_label}) + Bảng Ảnh SCM",
             "total_target": len(grouped_by_st),
             "success_count": len(success_results),
             "failed_count": len(failed_results),
@@ -608,6 +684,7 @@ async def sync_and_broadcast_st(req: SyncSheetRequest):
 
         return {
             "status": "completed",
+            "sender": sender_label,
             "total_st": len(grouped_by_st),
             "success_results": success_results,
             "failed_results": failed_results
