@@ -120,13 +120,12 @@ def find_dc_group_for_st(groups: dict, id_st: str):
 
     return None, None
 
-# Hàm tạo Bảng Ảnh PNG chuẩn mẫu Hình 2 (Header hồng pastel Google Sheets, 13 cột đầy đủ)
+# Hàm tạo Bảng Ảnh PNG chuẩn mẫu Hình 2 (Header hồng pastel Google Sheets, 11 cột chuẩn, đã bỏ cột SL nhận & SL nhận HT)
 def generate_st_table_image(id_st: str, items: list, output_path: str):
     headers = [
         "ID ST", "Ngày chuyển hàng", "Chi nhánh chuyển", "Chi nhánh nhận",
         "Mã hàng", "Tên hàng", "Đơn vị tính", "Số lượng chuyển",
-        "Số lượng nhận", "SL nhận (Hệ thống)", "Mã chuyển hàng",
-        "Trạng thái", "Thời gian tạo"
+        "Mã chuyển hàng", "Trạng thái", "Thời gian tạo"
     ]
 
     try:
@@ -136,7 +135,7 @@ def generate_st_table_image(id_st: str, items: list, output_path: str):
         font_header = ImageFont.load_default()
         font_row = font_header
 
-    min_widths = [60, 115, 230, 155, 110, 270, 75, 95, 90, 120, 105, 95, 115]
+    min_widths = [60, 115, 230, 155, 110, 270, 75, 100, 105, 95, 115]
     col_widths = list(min_widths)
 
     for item in items:
@@ -149,8 +148,6 @@ def generate_st_table_image(id_st: str, items: list, output_path: str):
             item.get("ten_hang", ""),
             item.get("dvt", ""),
             str(item.get("sl_chuyen", "")),
-            str(item.get("sl_nhan", "")),
-            str(item.get("sl_nhan_ht", "")),
             item.get("ma_chuyen_hang", item.get("ma_phieu", "")),
             item.get("trang_thai", ""),
             item.get("tg_tao", "")
@@ -180,7 +177,7 @@ def generate_st_table_image(id_st: str, items: list, output_path: str):
     img = Image.new("RGB", (total_width, total_height), color=(255, 255, 255))
     draw = ImageDraw.Draw(img)
 
-    header_bg_color = (244, 184, 188) # Màu hồng pastel / salmon pink chuẩn Hình 2
+    header_bg_color = (244, 184, 188)  # Màu hồng pastel / salmon pink chuẩn Hình 2
     grid_line_color = (215, 220, 225)
     header_text_color = (17, 24, 39)
     body_text_color = (17, 24, 39)
@@ -201,9 +198,9 @@ def generate_st_table_image(id_st: str, items: list, output_path: str):
         text_h = bbox[3] - bbox[1]
         text_y = header_y + (header_height - text_h) // 2 - 2
         
-        if i in [7, 8, 9]:
+        if i == 7:  # Cột Số lượng chuyển căn phải
             text_x = curr_x + w - text_w - 8
-        elif i in [0, 1, 6, 10, 12]:
+        elif i in [0, 1, 6, 8, 10]:  # ID ST, Ngày, ĐVT, Mã chuyển hàng, Giờ tạo căn giữa
             text_x = curr_x + (w - text_w) // 2
         else:
             text_x = curr_x + 8
@@ -225,8 +222,6 @@ def generate_st_table_image(id_st: str, items: list, output_path: str):
             item.get("ten_hang", ""),
             item.get("dvt", ""),
             str(item.get("sl_chuyen", "")),
-            str(item.get("sl_nhan", "")),
-            str(item.get("sl_nhan_ht", "")),
             item.get("ma_chuyen_hang", item.get("ma_phieu", "")),
             item.get("trang_thai", ""),
             item.get("tg_tao", "")
@@ -243,9 +238,9 @@ def generate_st_table_image(id_st: str, items: list, output_path: str):
             text_h = bbox[3] - bbox[1]
             text_y = curr_y + (row_height - text_h) // 2 - 2
 
-            if i in [7, 8, 9]:
+            if i == 7:  # Số lượng chuyển căn phải
                 text_x = curr_x + w - text_w - 8
-            elif i in [0, 1, 6, 10, 12]:
+            elif i in [0, 1, 6, 8, 10]:  # ID ST, Ngày, ĐVT, Mã chuyển hàng, Giờ tạo căn giữa
                 text_x = curr_x + (w - text_w) // 2
             else:
                 text_x = curr_x + 8
@@ -669,29 +664,34 @@ async def sync_and_broadcast_st(req: SyncSheetRequest):
         failed_results = []
         sent_records = []
 
+        # LỌC CÁC ST THỰC SỰ THUỘC CÁC NHÓM NGƯỜI DÙNG ĐÃ CHỌN (Tuyệt đối không gửi ngầm cho ST khác)
+        selected_st_to_process = {}
+        for id_st, items in grouped_by_st.items():
+            target_chat_ids = set()
+            pattern = re.compile(rf"\b{re.escape(id_st.strip())}\b", re.IGNORECASE)
+            for gid in req.target_groups:
+                cid = int(gid)
+                gtitle = groups.get(str(gid), {}).get("title", "")
+                if pattern.search(gtitle) or f"dc - {id_st.strip().lower()}" in gtitle.lower() or f"{id_st.strip().lower()} - dc" in gtitle.lower():
+                    target_chat_ids.add(cid)
+            if target_chat_ids:
+                selected_st_to_process[id_st] = {
+                    "items": items,
+                    "target_chat_ids": target_chat_ids
+                }
+
+        if not selected_st_to_process:
+            raise HTTPException(
+                status_code=400,
+                detail="Không tìm thấy dữ liệu phiếu đối soát nào trong Google Sheet tương ứng với các nhóm bạn đã chọn!"
+            )
+
         async with httpx.AsyncClient(timeout=60.0) as http_client:
-            for id_st, items in grouped_by_st.items():
-                target_chat_ids = set()
+            for id_st, st_info in selected_st_to_process.items():
+                items = st_info["items"]
+                target_chat_ids = st_info["target_chat_ids"]
 
-                # Gửi theo các nhóm người dùng tự chọn trên giao diện (chỉ gửi ST tương ứng với nhóm được tick)
-                pattern = re.compile(rf"\b{re.escape(id_st.strip())}\b", re.IGNORECASE)
-                for gid in req.target_groups:
-                    cid = int(gid)
-                    gtitle = groups.get(str(gid), {}).get("title", "")
-                    if pattern.search(gtitle) or f"dc - {id_st.strip().lower()}" in gtitle.lower() or f"{id_st.strip().lower()} - dc" in gtitle.lower():
-                        target_chat_ids.add(cid)
-                
-                if not target_chat_ids:
-                    # Bỏ qua các ST khác không nằm trong các nhóm được tick chọn
-                    continue
-
-
-                if not target_chat_ids:
-                    logger.warning(f"Không tìm thấy nhóm Telegram DC cho ID ST '{id_st}'")
-                    failed_results.append(f"ST {id_st} (Chưa tìm thấy nhóm DC)")
-                    continue
-
-                # Tạo Bảng Ảnh SCM theo mẫu
+                # Tạo Bảng Ảnh SCM theo mẫu Hình 2 (11 cột chuẩn, đã bỏ SL nhận & SL nhận HT)
                 image_filename = f"table_{id_st}_{datetime.datetime.now().strftime('%H%M%S')}.png"
                 image_path = os.path.join(UPLOAD_DIR, image_filename)
                 generate_st_table_image(id_st, items, image_path)
@@ -757,11 +757,12 @@ async def sync_and_broadcast_st(req: SyncSheetRequest):
 
         sender_label = "@JinLi072" if userbot_active else "Bot"
         history = load_json(HISTORY_FILE, [])
+        st_names_str = ", ".join(list(selected_st_to_process.keys()))
         entry = {
             "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "type": "sldt",
-            "message": f"📊 Đối soát SLDT [{len(grouped_by_st)} ST] ({sender_label}) + Bảng Ảnh SCM",
-            "total_target": len(grouped_by_st),
+            "message": f"📊 Đối soát SLDT [{len(selected_st_to_process)} ST đã chọn: {st_names_str}] ({sender_label}) + Bảng Ảnh (11 cột)",
+            "total_target": len(selected_st_to_process),
             "success_count": len(success_results),
             "failed_count": len(failed_results),
             "success_groups": success_results,
