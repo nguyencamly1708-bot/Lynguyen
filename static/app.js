@@ -794,38 +794,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 7. Đồng bộ Google Sheet & Tự Động Gửi Bảng Ảnh Đối Soát SLDT
-  const btnSyncAutoSheet = document.getElementById("btnSyncAutoSheet");
-  if (btnSyncAutoSheet) {
-    btnSyncAutoSheet.addEventListener("click", async () => {
-      const customMessage = sldtMessageText ? sldtMessageText.value.trim() : "";
+  // 7. Đồng bộ Google Sheet & Gửi Bảng Ảnh Đối Soát SLDT (ĐÃ TẮT CHẾ ĐỘ GỬI TỰ ĐỘNG NGẦM)
+  // Chỉ gửi khi người dùng tick chọn cụ thể các nhóm qua sendSldtBroadcast
 
-      btnSyncAutoSheet.disabled = true;
-      btnSyncAutoSheet.innerHTML = `<i class="fa-circle-notch fa-spin fa-solid"></i> Đang Lọc Sheet & Gửi Cho Các ST Có Trong Link...`;
-      showToast("Đang đọc Google Sheet và tự động gửi Bảng Ảnh tới các nhóm ST có tên trong link...", "info");
-
-      try {
-        const res = await fetch("/api/sync_and_broadcast_st", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ custom_message: customMessage, target_groups: null })
-        });
-        const data = await res.json();
-
-        if (res.ok) {
-          showToast(`Thành công! Đã phát Bảng Ảnh Đối Soát SLDT cho ${data.success_results.length} nhóm ST có trong Sheet!`, "success");
-          loadHistory();
-        } else {
-          showToast(data.detail || "Lỗi đồng bộ Sheet", "error");
-        }
-      } catch (err) {
-        showToast("Lỗi kết nối máy chủ", "error");
-      } finally {
-        btnSyncAutoSheet.disabled = false;
-        btnSyncAutoSheet.innerHTML = `<i class="fa-paper-plane fa-solid"></i> 🚀 GỬI TỰ ĐỘNG CHO ST CÓ TÊN TRONG LINK SHEET`;
-      }
-    });
-  }
 
   async function sendSldtBroadcast(targetGroupsArray, label = "") {
     const customMessage = sldtMessageText ? sldtMessageText.value.trim() : "";
@@ -885,14 +856,24 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const res = await fetch("/api/last_broadcast");
       const data = await res.json();
+      btnRevokeLastSldt.style.display = "flex";
       if (data.has_last && !data.revoked && data.total_sent > 0) {
-        btnRevokeLastSldt.style.display = "flex";
+        btnRevokeLastSldt.style.opacity = "1";
+        btnRevokeLastSldt.style.cursor = "pointer";
+        btnRevokeLastSldt.style.background = "linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)";
+        btnRevokeLastSldt.style.borderColor = "#f87171";
+        btnRevokeLastSldt.disabled = false;
         if (sldtLastSentCount) sldtLastSentCount.textContent = data.total_sent;
         btnRevokeLastSldt.setAttribute("data-total", data.total_sent);
         btnRevokeLastSldt.setAttribute("data-time", data.timestamp);
         btnRevokeLastSldt.innerHTML = `<i class="fa-trash-can fa-solid"></i> 🗑️ THU HỒI / XÓA TIN NHẮN VỪA PHÁT (${data.total_sent} Tin) (DELETE FOR EVERYONE)`;
       } else {
-        btnRevokeLastSldt.style.display = "none";
+        btnRevokeLastSldt.style.opacity = "0.5";
+        btnRevokeLastSldt.style.cursor = "not-allowed";
+        btnRevokeLastSldt.style.background = "rgba(239, 68, 68, 0.2)";
+        btnRevokeLastSldt.style.borderColor = "rgba(239, 68, 68, 0.4)";
+        btnRevokeLastSldt.disabled = true;
+        btnRevokeLastSldt.innerHTML = `<i class="fa-trash-can fa-solid"></i> 🗑️ THU HỒI TIN NHẮN VỪA PHÁT (Chưa có đợt gửi nào)`;
       }
     } catch (e) {
       console.error(e);

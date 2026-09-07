@@ -120,105 +120,152 @@ def find_dc_group_for_st(groups: dict, id_st: str):
 
     return None, None
 
-# Hàm tạo Bảng Ảnh PNG chuẩn mẫu "Đối soát SCM" (Header xanh lá, Bảng viền cam chuẩn ảnh mẫu)
+# Hàm tạo Bảng Ảnh PNG chuẩn mẫu Hình 2 (Header hồng pastel Google Sheets, 13 cột đầy đủ)
 def generate_st_table_image(id_st: str, items: list, output_path: str):
-    headers = ["ID ST", "Mã phiếu", "Mã hàng", "Tên Hàng", "ĐVT", "SL chuyển"]
+    headers = [
+        "ID ST", "Ngày chuyển hàng", "Chi nhánh chuyển", "Chi nhánh nhận",
+        "Mã hàng", "Tên hàng", "Đơn vị tính", "Số lượng chuyển",
+        "Số lượng nhận", "SL nhận (Hệ thống)", "Mã chuyển hàng",
+        "Trạng thái", "Thời gian tạo"
+    ]
 
     try:
-        font_title = ImageFont.truetype("arialbd.ttf", 22)
         font_header = ImageFont.truetype("arialbd.ttf", 13)
         font_row = ImageFont.truetype("arial.ttf", 13)
-        font_row_bold = ImageFont.truetype("arialbd.ttf", 13)
     except Exception:
-        font_title = ImageFont.load_default()
-        font_header = font_title
-        font_row = font_title
-        font_row_bold = font_title
+        font_header = ImageFont.load_default()
+        font_row = font_header
 
-    min_widths = [75, 110, 120, 280, 65, 95]
+    min_widths = [60, 115, 230, 155, 110, 270, 75, 95, 90, 120, 105, 95, 115]
     col_widths = list(min_widths)
 
     for item in items:
         row_vals = [
             item.get("id_st", id_st),
-            item.get("ma_phieu", ""),
+            item.get("ngay_chuyen", ""),
+            item.get("cn_chuyen", ""),
+            item.get("cn_nhan", ""),
             item.get("ma_hang", ""),
             item.get("ten_hang", ""),
             item.get("dvt", ""),
-            str(item.get("sl_chuyen", ""))
+            str(item.get("sl_chuyen", "")),
+            str(item.get("sl_nhan", "")),
+            str(item.get("sl_nhan_ht", "")),
+            item.get("ma_chuyen_hang", item.get("ma_phieu", "")),
+            item.get("trang_thai", ""),
+            item.get("tg_tao", "")
         ]
         for i, val in enumerate(row_vals):
             bbox = font_row.getbbox(str(val))
-            w = (bbox[2] - bbox[0]) + 24
+            w = (bbox[2] - bbox[0]) + 20
             if w > col_widths[i]:
                 col_widths[i] = w
 
+    for i, h in enumerate(headers):
+        bbox = font_header.getbbox(h)
+        w = (bbox[2] - bbox[0]) + 24
+        if w > col_widths[i]:
+            col_widths[i] = w
+
     table_width = sum(col_widths)
-    margin_x = 16
-    margin_y = 16
-    title_height = 48
-    header_height = 36
-    row_height = 34
+    margin_x = 4
+    margin_y = 4
+    header_height = 34
+    row_height = 28
 
     total_width = table_width + (margin_x * 2)
-    total_height = margin_y + title_height + header_height + (len(items) * row_height) + margin_y
+    total_height = (margin_y * 2) + header_height + (len(items) * row_height)
 
-    img = Image.new("RGB", (total_width, total_height), color=(15, 23, 42))
+    # Nền trắng bảng tính như Google Sheets trong Hình 2
+    img = Image.new("RGB", (total_width, total_height), color=(255, 255, 255))
     draw = ImageDraw.Draw(img)
 
-    # 1. Tiêu đề "Đối soát SCM" chữ xanh lá
-    draw.text((margin_x + 4, margin_y + 8), "Đối soát SCM", fill=(34, 197, 94), font=font_title)
+    header_bg_color = (244, 184, 188) # Màu hồng pastel / salmon pink chuẩn Hình 2
+    grid_line_color = (215, 220, 225)
+    header_text_color = (17, 24, 39)
+    body_text_color = (17, 24, 39)
 
-    # 2. Header bảng màu Cam #EA580C
-    header_y = margin_y + title_height
+    header_y = margin_y
     draw.rectangle(
         [margin_x, header_y, margin_x + table_width, header_y + header_height],
-        fill=(234, 88, 12)
+        fill=header_bg_color
     )
 
     curr_x = margin_x
     for i, h in enumerate(headers):
-        draw.text((curr_x + 10, header_y + 9), h, fill=(255, 255, 255), font=font_header)
-        curr_x += col_widths[i]
+        w = col_widths[i]
+        draw.line([(curr_x, header_y), (curr_x, header_y + header_height)], fill=grid_line_color, width=1)
+        
+        bbox = font_header.getbbox(h)
+        text_w = bbox[2] - bbox[0]
+        text_h = bbox[3] - bbox[1]
+        text_y = header_y + (header_height - text_h) // 2 - 2
+        
+        if i in [7, 8, 9]:
+            text_x = curr_x + w - text_w - 8
+        elif i in [0, 1, 6, 10, 12]:
+            text_x = curr_x + (w - text_w) // 2
+        else:
+            text_x = curr_x + 8
+            
+        draw.text((text_x, text_y), h, fill=header_text_color, font=font_header)
+        curr_x += w
+    draw.line([(curr_x, header_y), (curr_x, header_y + header_height)], fill=grid_line_color, width=1)
 
-    # 3. Dòng dữ liệu xen kẽ
     curr_y = header_y + header_height
     for idx, item in enumerate(items):
-        bg = (255, 255, 255) if idx % 2 == 0 else (248, 250, 252)
-        draw.rectangle(
-            [margin_x, curr_y, margin_x + table_width, curr_y + row_height],
-            fill=bg,
-            outline=(226, 232, 240)
-        )
+        draw.line([(margin_x, curr_y), (margin_x + table_width, curr_y)], fill=grid_line_color, width=1)
 
         row_vals = [
             item.get("id_st", id_st),
-            item.get("ma_phieu", ""),
+            item.get("ngay_chuyen", ""),
+            item.get("cn_chuyen", ""),
+            item.get("cn_nhan", ""),
             item.get("ma_hang", ""),
             item.get("ten_hang", ""),
             item.get("dvt", ""),
-            str(item.get("sl_chuyen", ""))
+            str(item.get("sl_chuyen", "")),
+            str(item.get("sl_nhan", "")),
+            str(item.get("sl_nhan_ht", "")),
+            item.get("ma_chuyen_hang", item.get("ma_phieu", "")),
+            item.get("trang_thai", ""),
+            item.get("tg_tao", "")
         ]
 
         curr_x = margin_x
         for i, val in enumerate(row_vals):
-            val_str = str(val)
-            f = font_row_bold if i in [0, 1] else font_row
-            color = (15, 23, 42)
-            draw.text((curr_x + 10, curr_y + 8), val_str, fill=color, font=f)
-            curr_x += col_widths[i]
+            w = col_widths[i]
+            draw.line([(curr_x, curr_y), (curr_x, curr_y + row_height)], fill=grid_line_color, width=1)
 
+            val_str = str(val) if val is not None else ""
+            bbox = font_row.getbbox(val_str)
+            text_w = bbox[2] - bbox[0]
+            text_h = bbox[3] - bbox[1]
+            text_y = curr_y + (row_height - text_h) // 2 - 2
+
+            if i in [7, 8, 9]:
+                text_x = curr_x + w - text_w - 8
+            elif i in [0, 1, 6, 10, 12]:
+                text_x = curr_x + (w - text_w) // 2
+            else:
+                text_x = curr_x + 8
+
+            draw.text((text_x, text_y), val_str, fill=body_text_color, font=font_row)
+            curr_x += w
+
+        draw.line([(curr_x, curr_y), (curr_x, curr_y + row_height)], fill=grid_line_color, width=1)
         curr_y += row_height
 
-    # Viền bao ngoài bảng
+    draw.line([(margin_x, curr_y), (margin_x + table_width, curr_y)], fill=grid_line_color, width=1)
     draw.rectangle(
         [margin_x, header_y, margin_x + table_width, curr_y],
-        outline=(203, 213, 225),
+        outline=(180, 190, 200),
         width=1
     )
 
-    img.save(output_path)
+    img.save(output_path, quality=95)
     return output_path
+
 
 # Quản lý Lifespan chạy Bot Polling song song
 @asynccontextmanager
@@ -560,6 +607,8 @@ def fetch_and_parse_sheet():
                 ten_hang = r[9].strip() if len(r) > 9 else ""
                 dvt = r[10].strip() if len(r) > 10 else ""
                 sl_chuyen = r[11].strip() if len(r) > 11 else ""
+                sl_nhan = r[12].strip() if len(r) > 12 else ""
+                sl_nhan_ht = r[13].strip() if len(r) > 13 else ""
                 ma_phieu = r[17].strip() if len(r) > 17 else ""
                 trang_thai = r[20].strip() if len(r) > 20 else ""
                 tg_tao = r[41].strip() if len(r) > 41 else ""
@@ -576,6 +625,9 @@ def fetch_and_parse_sheet():
                     "ten_hang": ten_hang,
                     "dvt": dvt,
                     "sl_chuyen": sl_chuyen,
+                    "sl_nhan": sl_nhan,
+                    "sl_nhan_ht": sl_nhan_ht,
+                    "ma_chuyen_hang": ma_phieu,
                     "ma_phieu": ma_phieu,
                     "trang_thai": trang_thai,
                     "tg_tao": tg_tao
@@ -593,6 +645,13 @@ class SyncSheetRequest(BaseModel):
 # Endpoint ĐỒNG BỘ GOOGLE SHEET & PHÁT TIN ĐỐI SOÁT SLDT QUA USERBOT @JinLi072
 @app.post("/api/sync_and_broadcast_st")
 async def sync_and_broadcast_st(req: SyncSheetRequest):
+    # * TẮT CHẾ ĐỘ GỬI TỰ ĐỘNG NGẦM: Bắt buộc người dùng phải tick chọn nhóm cụ thể
+    if not req.target_groups or len(req.target_groups) == 0:
+        raise HTTPException(
+            status_code=400,
+            detail="Chế độ gửi tự động ngầm đã được TẮT. Vui lòng tick chọn các nhóm ST cụ thể trên giao diện trước khi gửi!"
+        )
+
     try:
         from userbot_sender import is_authorized as check_userbot_auth, send_message_as_user, get_group_sm_tc_tags
         userbot_active = await check_userbot_auth()
@@ -614,23 +673,18 @@ async def sync_and_broadcast_st(req: SyncSheetRequest):
             for id_st, items in grouped_by_st.items():
                 target_chat_ids = set()
 
-                if req.target_groups:
-                    # Gửi theo các nhóm người dùng tự chọn trên giao diện (chỉ gửi ST tương ứng với nhóm được tick)
-                    pattern = re.compile(rf"\b{re.escape(id_st.strip())}\b", re.IGNORECASE)
-                    for gid in req.target_groups:
-                        cid = int(gid)
-                        gtitle = groups.get(str(gid), {}).get("title", "")
-                        if pattern.search(gtitle) or f"dc - {id_st.strip().lower()}" in gtitle.lower() or f"{id_st.strip().lower()} - dc" in gtitle.lower():
-                            target_chat_ids.add(cid)
-                    
-                    if not target_chat_ids:
-                        # Bỏ qua các ST khác không nằm trong các nhóm được tick chọn
-                        continue
-                else:
-                    # Tự động tìm nhóm DC của ST theo tên ID ST ở cột A
-                    dc_gid, dc_title = find_dc_group_for_st(groups, id_st)
-                    if dc_gid:
-                        target_chat_ids.add(dc_gid)
+                # Gửi theo các nhóm người dùng tự chọn trên giao diện (chỉ gửi ST tương ứng với nhóm được tick)
+                pattern = re.compile(rf"\b{re.escape(id_st.strip())}\b", re.IGNORECASE)
+                for gid in req.target_groups:
+                    cid = int(gid)
+                    gtitle = groups.get(str(gid), {}).get("title", "")
+                    if pattern.search(gtitle) or f"dc - {id_st.strip().lower()}" in gtitle.lower() or f"{id_st.strip().lower()} - dc" in gtitle.lower():
+                        target_chat_ids.add(cid)
+                
+                if not target_chat_ids:
+                    # Bỏ qua các ST khác không nằm trong các nhóm được tick chọn
+                    continue
+
 
                 if not target_chat_ids:
                     logger.warning(f"Không tìm thấy nhóm Telegram DC cho ID ST '{id_st}'")
