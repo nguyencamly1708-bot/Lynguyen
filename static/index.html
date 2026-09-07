@@ -228,18 +228,23 @@ Cảm ơn các anh chị.</textarea>
 
                 <!-- Action Buttons Container -->
                 <div style="display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: 0.5rem;">
-                  <!-- Thông báo: ĐÃ TẮT chế độ gửi tự động ngầm -->
+                  <!-- Thông báo quy tắc an toàn -->
                   <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 0.78rem; color: #34d399; display: flex; align-items: center; gap: 8px;">
                     <i class="fa-shield-halved fa-solid"></i>
-                    <span><b>Chế độ gửi tự động ngầm: ĐÃ TẮT HOÀN TOÀN</b> (Hệ thống tuyệt đối không gửi ngầm. Chỉ phát tin khi bạn chủ động tick chọn nhóm và bấm nút)</span>
+                    <span><b>Quy tắc an toàn:</b> Hệ thống chỉ phát tin cho các ST <b>CÓ LỆCH</b> (tự động bỏ qua các ST không lệch). Tuyệt đối không phát tán tin ngầm khi không có lệch.</span>
                   </div>
                   
-                  <!-- Nút: Tự chọn ST muốn gửi khi tick vào nhóm -->
-                  <button type="button" class="btn btn-glow" id="btnSyncStBroadcast" style="width: 100%; padding: 11px; font-size: 0.88rem; border: 1px solid #c084fc; color: #ffffff; background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); font-weight: 700; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35);">
+                  <!-- Nút 1: TỰ ĐỘNG GỬI VÀO GR DC CỦA ST THEO ID ST (CÁC ST CÓ LỆCH TRONG LINK SHEET) -->
+                  <button type="button" class="btn btn-primary btn-glow" id="btnSyncAutoSheet" style="width: 100%; padding: 11px; font-size: 0.88rem; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); font-weight: 700; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <i class="fa-paper-plane fa-solid"></i> 🚀 TỰ ĐỘNG GỬI VÀO GR DC CỦA ST THEO ID ST (CÁC ST CÓ LỆCH TRONG SHEET)
+                  </button>
+
+                  <!-- Nút 2: Tự chọn ST muốn gửi khi tick vào nhóm bên trên -->
+                  <button type="button" class="btn btn-glow" id="btnSyncStBroadcast" style="width: 100%; padding: 11px; font-size: 0.88rem; border: 1px solid #c084fc; color: #ffffff; background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); font-weight: 700; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
                     <i class="fa-circle-check fa-solid"></i> 🎯 GỬI CHO CÁC ST ĐÃ TICK CHỌN BÊN TRÊN (<span id="sldtSelectedGroupCount">0</span> Nhóm)
                   </button>
 
-                  <!-- Nút: THU HỒI / XÓA ĐỢT TIN NHẮN VỪA PHÁT (AN TOÀN TUYỆT ĐỐI) -->
+                  <!-- Nút 3: THU HỒI / XÓA ĐỢT TIN NHẮN VỪA PHÁT (AN TOÀN TUYỆT ĐỐI) -->
                   <button type="button" class="btn btn-glow" id="btnRevokeLastSldt" style="width: 100%; padding: 11px; font-size: 0.88rem; border: 1px solid #ef4444; color: #ffffff; background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); font-weight: 700; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.35); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
                     <i class="fa-trash-can fa-solid"></i> 🗑️ THU HỒI / XÓA TIN NHẮN VỪA PHÁT (<span id="sldtLastSentCount">0</span> Tin) (DELETE FOR EVERYONE)
                   </button>

@@ -794,9 +794,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 7. Đồng bộ Google Sheet & Gửi Bảng Ảnh Đối Soát SLDT (ĐÃ TẮT CHẾ ĐỘ GỬI TỰ ĐỘNG NGẦM)
-  // Chỉ gửi khi người dùng tick chọn cụ thể các nhóm qua sendSldtBroadcast
+  // 7. Đồng bộ Google Sheet & Tự Động Gửi Bảng Ảnh Đối Soát SLDT vào gr DC theo ID ST
+  const btnSyncAutoSheet = document.getElementById("btnSyncAutoSheet");
+  if (btnSyncAutoSheet) {
+    btnSyncAutoSheet.addEventListener("click", async () => {
+      const customMessage = sldtMessageText ? sldtMessageText.value.trim() : "";
 
+      if (!confirm("⚠️ BẠN CÓ CHẮC CHẮN MUỐN TỰ ĐỘNG PHÁT TIN ĐỐI SOÁT VÀO GR DC CỦA ST?\n\nHệ thống sẽ tự động quét toàn bộ Sheet, lọc các ST CÓ LỆCH (bỏ qua ST không lệch) và gửi Bảng Ảnh (11 cột) vào đúng group Telegram DC của từng ST theo ID ST.")) {
+        return;
+      }
+
+      btnSyncAutoSheet.disabled = true;
+      btnSyncAutoSheet.innerHTML = `<i class="fa-circle-notch fa-spin fa-solid"></i> Đang đọc Sheet & Tự động gửi vào gr DC của các ST có lệch...`;
+      showToast("Đang quét Sheet và tự động gửi Bảng Ảnh tới nhóm DC của các ST có lệch...", "info");
+
+      try {
+        const res = await fetch("/api/sync_and_broadcast_st", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ custom_message: customMessage, target_groups: null })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          showToast(`Thành công! Đã gửi Bảng Ảnh Đối Soát cho ${data.success_results.length} nhóm DC của các ST có lệch!`, "success");
+          loadHistory();
+          checkLastBroadcastStatus();
+        } else {
+          showToast(data.detail || "Lỗi đồng bộ Sheet", "error");
+        }
+      } catch (err) {
+        showToast("Lỗi kết nối máy chủ", "error");
+      } finally {
+        btnSyncAutoSheet.disabled = false;
+        btnSyncAutoSheet.innerHTML = `<i class="fa-paper-plane fa-solid"></i> 🚀 TỰ ĐỘNG GỬI VÀO GR DC CỦA ST THEO ID ST (CÁC ST CÓ LỆCH TRONG SHEET)`;
+      }
+    });
+  }
 
   async function sendSldtBroadcast(targetGroupsArray, label = "") {
     const customMessage = sldtMessageText ? sldtMessageText.value.trim() : "";

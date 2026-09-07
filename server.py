@@ -608,6 +608,11 @@ def fetch_and_parse_sheet():
                 trang_thai = r[20].strip() if len(r) > 20 else ""
                 tg_tao = r[41].strip() if len(r) > 41 else ""
 
+                # * CHỈ TẮT CHẾ ĐỘ TỰ PHÁT TÁN TIN NHẮN NGẦM KHI KHÔNG CÓ LỆCH:
+                # Nếu số lượng chuyển == số lượng nhận (và khác rỗng / khác -1) -> Đã nhận đủ, KHÔNG CÓ LỆCH -> Bỏ qua không phát tin!
+                if sl_chuyen == sl_nhan and sl_chuyen not in ["", "-1"]:
+                    continue
+
                 if id_st not in grouped_by_st:
                     grouped_by_st[id_st] = []
 
@@ -640,13 +645,6 @@ class SyncSheetRequest(BaseModel):
 # Endpoint ĐỒNG BỘ GOOGLE SHEET & PHÁT TIN ĐỐI SOÁT SLDT QUA USERBOT @JinLi072
 @app.post("/api/sync_and_broadcast_st")
 async def sync_and_broadcast_st(req: SyncSheetRequest):
-    # * TẮT CHẾ ĐỘ GỬI TỰ ĐỘNG NGẦM: Bắt buộc người dùng phải tick chọn nhóm cụ thể
-    if not req.target_groups or len(req.target_groups) == 0:
-        raise HTTPException(
-            status_code=400,
-            detail="Chế độ gửi tự động ngầm đã được TẮT. Vui lòng tick chọn các nhóm ST cụ thể trên giao diện trước khi gửi!"
-        )
-
     try:
         from userbot_sender import is_authorized as check_userbot_auth, send_message_as_user, get_group_sm_tc_tags
         userbot_active = await check_userbot_auth()
@@ -655,6 +653,7 @@ async def sync_and_broadcast_st(req: SyncSheetRequest):
         userbot_active = False
 
     try:
+        # fetch_and_parse_sheet() đã tự động loại bỏ các dòng không có lệch (sl_chuyen == sl_nhan)
         grouped_by_st = fetch_and_parse_sheet()
         groups = load_json(GROUPS_FILE, {})
 
@@ -664,27 +663,49 @@ async def sync_and_broadcast_st(req: SyncSheetRequest):
         failed_results = []
         sent_records = []
 
-        # LỌC CÁC ST THỰC SỰ THUỘC CÁC NHÓM NGƯỜI DÙNG ĐÃ CHỌN (Tuyệt đối không gửi ngầm cho ST khác)
         selected_st_to_process = {}
-        for id_st, items in grouped_by_st.items():
-            target_chat_ids = set()
-            pattern = re.compile(rf"\b{re.escape(id_st.strip())}\b", re.IGNORECASE)
-            for gid in req.target_groups:
-                cid = int(gid)
-                gtitle = groups.get(str(gid), {}).get("title", "")
-                if pattern.search(gtitle) or f"dc - {id_st.strip().lower()}" in gtitle.lower() or f"{id_st.strip().lower()} - dc" in gtitle.lower():
-                    target_chat_ids.add(cid)
-            if target_chat_ids:
-                selected_st_to_process[id_st] = {
-                    "items": items,
-                    "target_chat_ids": target_chat_ids
-                }
 
-        if not selected_st_to_process:
-            raise HTTPException(
-                status_code=400,
-                detail="Không tìm thấy dữ liệu phiếu đối soát nào trong Google Sheet tương ứng với các nhóm bạn đã chọn!"
-            )
+        if req.target_groups and len(req.target_groups) > 0:
+            # CHẾ ĐỘ 1: GỬI THEO CÁC NHÓM ĐƯỢC TICK CHỌN THỦ CÔNG
+            mode_label = "🎯 Đã chọn"
+            for id_st, items in grouped_by_st.items():
+                target_chat_ids = set()
+                pattern = re.compile(rf"\b{re.escape(id_st.strip())}\b", re.IGNORECASE)
+                for gid in req.target_groups:
+                    cid = int(gid)
+                    gtitle = groups.get(str(gid), {}).get("title", "")
+                    if pattern.search(gtitle) or f"dc - {id_st.strip().lower()}" in gtitle.lower() or f"{id_st.strip().lower()} - dc" in gtitle.lower():
+                        target_chat_ids.add(cid)
+                if target_chat_ids:
+                    selected_st_to_process[id_st] = {
+                        "items": items,
+                        "target_chat_ids": target_chat_ids
+                    }
+
+            if not selected_st_to_process:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Không tìm thấy dữ liệu phiếu đối soát nào có lệch trong Google Sheet tương ứng với các nhóm bạn đã chọn!"
+                )
+        else:
+            # CHẾ ĐỘ 2: TỰ ĐỘNG GỬI VÀO GR DC CỦA ST THEO ID ST (CHO TẤT CẢ ST CÓ LỆCH TRONG LINK SHEET)
+            mode_label = "🚀 Tự động"
+            for id_st, items in grouped_by_st.items():
+                dc_gid, dc_title = find_dc_group_for_st(groups, id_st)
+                if dc_gid:
+                    selected_st_to_process[id_st] = {
+                        "items": items,
+                        "target_chat_ids": {dc_gid}
+                    }
+                else:
+                    logger.warning(f"Không tìm thấy nhóm Telegram DC cho ID ST '{id_st}'")
+                    failed_results.append(f"ST {id_st} (Chưa tìm thấy nhóm Telegram DC)")
+
+            if not selected_st_to_process:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Sheet không có siêu thị nào có dữ liệu lệch cần đối soát (hoặc tất cả đã nhận đủ). Hệ thống không phát tin!"
+                )
 
         async with httpx.AsyncClient(timeout=60.0) as http_client:
             for id_st, st_info in selected_st_to_process.items():
@@ -758,10 +779,12 @@ async def sync_and_broadcast_st(req: SyncSheetRequest):
         sender_label = "@JinLi072" if userbot_active else "Bot"
         history = load_json(HISTORY_FILE, [])
         st_names_str = ", ".join(list(selected_st_to_process.keys()))
+        if len(st_names_str) > 60:
+            st_names_str = st_names_str[:57] + "..."
         entry = {
             "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "type": "sldt",
-            "message": f"📊 Đối soát SLDT [{len(selected_st_to_process)} ST đã chọn: {st_names_str}] ({sender_label}) + Bảng Ảnh (11 cột)",
+            "message": f"📊 {mode_label} Đối soát SLDT [{len(selected_st_to_process)} ST: {st_names_str}] ({sender_label}) + Bảng Ảnh (11 cột)",
             "total_target": len(selected_st_to_process),
             "success_count": len(success_results),
             "failed_count": len(failed_results),
