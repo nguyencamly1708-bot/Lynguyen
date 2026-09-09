@@ -503,6 +503,24 @@ Cảm ơn các anh chị.</textarea>
               </div>
             </div>
 
+            <!-- Banner Thông Báo Đang Lọc Chi Tiết Trạng Thái Classify -->
+            <div id="classifyFilterActiveBanner" style="display: none; justify-content: space-between; align-items: center; background: linear-gradient(135deg, rgba(14, 165, 233, 0.18) 0%, rgba(30, 41, 59, 0.85) 100%); border: 1px solid rgba(56, 189, 248, 0.45); border-radius: var(--radius-sm); padding: 0.8rem 1.1rem; margin-bottom: 1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.25); flex-wrap: wrap; gap: 0.8rem;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="display: inline-flex; width: 34px; height: 34px; background: rgba(56, 189, 248, 0.25); border: 1px solid rgba(56, 189, 248, 0.5); border-radius: 8px; align-items: center; justify-content: center; color: #38bdf8; font-size: 1rem;">
+                  <i class="fa-solid fa-filter"></i>
+                </span>
+                <div>
+                  <div style="font-size: 0.76rem; color: #94a3b8; font-weight: 600; text-transform: uppercase;">Đang xem chi tiết các phiếu thuộc trạng thái:</div>
+                  <div id="activeFilterLabel" style="display: flex; align-items: center; margin-top: 2px;">
+                    <!-- Sẽ được điền bằng JS -->
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="showAllClassifyBlocks()" style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.25); color: #f8fafc; font-weight: 700; padding: 6px 14px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
+                <i class="fa-solid fa-arrows-rotate"></i> Hiện tất cả các trạng thái
+              </button>
+            </div>
+
             <!-- Detailed Classify Categories Container -->
             <div id="classifyReportContainer">
               <div class="loading-spinner"><i class="fa-circle-notch fa-spin fa-solid"></i> Đang tải dữ liệu Báo cáo Classify từ Google Sheet...</div>
@@ -607,6 +625,6 @@ Cảm ơn các anh chị.</textarea>
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="/static/app.js?v=20260909_1830"></script>
+  <script src="/static/app.js?v=20260909_1845"></script>
 </body>
 </html>

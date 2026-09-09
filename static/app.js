@@ -1350,7 +1350,7 @@ document.addEventListener("DOMContentLoaded", () => {
               </td>
               <td style="padding: 8px 12px; text-align: center;">
                 ${isZero ? '<span style="color: #64748b; font-size: 0.72rem;">Không có</span>' : `
-                  <button type="button" class="btn btn-secondary btn-sm" onclick="filterReportByClassify('${escapeHtml(item.name)}')" style="padding: 2px 8px; font-size: 0.72rem; border-color: ${item.border}88; color: ${item.color};">
+                  <button type="button" class="btn btn-secondary btn-sm btn-view-classify" data-classify="${escapeHtml(item.name)}" style="padding: 3px 10px; font-size: 0.75rem; border-color: ${item.border}88; color: ${item.color}; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-weight: 700; transition: all 0.2s ease;">
                     <i class="fa-solid fa-eye"></i> Xem (${item.count})
                   </button>
                 `}
@@ -1359,6 +1359,14 @@ document.addEventListener("DOMContentLoaded", () => {
           `;
         });
         summaryTableBody.innerHTML = tableHtml;
+
+        // Bắt sự kiện click nút Xem cho từng danh mục Classify
+        summaryTableBody.querySelectorAll(".btn-view-classify").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const cName = btn.getAttribute("data-classify");
+            filterReportByClassify(cName);
+          });
+        });
       }
 
       // Đồng bộ trạng thái active cho Card và Pill
@@ -1417,19 +1425,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         html += `
-          <div class="report-cat-block" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-sm); margin-bottom: 0.8rem; overflow: hidden;">
-            <div style="padding: 0.8rem 1rem; background: rgba(30, 41, 59, 0.65); display: flex; justify-content: space-between; align-items: center; cursor: pointer; flex-wrap: wrap; gap: 6px;" onclick="const el=document.getElementById('cat-table-${idx}'); el.style.display = (el.style.display === 'none' ? 'block' : 'none');">
+          <div class="report-cat-block" data-category-name="${escapeHtml(cat.category_name)}" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-sm); margin-bottom: 0.8rem; overflow: hidden; transition: all 0.2s ease;">
+            <div style="padding: 0.8rem 1rem; background: rgba(30, 41, 59, 0.65); display: flex; justify-content: space-between; align-items: center; cursor: pointer; flex-wrap: wrap; gap: 6px;" onclick="toggleCatTable('${idx}')">
               <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.9rem; color: ${badgeColor};">
                 <i class="fa-solid ${iconClass}"></i> ${escapeHtml(cat.category_name)}
               </div>
               <div style="display: flex; align-items: center; gap: 10px; font-size: 0.8rem;">
-                <span class="badge" style="background: rgba(255, 255, 255, 0.1); color: #e2e8f0; font-weight: 600;">${cat.total_items} phiếu (${cat.total_stores} ST)</span>
+                <span class="badge cat-count-badge" style="background: rgba(255, 255, 255, 0.1); color: #e2e8f0; font-weight: 600;">${cat.total_items} phiếu (${cat.total_stores} ST)</span>
                 <span class="badge" style="background: ${badgeColor}22; color: ${badgeColor}; border: 1px solid ${badgeColor}44; font-weight: 700;">${cat.percentage}%</span>
-                <i class="fa-chevron-down fa-solid" style="color: #94a3b8; font-size: 0.8rem;"></i>
+                <i id="cat-icon-${idx}" class="fa-chevron-up fa-solid cat-toggle-icon" style="color: #94a3b8; font-size: 0.8rem;"></i>
               </div>
             </div>
 
-            <div id="cat-table-${idx}" style="overflow-x: auto; max-height: 420px;">
+            <div id="cat-table-${idx}" class="cat-table-wrapper" style="overflow-x: auto; max-height: 480px; display: block;">
               <table class="report-data-table" style="width: 100%; border-collapse: collapse; font-size: 0.78rem; color: var(--text-secondary);">
                 <thead>
                   <tr style="background: rgba(15, 23, 42, 0.95); color: var(--text-primary); text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.12); position: sticky; top: 0; z-index: 1;">
@@ -1484,6 +1492,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Thu gọn / Mở rộng bảng chi tiết theo chỉ số idx
+  window.toggleCatTable = function(idx) {
+    const el = document.getElementById(`cat-table-${idx}`);
+    const icon = document.getElementById(`cat-icon-${idx}`);
+    if (!el) return;
+    if (el.style.display === "none") {
+      el.style.display = "block";
+      if (icon) icon.className = "fa-chevron-up fa-solid cat-toggle-icon";
+    } else {
+      el.style.display = "none";
+      if (icon) icon.className = "fa-chevron-down fa-solid cat-toggle-icon";
+    }
+  };
+
   // Click chọn nhanh trạng thái từ các Thẻ Chỉ Số
   document.querySelectorAll(".sldt-stat-card").forEach(card => {
     card.addEventListener("click", () => {
@@ -1500,28 +1522,107 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Ô tìm kiếm realtime trong bảng báo cáo
+  // Ô tìm kiếm realtime trong bảng báo cáo (tìm theo Mã phiếu, ST, Hàng hóa...)
   const reportSearchFilter = document.getElementById("reportSearchFilter");
   if (reportSearchFilter) {
     reportSearchFilter.addEventListener("input", (e) => {
       const q = e.target.value.toLowerCase().trim();
       document.querySelectorAll(".report-row").forEach(row => {
-        const text = row.innerText.toLowerCase();
-        row.style.display = text.includes(q) ? "" : "none";
+        if (!q) {
+          row.style.display = "";
+        } else {
+          const text = row.innerText.toLowerCase();
+          row.style.display = text.includes(q) ? "" : "none";
+        }
       });
     });
   }
 
-  // Xem chi tiết theo trạng thái Classify cụ thể
-  window.filterReportByClassify = function(classifyName) {
+  // Xem chi tiết theo trạng thái Classify cụ thể: Hiện đúng khối đó, mở bảng, hiển thị tất cả các phiếu
+  window.filterReportByClassify = async function(classifyName) {
+    // Nếu hiện tại đang lọc theo một phân nhóm khác (vd: đang xử lý), chuyển về "all" để có đủ toàn bộ phiếu
+    if (sldtCurrentStatusFilter !== "all") {
+      sldtCurrentStatusFilter = "all";
+      await loadClassifyReport("all");
+    }
+    applyClassifyFilterUI(classifyName);
+  };
+
+  window.applyClassifyFilterUI = function(classifyName) {
+    // 1. Reset ô tìm kiếm văn bản để không vô tình ẩn hàng dữ liệu
     const searchBox = document.getElementById("reportSearchFilter");
     if (searchBox) {
-      searchBox.value = classifyName;
-      searchBox.dispatchEvent(new Event("input"));
+      searchBox.value = "";
     }
-    const targetElement = document.getElementById("classifyReportContainer");
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    // 2. Đảm bảo toàn bộ các hàng .report-row đều được hiển thị
+    document.querySelectorAll(".report-row").forEach(row => {
+      row.style.display = "";
+    });
+
+    let targetBlock = null;
+    let foundInfo = "";
+
+    // 3. Lọc danh mục: Chỉ hiển thị khối có trạng thái được chọn, ẩn toàn bộ các khối khác
+    const blocks = document.querySelectorAll(".report-cat-block");
+    blocks.forEach(block => {
+      const cName = block.getAttribute("data-category-name");
+      if (cName === classifyName) {
+        block.style.display = "block";
+        targetBlock = block;
+        // Mở rộng bảng dữ liệu
+        const tbl = block.querySelector(".cat-table-wrapper");
+        if (tbl) tbl.style.display = "block";
+        const icon = block.querySelector(".cat-toggle-icon");
+        if (icon) icon.className = "fa-chevron-up fa-solid cat-toggle-icon";
+        const countBadge = block.querySelector(".cat-count-badge");
+        if (countBadge) foundInfo = countBadge.textContent;
+      } else {
+        block.style.display = "none";
+      }
+    });
+
+    // 4. Cập nhật banner thông báo đang lọc
+    const banner = document.getElementById("classifyFilterActiveBanner");
+    const activeLabel = document.getElementById("activeFilterLabel");
+    if (banner) {
+      banner.style.display = "flex";
+      if (activeLabel) {
+        activeLabel.innerHTML = `
+          <span style="font-weight: 800; color: #38bdf8; font-size: 0.95rem;">${escapeHtml(classifyName)}</span>
+          ${foundInfo ? `<span style="background: rgba(56, 189, 248, 0.2); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.4); padding: 2px 8px; border-radius: 12px; font-size: 0.76rem; font-weight: 700; margin-left: 8px;">${escapeHtml(foundInfo)}</span>` : ''}
+        `;
+      }
+    }
+
+    // 5. Cuộn mượt màn hình tới bảng phiếu chi tiết
+    if (targetBlock) {
+      targetBlock.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      const container = document.getElementById("classifyReportContainer");
+      if (container) container.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  // Nút hiển thị lại toàn bộ các trạng thái
+  window.showAllClassifyBlocks = function() {
+    document.querySelectorAll(".report-cat-block").forEach(block => {
+      block.style.display = "block";
+    });
+    const banner = document.getElementById("classifyFilterActiveBanner");
+    if (banner) {
+      banner.style.display = "none";
+    }
+    const searchBox = document.getElementById("reportSearchFilter");
+    if (searchBox) {
+      searchBox.value = "";
+    }
+    document.querySelectorAll(".report-row").forEach(row => {
+      row.style.display = "";
+    });
+    const container = document.getElementById("classifyReportContainer");
+    if (container) {
+      container.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
