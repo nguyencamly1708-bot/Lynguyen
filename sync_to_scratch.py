@@ -7,7 +7,8 @@ files_to_sync = [
     "server.py",
     "userbot_sender.py",
     os.path.join("static", "index.html"),
-    os.path.join("static", "app.js")
+    os.path.join("static", "app.js"),
+    os.path.join("static", "style.css")
 ]
 
 for rel_p in files_to_sync:

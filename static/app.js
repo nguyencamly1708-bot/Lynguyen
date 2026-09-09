@@ -63,6 +63,11 @@ document.addEventListener("DOMContentLoaded", () => {
       navItems.forEach(nav => nav.classList.remove("active"));
       item.classList.add("active");
 
+      // Deactivate folder tree items when switching to top-level tab
+      const navFolderSldt = document.getElementById("navFolderSldt");
+      if (navFolderSldt) navFolderSldt.classList.remove("active");
+      document.querySelectorAll(".nav-folder-item").forEach(el => el.classList.remove("active"));
+
       tabPanes.forEach(pane => pane.classList.remove("active"));
       const activePane = document.getElementById(targetTabId);
       if (activePane) activePane.classList.add("active");
@@ -78,6 +83,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const reportPane = document.getElementById("subtab-sldt-report");
     const btnSend = document.getElementById("btnSubtabSldtSend");
     const btnReport = document.getElementById("btnSubtabSldtReport");
+    const navItemSend = document.getElementById("navFolderItemSend");
+    const navItemReport = document.getElementById("navFolderItemReport");
+    const navFolderSldt = document.getElementById("navFolderSldt");
+
+    if (navFolderSldt) navFolderSldt.classList.add("active", "open");
+    navItems.forEach(nav => nav.classList.remove("active"));
 
     if (subtabId === "subtab-sldt-report") {
       if (sendPane) sendPane.classList.add("hidden");
@@ -94,6 +105,11 @@ document.addEventListener("DOMContentLoaded", () => {
         btnReport.style.color = "#ffffff";
         btnReport.style.boxShadow = "0 4px 15px rgba(14, 165, 233, 0.35)";
       }
+      if (navItemReport) navItemReport.classList.add("active");
+      if (navItemSend) navItemSend.classList.remove("active");
+
+      if (activeTabTitle) activeTabTitle.innerHTML = `<i class="fa-regular fa-folder-open" style="color: #c084fc; font-size: 0.9em; margin-right: 6px;"></i> ĐỐI SOÁT SLDT <span style="opacity: 0.4; margin: 0 4px;">/</span> <i class="fa-solid fa-chart-pie" style="color: #38bdf8; font-size: 0.85em; margin-right: 4px;"></i> BÁO CÁO SLDT`;
+      if (activeTabSubtitle) activeTabSubtitle.textContent = "Thống Kê Tổng Hợp Các Phiếu Đang Xử Lý Theo Cột Classify Từ Google Sheet";
       loadClassifyReport();
     } else {
       if (reportPane) reportPane.classList.add("hidden");
@@ -110,7 +126,63 @@ document.addEventListener("DOMContentLoaded", () => {
         btnSend.style.color = "#ffffff";
         btnSend.style.boxShadow = "0 4px 15px rgba(124, 58, 237, 0.35)";
       }
+      if (navItemSend) navItemSend.classList.add("active");
+      if (navItemReport) navItemReport.classList.remove("active");
+
+      if (activeTabTitle) activeTabTitle.innerHTML = `<i class="fa-regular fa-folder-open" style="color: #c084fc; font-size: 0.9em; margin-right: 6px;"></i> ĐỐI SOÁT SLDT <span style="opacity: 0.4; margin: 0 4px;">/</span> <i class="fa-solid fa-paper-plane" style="color: #67e8f9; font-size: 0.85em; margin-right: 4px;"></i> GỬI TIN NHẮN ST`;
+      if (activeTabSubtitle) activeTabSubtitle.textContent = tabSubtitles["tab-doi-soat-sldt"];
     }
+  }
+
+  // --- Folder Tree (Thư Mục Mẹ & Thư Mục Con) Cho ĐỐI SOÁT SLDT ---
+  const navFolderSldt = document.getElementById("navFolderSldt");
+  const navFolderSldtHeader = document.getElementById("navFolderSldtHeader");
+  const sldtFolderIcon = document.getElementById("sldtFolderIcon");
+  const navFolderItemSend = document.getElementById("navFolderItemSend");
+  const navFolderItemReport = document.getElementById("navFolderItemReport");
+
+  // Click vào Thư Mục Mẹ: Thu gọn / Mở rộng và kích hoạt tab
+  if (navFolderSldtHeader) {
+    navFolderSldtHeader.addEventListener("click", () => {
+      const isOpen = navFolderSldt.classList.toggle("open");
+      if (sldtFolderIcon) {
+        sldtFolderIcon.className = isOpen ? "fa-solid fa-folder-open folder-icon" : "fa-solid fa-folder folder-icon";
+      }
+
+      // Kích hoạt hiển thị màn hình Đối Soát SLDT
+      navItems.forEach(nav => nav.classList.remove("active"));
+      navFolderSldt.classList.add("active");
+
+      tabPanes.forEach(pane => pane.classList.remove("active"));
+      const activePane = document.getElementById("tab-doi-soat-sldt");
+      if (activePane) activePane.classList.add("active");
+
+      // Mặc định chọn thư mục con 1 nếu chưa chọn mục nào
+      const isReportActive = navFolderItemReport && navFolderItemReport.classList.contains("active");
+      switchSldtSubtab(isReportActive ? "subtab-sldt-report" : "subtab-sldt-send");
+    });
+  }
+
+  // Click Thư mục con 1: Gửi tin nhắn ST
+  if (navFolderItemSend) {
+    navFolderItemSend.addEventListener("click", (e) => {
+      e.preventDefault();
+      tabPanes.forEach(pane => pane.classList.remove("active"));
+      const activePane = document.getElementById("tab-doi-soat-sldt");
+      if (activePane) activePane.classList.add("active");
+      switchSldtSubtab("subtab-sldt-send");
+    });
+  }
+
+  // Click Thư mục con 2: Báo cáo SLDT
+  if (navFolderItemReport) {
+    navFolderItemReport.addEventListener("click", (e) => {
+      e.preventDefault();
+      tabPanes.forEach(pane => pane.classList.remove("active"));
+      const activePane = document.getElementById("tab-doi-soat-sldt");
+      if (activePane) activePane.classList.add("active");
+      switchSldtSubtab("subtab-sldt-report");
+    });
   }
 
   const btnSubtabSldtSend = document.getElementById("btnSubtabSldtSend");

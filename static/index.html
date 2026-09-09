@@ -36,9 +36,27 @@
         <a href="#send-msg" class="nav-item active" data-tab="tab-send-msg">
           <span class="nav-label"><i class="fa-paper-plane fa-solid" style="color: #67e8f9; margin-right: 8px;"></i> GỬI TIN NHẮN ST</span>
         </a>
-        <a href="#doi-soat-sldt" class="nav-item" data-tab="tab-doi-soat-sldt" id="navItemSldt">
-          <span class="nav-label"><i class="fa-file-invoice-dollar fa-solid" style="color: #c084fc; margin-right: 8px;"></i> ĐỐI SOÁT SLDT</span>
-        </a>
+        <!-- THƯ MỤC MẸ: ĐỐI SOÁT SLDT -->
+        <div class="nav-folder open" id="navFolderSldt">
+          <div class="nav-folder-header" id="navFolderSldtHeader" title="Nhấp để mở / thu gọn thư mục">
+            <div class="folder-left">
+              <i class="fa-solid fa-folder-open folder-icon" id="sldtFolderIcon" style="color: #c084fc;"></i>
+              <span class="nav-label">ĐỐI SOÁT SLDT</span>
+            </div>
+            <i class="fa-solid fa-chevron-right folder-arrow" id="sldtFolderArrow"></i>
+          </div>
+          <!-- THƯ MỤC CON -->
+          <div class="nav-folder-children" id="navFolderSldtChildren">
+            <a href="#sldt-send" class="nav-folder-item" id="navFolderItemSend" data-tab="tab-doi-soat-sldt" data-subtab="subtab-sldt-send">
+              <i class="fa-solid fa-paper-plane" style="color: #67e8f9; font-size: 0.72rem;"></i>
+              <span>1. Gửi tin nhắn ST</span>
+            </a>
+            <a href="#sldt-report" class="nav-folder-item" id="navFolderItemReport" data-tab="tab-doi-soat-sldt" data-subtab="subtab-sldt-report">
+              <i class="fa-solid fa-chart-pie" style="color: #38bdf8; font-size: 0.72rem;"></i>
+              <span>2. Báo cáo SLDT</span>
+            </a>
+          </div>
+        </div>
         <a href="#doi-soat-kho-rau" class="nav-item" data-tab="tab-doi-soat-kho-rau">
           <span class="nav-label"><i class="fa-boxes-stacked fa-solid" style="color: #10b981; margin-right: 8px;"></i> ĐỐI SOÁT RỔ/TOTE</span>
         </a>
