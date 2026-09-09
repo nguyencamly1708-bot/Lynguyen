@@ -555,6 +555,14 @@ async def get_sldt_classify_report(status_filter: Optional[str] = "all"):
                     "raw_ar": ar_val
                 })
 
+        # =========================================================================
+        # [KHUNG LOGIC CHUẨN ĐÃ KHÓA] BÁO CÁO SLDT & PHÂN LOẠI CLASSIFY (CỘT AQ)
+        # 1. Đồng bộ Sheet "Phiếu chuyển hàng đổi trả kho SLG"
+        # 2. Phân loại chuẩn 11 trạng thái Classify + Nhóm Mới chưa phân loại
+        # 3. Tính toán tỷ lệ % trên tổng số phiếu và % trên các phiếu đã phân loại
+        # 4. Trả về chi tiết phiếu kèm ID ST, Nhóm DC, Mã phiếu, Mã hàng, Ngày...
+        # =========================================================================
+
         # Lọc danh sách theo status_filter
         filtered_items = []
         filter_mode = (status_filter or "all").lower().strip()

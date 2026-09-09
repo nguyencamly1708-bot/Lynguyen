@@ -1538,7 +1538,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Xem chi tiết theo trạng thái Classify cụ thể: Hiện đúng khối đó, mở bảng, hiển thị tất cả các phiếu
+  // =========================================================================
+  // [KHUNG LOGIC CHUẨN ĐÃ KHÓA] XỬ LÝ LỌC & HIỂN THỊ CHI TIẾT THEO TRẠNG THÁI CLASSIFY
+  // - Khi click "Xem": Chỉ hiện đúng khối danh mục đó, bung toàn bộ danh sách phiếu
+  // - Có nút "Hiện tất cả trạng thái" để khôi phục nhanh
+  // - Tự động cuộn mượt (Smooth scroll) đến bảng phiếu
+  // =========================================================================
   window.filterReportByClassify = async function(classifyName) {
     // Nếu hiện tại đang lọc theo một phân nhóm khác (vd: đang xử lý), chuyển về "all" để có đủ toàn bộ phiếu
     if (sldtCurrentStatusFilter !== "all") {
