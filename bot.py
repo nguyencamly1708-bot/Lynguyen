@@ -154,15 +154,21 @@ async def auto_approve_join_request(update: Update, context: ContextTypes.DEFAUL
         return
     chat = req.chat
     user = req.from_user
+    full_name = f"{user.first_name or ''} {user.last_name or ''}".strip()
     try:
         await context.bot.approve_chat_join_request(
             chat_id=chat.id,
             user_id=user.id
         )
-        full_name = f"{user.first_name or ''} {user.last_name or ''}".strip()
-        logger.info(f"✅ [AUTO ACCEPT] Đã tự động chấp nhận {full_name} (@{user.username or user.id}) vào nhóm '{chat.title}' ({chat.id})")
+        logger.info(f"✅ [AUTO ACCEPT BOT] Đã tự động chấp nhận {full_name} (@{user.username or user.id}) vào nhóm '{chat.title}' ({chat.id})")
     except Exception as e:
-        logger.error(f"❌ [AUTO ACCEPT FAILED] Lỗi duyệt user {user.id} vào nhóm {chat.id}: {e}")
+        logger.warning(f"⚠️ [AUTO ACCEPT BOT WARNING] Bot API chưa duyệt được user {user.id} vào nhóm {chat.id} ({e}). Thử tự động duyệt qua Userbot @JinLi072...")
+        try:
+            from userbot_sender import approve_join_request_as_user
+            await approve_join_request_as_user(chat.id, user.id)
+            logger.info(f"✅ [AUTO ACCEPT USERBOT] @JinLi072 đã tự động chấp nhận {full_name} (@{user.username or user.id}) vào nhóm '{chat.title}' ({chat.id})")
+        except Exception as u_err:
+            logger.error(f"❌ [AUTO ACCEPT FAILED] Cả Bot Token và Userbot đều chưa thể duyệt user {user.id} vào nhóm {chat.id}: {u_err}")
 
 # Xử lý lỗi nếu có
 async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:

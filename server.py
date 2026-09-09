@@ -276,16 +276,23 @@ async def lifespan(app: FastAPI):
                     return
                 chat = req.chat
                 user = req.from_user
+                full_name = f"{user.first_name or ''} {user.last_name or ''}".strip()
                 try:
                     await context.bot.approve_chat_join_request(
                         chat_id=chat.id,
                         user_id=user.id
                     )
-                    full_name = f"{user.first_name or ''} {user.last_name or ''}".strip()
-                    logger.info(f"✅ [AUTO ACCEPT] Đã tự động chấp nhận {full_name} (@{user.username or user.id}) tham gia nhóm '{chat.title}' ({chat.id})")
+                    logger.info(f"✅ [AUTO ACCEPT BOT] Đã tự động chấp nhận {full_name} (@{user.username or user.id}) tham gia nhóm '{chat.title}' ({chat.id})")
                     track_member(chat.id, user)
                 except Exception as e:
-                    logger.error(f"❌ [AUTO ACCEPT FAILED] Lỗi duyệt user {user.id} vào nhóm {chat.id}: {e}")
+                    logger.warning(f"⚠️ [AUTO ACCEPT BOT WARNING] Bot API chưa duyệt được user {user.id} vào nhóm {chat.id} ({e}). Thử tự động duyệt qua Userbot @JinLi072...")
+                    try:
+                        from userbot_sender import approve_join_request_as_user
+                        await approve_join_request_as_user(chat.id, user.id)
+                        logger.info(f"✅ [AUTO ACCEPT USERBOT] @JinLi072 đã tự động chấp nhận {full_name} (@{user.username or user.id}) tham gia nhóm '{chat.title}' ({chat.id})")
+                        track_member(chat.id, user)
+                    except Exception as u_err:
+                        logger.error(f"❌ [AUTO ACCEPT FAILED] Cả Bot Token và Userbot đều chưa thể duyệt user {user.id} vào nhóm {chat.id}: {u_err}")
 
             async def track_group(update: Update) -> None:
                 chat = update.effective_chat
@@ -572,6 +579,12 @@ async def get_sm_tc_tags_for_group(client: httpx.AsyncClient, chat_id: int) -> s
         return "\n".join(matched_tags)
     return ""
 
+# ==============================================================================
+# 🔒 LOGIC CỐ ĐỊNH - KHÔNG THAY ĐỔI (LOCKED LOGIC - PERMANENT)
+# Đọc & Lọc dữ liệu phiếu đối soát SLDT từ Google Sheet theo chuẩn điều kiện:
+# 1. Cột AR [Xử lý] = 'Đang xử lý' HOẶC Cột AQ [Classify] = 'Chờ ST phản hồi' / 'Chờ ST'
+# 2. Bỏ qua các dòng không có lệch (sl_chuyen == sl_nhan)
+# ==============================================================================
 def fetch_and_parse_sheet():
     res = httpx.get(SHEET_CSV_URL, timeout=30.0, follow_redirects=True)
     if res.status_code != 200:
@@ -584,16 +597,21 @@ def fetch_and_parse_sheet():
 
     # Cột AQ [Classify] = index 42
     # Cột AR [Xử lý] = index 43
-    # Điều kiện để gửi tin spam ST:
-    # 1. Cột AQ [Classify]: chỉ chọn "chờ ST phản hồi"
-    # 2. Cột AR [Xử lý]: chỉ chọn "đang xử lý"
+    # 🔒 ĐIỀU KIỆN LỌC CỐ ĐỊNH:
+    # 1. Cột AR [Xử lý]: "đang xử lý" HOẶC Cột AQ [Classify]: "chờ ST phản hồi"
+    # 2. Bỏ qua các dòng không có lệch (sl_chuyen == sl_nhan)
     grouped_by_st = {}
     for r in rows[1:]:
         if len(r) > 43:
             aq_val = r[42].strip().lower()
             ar_val = r[43].strip().lower()
 
-            if "chờ st phản hồi" in aq_val and "đang xử lý" in ar_val:
+            # Chấp nhận dòng nếu:
+            # - Cột AR là "đang xử lý"
+            # - HOẶC Cột AQ chứa "chờ st" / "chờ st phản hồi"
+            is_pending = ("đang xử lý" in ar_val) or ("chờ st" in aq_val)
+
+            if is_pending:
                 id_st = r[0].strip() if len(r) > 0 else "Khác"
                 ngay_chuyen = r[1].strip() if len(r) > 1 else ""
                 cn_chuyen = r[3].strip() if len(r) > 3 else ""
@@ -608,7 +626,7 @@ def fetch_and_parse_sheet():
                 trang_thai = r[20].strip() if len(r) > 20 else ""
                 tg_tao = r[41].strip() if len(r) > 41 else ""
 
-                # * CHỈ TẮT CHẾ ĐỘ TỰ PHÁT TÁN TIN NHẮN NGẦM KHI KHÔNG CÓ LỆCH:
+                # 🔒 [LOCKED] CHỈ TẮT CHẾ ĐỘ TỰ PHÁT TÁN TIN NHẮN NGẦM KHI KHÔNG CÓ LỆCH:
                 # Nếu số lượng chuyển == số lượng nhận (và khác rỗng / khác -1) -> Đã nhận đủ, KHÔNG CÓ LỆCH -> Bỏ qua không phát tin!
                 if sl_chuyen == sl_nhan and sl_chuyen not in ["", "-1"]:
                     continue
@@ -634,7 +652,7 @@ def fetch_and_parse_sheet():
                 })
 
     if not grouped_by_st:
-        raise Exception("Không tìm thấy dòng dữ liệu nào thỏa điều kiện (Cột AQ='Chờ ST phản hồi' & Cột AR='Đang xử lý')!")
+        raise Exception("Không tìm thấy dòng dữ liệu nào thỏa điều kiện (Cột AR='Đang xử lý' hoặc Cột AQ='Chờ ST phản hồi')!")
 
     return grouped_by_st
 

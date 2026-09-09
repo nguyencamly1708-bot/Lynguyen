@@ -124,6 +124,20 @@ async def delete_messages_as_user(chat_id: int, message_ids: list) -> dict:
         logger.error(f"Lỗi thu hồi tin nhắn trong chat {chat_id}: {e}")
         return {"success": False, "error": str(e), "deleted": 0}
 
+async def approve_join_request_as_user(chat_id: int, user_id: int) -> dict:
+    """
+    Tự động duyệt/chấp nhận yêu cầu gia nhập nhóm Telegram của người dùng bằng tài khoản cá nhân @JinLi072.
+    Dùng làm phương án dự phòng khi Bot Token chưa có quyền Admin trong nhóm.
+    """
+    try:
+        client = await get_connected_client()
+        from telethon.tl.functions.messages import HideChatJoinRequestRequest
+        await client(HideChatJoinRequestRequest(peer=chat_id, user_id=user_id, approved=True))
+        return {"success": True, "chat_id": chat_id, "user_id": user_id}
+    except Exception as e:
+        logger.error(f"Lỗi duyệt join request qua @JinLi072 cho chat {chat_id}, user {user_id}: {e}")
+        raise e
+
 if __name__ == "__main__":
     async def main():
         auth = await is_authorized()
