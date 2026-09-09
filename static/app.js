@@ -78,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const reportPane = document.getElementById("subtab-sldt-report");
     const btnSend = document.getElementById("btnSubtabSldtSend");
     const btnReport = document.getElementById("btnSubtabSldtReport");
-    const subNavItems = document.querySelectorAll(".sub-nav-item");
 
     if (subtabId === "subtab-sldt-report") {
       if (sendPane) sendPane.classList.add("hidden");
@@ -95,10 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
         btnReport.style.color = "#ffffff";
         btnReport.style.boxShadow = "0 4px 15px rgba(14, 165, 233, 0.35)";
       }
-      subNavItems.forEach(item => {
-        if (item.getAttribute("data-subtab") === "subtab-sldt-report") item.classList.add("active");
-        else item.classList.remove("active");
-      });
       loadClassifyReport();
     } else {
       if (reportPane) reportPane.classList.add("hidden");
@@ -115,10 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
         btnSend.style.color = "#ffffff";
         btnSend.style.boxShadow = "0 4px 15px rgba(124, 58, 237, 0.35)";
       }
-      subNavItems.forEach(item => {
-        if (item.getAttribute("data-subtab") === "subtab-sldt-send") item.classList.add("active");
-        else item.classList.remove("active");
-      });
     }
   }
 
@@ -131,28 +122,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnSubtabSldtReport) {
     btnSubtabSldtReport.addEventListener("click", () => switchSldtSubtab("subtab-sldt-report"));
   }
-
-  // Bắt sự kiện click các mục con ở Sidebar
-  document.querySelectorAll(".sub-nav-item").forEach(subItem => {
-    subItem.addEventListener("click", (e) => {
-      e.preventDefault();
-      const parentTabId = subItem.getAttribute("data-tab");
-      const targetSubtab = subItem.getAttribute("data-subtab");
-
-      navItems.forEach(nav => nav.classList.remove("active"));
-      const parentNav = document.getElementById("navItemSldt");
-      if (parentNav) parentNav.classList.add("active");
-
-      tabPanes.forEach(pane => pane.classList.remove("active"));
-      const activePane = document.getElementById(parentTabId);
-      if (activePane) activePane.classList.add("active");
-
-      if (activeTabTitle) activeTabTitle.textContent = "ĐỐI SOÁT SLDT";
-      if (activeTabSubtitle) activeTabSubtitle.textContent = tabSubtitles[parentTabId] || "Đối Soát SLDT";
-
-      switchSldtSubtab(targetSubtab);
-    });
-  });
 
   // 1. Kiểm tra trạng thái máy chủ & bot
   async function checkStatus() {
