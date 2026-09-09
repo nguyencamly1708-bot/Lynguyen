@@ -72,6 +72,88 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Chuyển đổi giữa 2 mục nhỏ trong ĐỐI SOÁT SLDT: 1. Gửi tin nhắn ST | 2. Báo cáo SLDT
+  function switchSldtSubtab(subtabId) {
+    const sendPane = document.getElementById("subtab-sldt-send");
+    const reportPane = document.getElementById("subtab-sldt-report");
+    const btnSend = document.getElementById("btnSubtabSldtSend");
+    const btnReport = document.getElementById("btnSubtabSldtReport");
+    const subNavItems = document.querySelectorAll(".sub-nav-item");
+
+    if (subtabId === "subtab-sldt-report") {
+      if (sendPane) sendPane.classList.add("hidden");
+      if (reportPane) reportPane.classList.remove("hidden");
+      if (btnSend) {
+        btnSend.classList.remove("active");
+        btnSend.style.background = "transparent";
+        btnSend.style.color = "#94a3b8";
+        btnSend.style.boxShadow = "none";
+      }
+      if (btnReport) {
+        btnReport.classList.add("active", "btn-report-active");
+        btnReport.style.background = "linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)";
+        btnReport.style.color = "#ffffff";
+        btnReport.style.boxShadow = "0 4px 15px rgba(14, 165, 233, 0.35)";
+      }
+      subNavItems.forEach(item => {
+        if (item.getAttribute("data-subtab") === "subtab-sldt-report") item.classList.add("active");
+        else item.classList.remove("active");
+      });
+      loadClassifyReport();
+    } else {
+      if (reportPane) reportPane.classList.add("hidden");
+      if (sendPane) sendPane.classList.remove("hidden");
+      if (btnReport) {
+        btnReport.classList.remove("active", "btn-report-active");
+        btnReport.style.background = "transparent";
+        btnReport.style.color = "#94a3b8";
+        btnReport.style.boxShadow = "none";
+      }
+      if (btnSend) {
+        btnSend.classList.add("active");
+        btnSend.style.background = "linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)";
+        btnSend.style.color = "#ffffff";
+        btnSend.style.boxShadow = "0 4px 15px rgba(124, 58, 237, 0.35)";
+      }
+      subNavItems.forEach(item => {
+        if (item.getAttribute("data-subtab") === "subtab-sldt-send") item.classList.add("active");
+        else item.classList.remove("active");
+      });
+    }
+  }
+
+  const btnSubtabSldtSend = document.getElementById("btnSubtabSldtSend");
+  const btnSubtabSldtReport = document.getElementById("btnSubtabSldtReport");
+
+  if (btnSubtabSldtSend) {
+    btnSubtabSldtSend.addEventListener("click", () => switchSldtSubtab("subtab-sldt-send"));
+  }
+  if (btnSubtabSldtReport) {
+    btnSubtabSldtReport.addEventListener("click", () => switchSldtSubtab("subtab-sldt-report"));
+  }
+
+  // Bắt sự kiện click các mục con ở Sidebar
+  document.querySelectorAll(".sub-nav-item").forEach(subItem => {
+    subItem.addEventListener("click", (e) => {
+      e.preventDefault();
+      const parentTabId = subItem.getAttribute("data-tab");
+      const targetSubtab = subItem.getAttribute("data-subtab");
+
+      navItems.forEach(nav => nav.classList.remove("active"));
+      const parentNav = document.getElementById("navItemSldt");
+      if (parentNav) parentNav.classList.add("active");
+
+      tabPanes.forEach(pane => pane.classList.remove("active"));
+      const activePane = document.getElementById(parentTabId);
+      if (activePane) activePane.classList.add("active");
+
+      if (activeTabTitle) activeTabTitle.textContent = "ĐỐI SOÁT SLDT";
+      if (activeTabSubtitle) activeTabSubtitle.textContent = tabSubtitles[parentTabId] || "Đối Soát SLDT";
+
+      switchSldtSubtab(targetSubtab);
+    });
+  });
+
   // 1. Kiểm tra trạng thái máy chủ & bot
   async function checkStatus() {
     try {
