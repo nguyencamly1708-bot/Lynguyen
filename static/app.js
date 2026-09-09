@@ -90,6 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (navFolderSldt) navFolderSldt.classList.add("active", "open");
     navItems.forEach(nav => nav.classList.remove("active"));
 
+    // Đảm bảo màn hình Đối Soát SLDT được hiển thị
+    tabPanes.forEach(pane => pane.classList.remove("active"));
+    const mainSldtPane = document.getElementById("tab-doi-soat-sldt");
+    if (mainSldtPane) mainSldtPane.classList.add("active");
+
     if (subtabId === "subtab-sldt-report") {
       if (sendPane) sendPane.classList.add("hidden");
       if (reportPane) reportPane.classList.remove("hidden");
