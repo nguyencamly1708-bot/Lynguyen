@@ -1112,11 +1112,143 @@ document.addEventListener("DOMContentLoaded", () => {
   // Bắt sự kiện chuyển tab để load dữ liệu
   navItems.forEach(item => {
     item.addEventListener("click", () => {
-      if (item.getAttribute("data-tab") === "tab-doi-soat-kho-rau") {
+      const tabName = item.getAttribute("data-tab");
+      if (tabName === "tab-doi-soat-kho-rau") {
         loadKhoRauDatapay();
+      } else if (tabName === "tab-doi-soat-sldt") {
+        loadClassifyReport();
       }
     });
   });
+
+  // 8. Tải Báo cáo Phân loại phiếu Đang xử lý theo cột Classify (AQ) từ Google Sheet
+  async function loadClassifyReport() {
+    const container = document.getElementById("classifyReportContainer");
+    if (!container) return;
+
+    const reportTotalPending = document.getElementById("reportTotalPending");
+    const reportTotalStores = document.getElementById("reportTotalStores");
+    const reportCatChuaChuyen = document.getElementById("reportCatChuaChuyen");
+    const reportCatChuaChuyenPct = document.getElementById("reportCatChuaChuyenPct");
+    const reportCatCoPgh = document.getElementById("reportCatCoPgh");
+    const reportCatCoPghPct = document.getElementById("reportCatCoPghPct");
+    const reportCatKhac = document.getElementById("reportCatKhac");
+    const reportCatKhacPct = document.getElementById("reportCatKhacPct");
+
+    try {
+      const res = await fetch("/api/sldt/report");
+      const data = await res.json();
+
+      if (!res.ok || data.status !== "success") {
+        container.innerHTML = `<div class="empty-state" style="color: #ef4444;">Lỗi tải báo cáo: ${data.detail || "Không thể lấy dữ liệu"}</div>`;
+        return;
+      }
+
+      if (reportTotalPending) reportTotalPending.textContent = data.total_pending || "0";
+
+      let uniqueStoresSet = new Set();
+      data.categories.forEach(cat => {
+        cat.items.forEach(it => uniqueStoresSet.add(it.id_st));
+      });
+      if (reportTotalStores) reportTotalStores.textContent = `${uniqueStoresSet.size} ST liên quan`;
+
+      let chuaChuyenItem = data.categories.find(c => c.category_name.toLowerCase().includes("chưa chuyển"));
+      let coPghItem = data.categories.find(c => c.category_name.toLowerCase().includes("có pgh"));
+      let khacItems = data.categories.filter(c => !c.category_name.toLowerCase().includes("chưa chuyển") && !c.category_name.toLowerCase().includes("có pgh"));
+      let khacTotal = khacItems.reduce((acc, c) => acc + c.total_items, 0);
+
+      if (reportCatChuaChuyen) reportCatChuaChuyen.textContent = chuaChuyenItem ? chuaChuyenItem.total_items : "0";
+      if (reportCatChuaChuyenPct) reportCatChuaChuyenPct.textContent = `${chuaChuyenItem ? chuaChuyenItem.percentage : 0}% tổng phiếu`;
+
+      if (reportCatCoPgh) reportCatCoPgh.textContent = coPghItem ? coPghItem.total_items : "0";
+      if (reportCatCoPghPct) reportCatCoPghPct.textContent = `${coPghItem ? coPghItem.percentage : 0}% tổng phiếu`;
+
+      if (reportCatKhac) reportCatKhac.textContent = khacTotal;
+      let khacPct = data.total_pending > 0 ? ((khacTotal / data.total_pending) * 100).toFixed(1) : 0;
+      if (reportCatKhacPct) reportCatKhacPct.textContent = `${khacPct}% tổng phiếu`;
+
+      if (!data.categories || data.categories.length === 0) {
+        container.innerHTML = `<div class="empty-state">Hiện tại không có phiếu nào ở trạng thái Đang xử lý trong Google Sheet.</div>`;
+        return;
+      }
+
+      let html = "";
+      data.categories.forEach((cat, idx) => {
+        let badgeColor = "#38bdf8";
+        let iconClass = "fa-folder-open";
+        if (cat.category_name.toLowerCase().includes("chưa chuyển")) {
+          badgeColor = "#f87171";
+          iconClass = "fa-box-open";
+        } else if (cat.category_name.toLowerCase().includes("có pgh")) {
+          badgeColor = "#34d399";
+          iconClass = "fa-file-invoice";
+        } else if (cat.category_name.toLowerCase().includes("stote") || cat.category_name.toLowerCase().includes("store")) {
+          badgeColor = "#fbbf24";
+          iconClass = "fa-store";
+        }
+
+        html += `
+          <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-sm); margin-bottom: 0.8rem; overflow: hidden;">
+            <div style="padding: 0.8rem 1rem; background: rgba(30, 41, 59, 0.6); display: flex; justify-content: space-between; align-items: center; cursor: pointer; flex-wrap: wrap; gap: 6px;" onclick="const el=document.getElementById('cat-table-${idx}'); el.style.display = (el.style.display === 'none' ? 'block' : 'none');">
+              <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.9rem; color: ${badgeColor};">
+                <i class="fa-solid ${iconClass}"></i> ${escapeHtml(cat.category_name)}
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px; font-size: 0.8rem;">
+                <span class="badge" style="background: rgba(255, 255, 255, 0.1); color: #e2e8f0;">${cat.total_items} dòng phiếu (${cat.total_stores} ST)</span>
+                <span class="badge" style="background: ${badgeColor}22; color: ${badgeColor}; border: 1px solid ${badgeColor}44;">${cat.percentage}%</span>
+                <i class="fa-chevron-down fa-solid" style="color: #94a3b8; font-size: 0.8rem;"></i>
+              </div>
+            </div>
+
+            <div id="cat-table-${idx}" style="overflow-x: auto; max-height: 380px;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.78rem; color: var(--text-secondary);">
+                <thead>
+                  <tr style="background: rgba(15, 23, 42, 0.9); color: var(--text-primary); text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                    <th style="padding: 8px 10px;">ID ST</th>
+                    <th style="padding: 8px 10px;">Nhóm Telegram DC</th>
+                    <th style="padding: 8px 10px;">Mã Phiếu</th>
+                    <th style="padding: 8px 10px;">Mã Hàng</th>
+                    <th style="padding: 8px 10px;">Tên Hàng Chi Tiết</th>
+                    <th style="padding: 8px 10px; text-align: center;">ĐVT</th>
+                    <th style="padding: 8px 10px; text-align: right;">SL Chuyển</th>
+                    <th style="padding: 8px 10px;">CN Chuyển</th>
+                    <th style="padding: 8px 10px;">Ngày Chuyển</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${cat.items.map(it => `
+                    <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                      <td style="padding: 7px 10px; font-weight: 700; color: #38bdf8;">${escapeHtml(it.id_st)}</td>
+                      <td style="padding: 7px 10px; color: #e2e8f0;">${escapeHtml(it.dc_group_title)}</td>
+                      <td style="padding: 7px 10px; font-family: monospace; color: #f472b6;">${escapeHtml(it.ma_phieu)}</td>
+                      <td style="padding: 7px 10px; font-family: monospace;">${escapeHtml(it.ma_hang)}</td>
+                      <td style="padding: 7px 10px; color: #f8fafc; font-weight: 500;">${escapeHtml(it.ten_hang)}</td>
+                      <td style="padding: 7px 10px; text-align: center;">${escapeHtml(it.dvt)}</td>
+                      <td style="padding: 7px 10px; text-align: right; font-weight: 700; color: #fbbf24;">${escapeHtml(it.sl_chuyen)}</td>
+                      <td style="padding: 7px 10px;">${escapeHtml(it.cn_chuyen)}</td>
+                      <td style="padding: 7px 10px;">${escapeHtml(it.ngay_chuyen)}</td>
+                    </tr>
+                  `).join("")}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    } catch (err) {
+      container.innerHTML = `<div class="empty-state" style="color: #ef4444;">Lỗi kết nối máy chủ: ${err.message}</div>`;
+    }
+  }
+
+  const btnRefreshClassifyReport = document.getElementById("btnRefreshClassifyReport");
+  if (btnRefreshClassifyReport) {
+    btnRefreshClassifyReport.addEventListener("click", () => {
+      showToast("Đang tải lại Báo cáo Phân loại Classify...", "info");
+      loadClassifyReport();
+    });
+  }
 
   // Khởi chạy ban đầu
   loadGroups();
@@ -1124,5 +1256,6 @@ document.addEventListener("DOMContentLoaded", () => {
   loadHistory();
   updateLastBroadcastButton();
   loadKhoRauSummary();
+  loadClassifyReport();
   setInterval(loadMentions, 8000);
 });

@@ -468,6 +468,108 @@ async def get_sldt_sheet_stores():
         logger.warning(f"Lỗi get_sldt_sheet_stores: {e}")
         return {"status": "error", "detail": str(e), "stores": {}, "sheet_group_ids": []}
 
+@app.get("/api/sldt/report")
+async def get_sldt_classify_report():
+    """Lấy báo cáo tổng hợp các phiếu đang xử lý phân loại theo cột Classify (AQ) từ Google Sheet."""
+    try:
+        res = httpx.get(SHEET_CSV_URL, timeout=30.0, follow_redirects=True)
+        if res.status_code != 200:
+            raise Exception(f"Không thể kết nối Google Sheets! (Mã HTTP: {res.status_code})")
+
+        content = res.content.decode("utf-8-sig", errors="ignore")
+        rows = list(csv.reader(io.StringIO(content)))
+        if not rows:
+            raise Exception("Google Sheets rỗng!")
+
+        groups = load_json(GROUPS_FILE, {})
+
+        total_rows = len(rows) - 1
+        ar_counts = {}
+        classify_report = {}
+        total_pending = 0
+
+        for r in rows[1:]:
+            if len(r) > 43:
+                id_st = r[0].strip() if len(r) > 0 else "Khác"
+                ngay_chuyen = r[1].strip() if len(r) > 1 else ""
+                cn_chuyen = r[3].strip() if len(r) > 3 else ""
+                cn_nhan = r[4].strip() if len(r) > 4 else ""
+                ma_hang = r[8].strip() if len(r) > 8 else ""
+                ten_hang = r[9].strip() if len(r) > 9 else ""
+                dvt = r[10].strip() if len(r) > 10 else ""
+                sl_chuyen = r[11].strip() if len(r) > 11 else ""
+                sl_nhan = r[12].strip() if len(r) > 12 else ""
+                ma_phieu = r[17].strip() if len(r) > 17 else ""
+                trang_thai = r[20].strip() if len(r) > 20 else ""
+                tg_tao = r[41].strip() if len(r) > 41 else ""
+                aq_val = r[42].strip() if len(r) > 42 else ""
+                ar_val = r[43].strip() if len(r) > 43 else ""
+
+                # Thống kê cột AR
+                ar_key = ar_val or "(Chưa có trạng thái)"
+                ar_counts[ar_key] = ar_counts.get(ar_key, 0) + 1
+
+                # Lọc các phiếu đang xử lý
+                if ("đang xử lý" in ar_val.lower()) or ("chờ st" in aq_val.lower()):
+                    if sl_chuyen == sl_nhan and sl_chuyen not in ["", "-1"]:
+                        continue
+
+                    total_pending += 1
+                    cat_key = aq_val if aq_val else "(Chưa phân loại Classify)"
+
+                    if cat_key not in classify_report:
+                        classify_report[cat_key] = {
+                            "category_name": cat_key,
+                            "total_items": 0,
+                            "stores": set(),
+                            "items": []
+                        }
+
+                    dc_gid, dc_title = find_dc_group_for_st(groups, id_st)
+                    classify_report[cat_key]["total_items"] += 1
+                    classify_report[cat_key]["stores"].add(id_st)
+                    classify_report[cat_key]["items"].append({
+                        "id_st": id_st,
+                        "dc_group_title": dc_title or "Chưa khớp",
+                        "dc_group_id": str(dc_gid) if dc_gid else None,
+                        "ngay_chuyen": ngay_chuyen,
+                        "cn_chuyen": cn_chuyen,
+                        "cn_nhan": cn_nhan,
+                        "ma_hang": ma_hang,
+                        "ten_hang": ten_hang,
+                        "dvt": dvt,
+                        "sl_chuyen": sl_chuyen,
+                        "sl_nhan": sl_nhan,
+                        "ma_phieu": ma_phieu,
+                        "trang_thai": trang_thai,
+                        "tg_tao": tg_tao,
+                        "classify": aq_val,
+                        "status_ar": ar_val
+                    })
+
+        report_categories = []
+        for cat_name, cinfo in sorted(classify_report.items(), key=lambda x: x[1]["total_items"], reverse=True):
+            pct = round((cinfo["total_items"] / total_pending * 100), 1) if total_pending > 0 else 0
+            report_categories.append({
+                "category_name": cat_name,
+                "total_items": cinfo["total_items"],
+                "total_stores": len(cinfo["stores"]),
+                "percentage": pct,
+                "items": cinfo["items"]
+            })
+
+        return {
+            "status": "success",
+            "sheet_url": "https://docs.google.com/spreadsheets/d/1qBEY7LP4FxCsrshblu0XQpBt2CCS5dX5pLiq9rAcXRk/edit?gid=788866159#gid=788866159",
+            "total_sheet_rows": total_rows,
+            "total_pending": total_pending,
+            "ar_summary": ar_counts,
+            "categories": report_categories
+        }
+    except Exception as e:
+        logger.error(f"Lỗi get_sldt_classify_report: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/api/history")
 async def get_history():
     return load_json(HISTORY_FILE, [])
