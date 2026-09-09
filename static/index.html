@@ -10,7 +10,96 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/style.css?v=20260909_02">
+  <style>
+    /* DIRECT FOLDER TREE STYLES (Chống cache trình duyệt) */
+    .nav-folder {
+      display: flex !important;
+      flex-direction: column !important;
+      margin: 3px 0 !important;
+    }
+    .nav-folder-header {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding: 8px 14px !important;
+      color: #e2e8f0 !important;
+      font-size: 0.76rem !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      user-select: none !important;
+      border-left: 3px solid transparent !important;
+      transition: all 0.2s ease !important;
+      background: transparent;
+    }
+    .nav-folder-header:hover {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: #ffffff !important;
+    }
+    .nav-folder.active > .nav-folder-header {
+      background: rgba(192, 132, 252, 0.18) !important;
+      color: #ffffff !important;
+      border-left-color: #c084fc !important;
+    }
+    .nav-folder-header .folder-left {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+    }
+    .nav-folder-header .folder-arrow {
+      font-size: 0.68rem !important;
+      color: #94a3b8 !important;
+      transition: transform 0.2s ease !important;
+    }
+    .nav-folder.open .folder-arrow {
+      transform: rotate(90deg) !important;
+    }
+    .nav-folder-children {
+      display: none !important;
+      flex-direction: column !important;
+      margin-left: 20px !important;
+      padding-left: 10px !important;
+      border-left: 2px dashed rgba(192, 132, 252, 0.45) !important;
+      margin-top: 3px !important;
+      margin-bottom: 5px !important;
+      gap: 3px !important;
+    }
+    .nav-folder.open .nav-folder-children {
+      display: flex !important;
+    }
+    .nav-folder-item {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      padding: 7px 10px !important;
+      color: #cbd5e1 !important;
+      text-decoration: none !important;
+      font-size: 0.74rem !important;
+      font-weight: 600 !important;
+      border-radius: 6px !important;
+      border-left: 2.5px solid transparent !important;
+      transition: all 0.15s ease !important;
+    }
+    .nav-folder-item:link,
+    .nav-folder-item:visited,
+    .nav-folder-item:hover,
+    .nav-folder-item:active {
+      color: #cbd5e1 !important;
+      text-decoration: none !important;
+    }
+    .nav-folder-item:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+      color: #ffffff !important;
+      transform: translateX(2px) !important;
+    }
+    .nav-folder-item.active {
+      background: rgba(192, 132, 252, 0.28) !important;
+      color: #ffffff !important;
+      font-weight: 750 !important;
+      border-left-color: #c084fc !important;
+      box-shadow: inset 0 0 10px rgba(192, 132, 252, 0.2) !important;
+    }
+  </style>
 </head>
 <body>
   <div class="bg-blobs">
@@ -460,6 +549,6 @@ Cảm ơn các anh chị.</textarea>
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="/static/app.js?v=20260904_1615"></script>
+  <script src="/static/app.js?v=20260909_1750"></script>
 </body>
 </html>
