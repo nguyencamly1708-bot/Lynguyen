@@ -602,6 +602,66 @@ async def get_sldt_classify_report(status_filter: Optional[str] = "all"):
                 "items": cinfo["items"]
             })
 
+        # Danh mục chuẩn 11 trạng thái Classify theo thiết kế Google Sheet
+        standard_classify_def = [
+            {"name": "Chờ DC nhận hàng", "bg": "rgba(254, 240, 138, 0.25)", "color": "#fde047", "border": "#ca8a04"},
+            {"name": "Đã chuyển hàng - Có PGH", "bg": "rgba(187, 247, 208, 0.25)", "color": "#86efac", "border": "#16a34a"},
+            {"name": "Đã chuyển hàng - DC chưa chuyển trạng thái", "bg": "rgba(186, 230, 253, 0.25)", "color": "#7dd3fc", "border": "#0284c7"},
+            {"name": "Hàng còn tại Stote - Sẽ chuyển theo chuyến gần nhất", "bg": "rgba(254, 215, 170, 0.25)", "color": "#fdba74", "border": "#ea580c"},
+            {"name": "Chưa chuyển hàng - Trả tồn về ST", "bg": "rgba(100, 116, 139, 0.35)", "color": "#f1f5f9", "border": "#475569"},
+            {"name": "Đã chuyển hàng - Chờ Dc check lại", "bg": "rgba(207, 250, 254, 0.25)", "color": "#67e8f9", "border": "#0891b2"},
+            {"name": "ST bổ sung PGH", "bg": "rgba(243, 232, 255, 0.25)", "color": "#d8b4fe", "border": "#9333ea"},
+            {"name": "Chờ DC chuyển hàng", "bg": "rgba(226, 232, 240, 0.2)", "color": "#cbd5e1", "border": "#64748b"},
+            {"name": "Chờ ST phản hồi", "bg": "rgba(254, 202, 202, 0.25)", "color": "#fca5a5", "border": "#dc2626"},
+            {"name": "Chờ ST nhận hàng", "bg": "rgba(226, 232, 240, 0.2)", "color": "#cbd5e1", "border": "#64748b"},
+            {"name": "Chờ ST chuyển trạng thái", "bg": "rgba(226, 232, 240, 0.2)", "color": "#cbd5e1", "border": "#64748b"}
+        ]
+
+        # Thống kê chi tiết toàn bộ các trạng thái Classify (trên toàn bộ 364 phiếu)
+        all_aq_map = defaultdict(lambda: {"count": 0, "stores": set()})
+        classified_total = 0
+        for it in parsed_items:
+            raw_classify = it.get("raw_ar", "")
+            # Lấy chính xác giá trị cột AQ
+            c_name = it.get("classify", "")
+            if c_name and "Mới - Chưa phân loại" not in c_name and "Chưa phân loại" not in c_name:
+                classified_total += 1
+            all_aq_map[c_name]["count"] += 1
+            if it["id_st"]:
+                all_aq_map[c_name]["stores"].add(it["id_st"])
+
+        classify_breakdown = []
+        for def_item in standard_classify_def:
+            name = def_item["name"]
+            st_data = all_aq_map.get(name, {"count": 0, "stores": set()})
+            cnt = st_data["count"]
+            pct_total = round((cnt / total_rows * 100), 1) if total_rows > 0 else 0
+            pct_classified = round((cnt / classified_total * 100), 1) if classified_total > 0 else 0
+            classify_breakdown.append({
+                "name": name,
+                "count": cnt,
+                "percentage": pct_total,
+                "percentage_classified": pct_classified,
+                "store_count": len(st_data["stores"]),
+                "bg": def_item["bg"],
+                "color": def_item["color"],
+                "border": def_item["border"]
+            })
+
+        # Thêm nhóm Chưa phân loại Classify (Mới)
+        unclassified_data = all_aq_map.get("Mới - Chưa phân loại Classify", {"count": 0, "stores": set()})
+        unclass_count = unclassified_data["count"]
+        classify_breakdown.append({
+            "name": "Mới - Chưa phân loại Classify",
+            "count": unclass_count,
+            "percentage": round((unclass_count / total_rows * 100), 1) if total_rows > 0 else 0,
+            "percentage_classified": 0.0,
+            "store_count": len(unclassified_data["stores"]),
+            "bg": "rgba(254, 243, 199, 0.25)",
+            "color": "#fde68a",
+            "border": "#d97706"
+        })
+
         return {
             "status": "success",
             "sheet_url": "https://docs.google.com/spreadsheets/d/1qBEY7LP4FxCsrshblu0XQpBt2CCS5dX5pLiq9rAcXRk/edit?gid=788866159#gid=788866159",
@@ -610,11 +670,14 @@ async def get_sldt_classify_report(status_filter: Optional[str] = "all"):
             "current_filter": filter_mode,
             "summary": {
                 "total_all": total_rows,
+                "total_classified": classified_total,
+                "total_unclassified": unclass_count,
                 "total_pending": ar_counts.get("Đang xử lý", 0),
                 "total_new": ar_counts.get("Mới", 0),
                 "total_done": ar_counts.get("Đã xử lý", 0),
                 "total_stores": len(total_stores_all)
             },
+            "classify_breakdown": classify_breakdown,
             "ar_summary": ar_counts,
             "categories": report_categories
         }

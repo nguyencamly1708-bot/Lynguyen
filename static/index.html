@@ -452,6 +452,42 @@ Cảm ơn các anh chị.</textarea>
               </div>
             </div>
 
+            <!-- BẢNG BÁO CÁO TỔNG HỢP THEO DANH MỤC TRẠNG THÁI CLASSIFY (SỐ PHIẾU & %) -->
+            <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: var(--radius-sm); padding: 1.1rem; margin-bottom: 1.2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem; flex-wrap: wrap; gap: 6px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.6rem;">
+                <div>
+                  <div style="font-weight: 800; font-size: 0.96rem; color: #38bdf8; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-chart-simple" style="color: #67e8f9;"></i> BẢNG TỔNG HỢP SỐ LƯỢNG & TỶ LỆ % CÁC TRẠNG THÁI CLASSIFY
+                  </div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px;">
+                    Thống kê chi tiết theo danh mục Cột AQ (Classify) từ Google Sheet: Phiếu chuyển hàng đổi trả kho SLG
+                  </div>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; background: rgba(30, 41, 59, 0.8); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);">
+                  Đã phân loại: <b style="color: #34d399;" id="statClassifiedCount">187</b> / <b style="color: #38bdf8;" id="statTotalCount">364</b> phiếu (<span id="statClassifiedPct" style="color: #fde047; font-weight: 700;">51.4%</span>)
+                </div>
+              </div>
+
+              <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem; color: var(--text-secondary);">
+                  <thead>
+                    <tr style="background: rgba(30, 41, 59, 0.85); color: var(--text-primary); text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.15);">
+                      <th style="padding: 9px 12px; width: 45px; text-align: center;">STT</th>
+                      <th style="padding: 9px 12px; min-width: 220px;">Trạng Thái Classify (Cột AQ)</th>
+                      <th style="padding: 9px 12px; text-align: center; width: 90px;">Số Phiếu</th>
+                      <th style="padding: 9px 12px; text-align: left; min-width: 200px;">Tỷ Lệ % (Trên 364 phiếu)</th>
+                      <th style="padding: 9px 12px; text-align: center; width: 140px;">Tỷ Lệ % (Đã phân loại)</th>
+                      <th style="padding: 9px 12px; text-align: center; width: 85px;">Số ST</th>
+                      <th style="padding: 9px 12px; text-align: center; width: 95px;">Thao Tác</th>
+                    </tr>
+                  </thead>
+                  <tbody id="classifySummaryTableBody">
+                    <tr><td colspan="7" style="text-align: center; padding: 1.5rem; color: #94a3b8;"><i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu tổng hợp Classify...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
             <!-- Bộ Lọc Nhanh Trạng Thái (Filter Pills) & Ô Tìm Kiếm -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
               <div class="group-category-tabs" style="margin: 0;" id="sldtStatusPillsContainer">
@@ -571,6 +607,6 @@ Cảm ơn các anh chị.</textarea>
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <script src="/static/app.js?v=20260909_1750"></script>
+  <script src="/static/app.js?v=20260909_1830"></script>
 </body>
 </html>

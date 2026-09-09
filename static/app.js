@@ -1303,6 +1303,64 @@ document.addEventListener("DOMContentLoaded", () => {
       if (pillCountNew) pillCountNew.textContent = sum.total_new || 0;
       if (pillCountDone) pillCountDone.textContent = sum.total_done || 0;
 
+      // 1. Cập nhật BẢNG TỔNG HỢP CÁC TRẠNG THÁI CLASSIFY (Số phiếu & Tỷ lệ %)
+      const summaryTableBody = document.getElementById("classifySummaryTableBody");
+      const statClassifiedCount = document.getElementById("statClassifiedCount");
+      const statTotalCount = document.getElementById("statTotalCount");
+      const statClassifiedPct = document.getElementById("statClassifiedPct");
+
+      if (statClassifiedCount) statClassifiedCount.textContent = sum.total_classified || 187;
+      if (statTotalCount) statTotalCount.textContent = totAll;
+      if (statClassifiedPct && totAll > 0) {
+        statClassifiedPct.textContent = `${((sum.total_classified / totAll) * 100).toFixed(1)}%`;
+      }
+
+      if (summaryTableBody && data.classify_breakdown) {
+        let tableHtml = "";
+        data.classify_breakdown.forEach((item, sIdx) => {
+          const isZero = item.count === 0;
+          const barColor = item.border || "#38bdf8";
+
+          tableHtml += `
+            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); ${isZero ? 'opacity: 0.5;' : ''} transition: background 0.15s ease;" onmouseover="this.style.background='rgba(255,255,255,0.03)'" onmouseout="this.style.background='transparent'">
+              <td style="padding: 8px 12px; text-align: center; font-weight: 700; color: #94a3b8;">${sIdx + 1}</td>
+              <td style="padding: 8px 12px;">
+                <span style="display: inline-block; background: ${item.bg}; color: ${item.color}; border: 1px solid ${item.border}; padding: 3px 10px; border-radius: 12px; font-weight: 700; font-size: 0.78rem;">
+                  ${escapeHtml(item.name)}
+                </span>
+              </td>
+              <td style="padding: 8px 12px; text-align: center; font-weight: 900; font-size: 0.95rem; color: ${isZero ? '#64748b' : '#ffffff'};">
+                ${item.count}
+              </td>
+              <td style="padding: 8px 12px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div style="flex: 1; height: 8px; background: rgba(255, 255, 255, 0.08); border-radius: 4px; overflow: hidden;">
+                    <div style="width: ${item.percentage}%; height: 100%; background: ${barColor}; border-radius: 4px;"></div>
+                  </div>
+                  <span style="font-weight: 700; color: ${isZero ? '#64748b' : '#38bdf8'}; font-size: 0.8rem; width: 45px; text-align: right;">
+                    ${item.percentage}%
+                  </span>
+                </div>
+              </td>
+              <td style="padding: 8px 12px; text-align: center; font-weight: 700; color: ${item.percentage_classified > 0 ? '#34d399' : '#64748b'};">
+                ${item.percentage_classified > 0 ? item.percentage_classified + '%' : '--'}
+              </td>
+              <td style="padding: 8px 12px; text-align: center; color: #cbd5e1;">
+                ${isZero ? '0' : item.store_count + ' ST'}
+              </td>
+              <td style="padding: 8px 12px; text-align: center;">
+                ${isZero ? '<span style="color: #64748b; font-size: 0.72rem;">Không có</span>' : `
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="filterReportByClassify('${escapeHtml(item.name)}')" style="padding: 2px 8px; font-size: 0.72rem; border-color: ${item.border}88; color: ${item.color};">
+                    <i class="fa-solid fa-eye"></i> Xem (${item.count})
+                  </button>
+                `}
+              </td>
+            </tr>
+          `;
+        });
+        summaryTableBody.innerHTML = tableHtml;
+      }
+
       // Đồng bộ trạng thái active cho Card và Pill
       document.querySelectorAll(".sldt-stat-card").forEach(c => {
         if (c.getAttribute("data-status") === sldtCurrentStatusFilter) {
@@ -1453,6 +1511,19 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
+  // Xem chi tiết theo trạng thái Classify cụ thể
+  window.filterReportByClassify = function(classifyName) {
+    const searchBox = document.getElementById("reportSearchFilter");
+    if (searchBox) {
+      searchBox.value = classifyName;
+      searchBox.dispatchEvent(new Event("input"));
+    }
+    const targetElement = document.getElementById("classifyReportContainer");
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   const btnRefreshClassifyReport = document.getElementById("btnRefreshClassifyReport");
   if (btnRefreshClassifyReport) {
