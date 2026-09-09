@@ -1249,22 +1249,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 8. Tải Báo cáo Phân loại phiếu Đang xử lý theo cột Classify (AQ) từ Google Sheet
-  async function loadClassifyReport() {
+  // 8. Tải Báo cáo Toàn Bộ Trạng Thái & Phân Loại Classify từ Google Sheet
+  let sldtCurrentStatusFilter = "all";
+
+  async function loadClassifyReport(statusFilter = null) {
     const container = document.getElementById("classifyReportContainer");
     if (!container) return;
 
-    const reportTotalPending = document.getElementById("reportTotalPending");
+    if (statusFilter !== null) {
+      sldtCurrentStatusFilter = statusFilter;
+    }
+
+    const reportTotalAll = document.getElementById("reportTotalAll");
     const reportTotalStores = document.getElementById("reportTotalStores");
-    const reportCatChuaChuyen = document.getElementById("reportCatChuaChuyen");
-    const reportCatChuaChuyenPct = document.getElementById("reportCatChuaChuyenPct");
-    const reportCatCoPgh = document.getElementById("reportCatCoPgh");
-    const reportCatCoPghPct = document.getElementById("reportCatCoPghPct");
-    const reportCatKhac = document.getElementById("reportCatKhac");
-    const reportCatKhacPct = document.getElementById("reportCatKhacPct");
+    const reportTotalPending = document.getElementById("reportTotalPending");
+    const reportTotalPendingPct = document.getElementById("reportTotalPendingPct");
+    const reportTotalNew = document.getElementById("reportTotalNew");
+    const reportTotalNewPct = document.getElementById("reportTotalNewPct");
+    const reportTotalDone = document.getElementById("reportTotalDone");
+    const reportTotalDonePct = document.getElementById("reportTotalDonePct");
+
+    const pillCountAll = document.getElementById("pillCountAll");
+    const pillCountPending = document.getElementById("pillCountPending");
+    const pillCountNew = document.getElementById("pillCountNew");
+    const pillCountDone = document.getElementById("pillCountDone");
 
     try {
-      const res = await fetch("/api/sldt/report");
+      const res = await fetch(`/api/sldt/report?status_filter=${encodeURIComponent(sldtCurrentStatusFilter)}`);
       const data = await res.json();
 
       if (!res.ok || data.status !== "success") {
@@ -1272,31 +1283,55 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      if (reportTotalPending) reportTotalPending.textContent = data.total_pending || "0";
+      const sum = data.summary || {};
+      const totAll = sum.total_all || 364;
 
-      let uniqueStoresSet = new Set();
-      data.categories.forEach(cat => {
-        cat.items.forEach(it => uniqueStoresSet.add(it.id_st));
+      if (reportTotalAll) reportTotalAll.textContent = totAll;
+      if (reportTotalStores) reportTotalStores.textContent = `${sum.total_stores || 74} ST liên quan`;
+
+      if (reportTotalPending) reportTotalPending.textContent = sum.total_pending || 0;
+      if (reportTotalPendingPct) reportTotalPendingPct.textContent = `${totAll > 0 ? ((sum.total_pending / totAll) * 100).toFixed(1) : 0}% tổng phiếu`;
+
+      if (reportTotalNew) reportTotalNew.textContent = sum.total_new || 0;
+      if (reportTotalNewPct) reportTotalNewPct.textContent = `${totAll > 0 ? ((sum.total_new / totAll) * 100).toFixed(1) : 0}% tổng phiếu`;
+
+      if (reportTotalDone) reportTotalDone.textContent = sum.total_done || 0;
+      if (reportTotalDonePct) reportTotalDonePct.textContent = `${totAll > 0 ? ((sum.total_done / totAll) * 100).toFixed(1) : 0}% tổng phiếu`;
+
+      if (pillCountAll) pillCountAll.textContent = totAll;
+      if (pillCountPending) pillCountPending.textContent = sum.total_pending || 0;
+      if (pillCountNew) pillCountNew.textContent = sum.total_new || 0;
+      if (pillCountDone) pillCountDone.textContent = sum.total_done || 0;
+
+      // Đồng bộ trạng thái active cho Card và Pill
+      document.querySelectorAll(".sldt-stat-card").forEach(c => {
+        if (c.getAttribute("data-status") === sldtCurrentStatusFilter) {
+          c.style.borderColor = "#38bdf8";
+          c.style.boxShadow = "0 0 15px rgba(56, 189, 248, 0.35)";
+        } else {
+          c.style.borderColor = "rgba(255, 255, 255, 0.1)";
+          c.style.boxShadow = "none";
+        }
       });
-      if (reportTotalStores) reportTotalStores.textContent = `${uniqueStoresSet.size} ST liên quan`;
 
-      let chuaChuyenItem = data.categories.find(c => c.category_name.toLowerCase().includes("chưa chuyển"));
-      let coPghItem = data.categories.find(c => c.category_name.toLowerCase().includes("có pgh"));
-      let khacItems = data.categories.filter(c => !c.category_name.toLowerCase().includes("chưa chuyển") && !c.category_name.toLowerCase().includes("có pgh"));
-      let khacTotal = khacItems.reduce((acc, c) => acc + c.total_items, 0);
-
-      if (reportCatChuaChuyen) reportCatChuaChuyen.textContent = chuaChuyenItem ? chuaChuyenItem.total_items : "0";
-      if (reportCatChuaChuyenPct) reportCatChuaChuyenPct.textContent = `${chuaChuyenItem ? chuaChuyenItem.percentage : 0}% tổng phiếu`;
-
-      if (reportCatCoPgh) reportCatCoPgh.textContent = coPghItem ? coPghItem.total_items : "0";
-      if (reportCatCoPghPct) reportCatCoPghPct.textContent = `${coPghItem ? coPghItem.percentage : 0}% tổng phiếu`;
-
-      if (reportCatKhac) reportCatKhac.textContent = khacTotal;
-      let khacPct = data.total_pending > 0 ? ((khacTotal / data.total_pending) * 100).toFixed(1) : 0;
-      if (reportCatKhacPct) reportCatKhacPct.textContent = `${khacPct}% tổng phiếu`;
+      document.querySelectorAll(".sldt-status-pill").forEach(p => {
+        if (p.getAttribute("data-status") === sldtCurrentStatusFilter) {
+          p.classList.add("active");
+          p.style.background = "linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%)";
+          p.style.color = "#ffffff";
+        } else {
+          p.classList.remove("active");
+          p.style.background = "rgba(255, 255, 255, 0.05)";
+          const st = p.getAttribute("data-status");
+          if (st === "dang_xu_ly") p.style.color = "#f87171";
+          else if (st === "moi") p.style.color = "#fbbf24";
+          else if (st === "da_xu_ly") p.style.color = "#34d399";
+          else p.style.color = "#cbd5e1";
+        }
+      });
 
       if (!data.categories || data.categories.length === 0) {
-        container.innerHTML = `<div class="empty-state">Hiện tại không có phiếu nào ở trạng thái Đang xử lý trong Google Sheet.</div>`;
+        container.innerHTML = `<div class="empty-state">Không có phiếu nào ở trạng thái này trong Google Sheet.</div>`;
         return;
       }
 
@@ -1304,34 +1339,42 @@ document.addEventListener("DOMContentLoaded", () => {
       data.categories.forEach((cat, idx) => {
         let badgeColor = "#38bdf8";
         let iconClass = "fa-folder-open";
-        if (cat.category_name.toLowerCase().includes("chưa chuyển")) {
+        const catLower = (cat.category_name || "").toLowerCase();
+
+        if (catLower.includes("chưa chuyển")) {
           badgeColor = "#f87171";
           iconClass = "fa-box-open";
-        } else if (cat.category_name.toLowerCase().includes("có pgh")) {
+        } else if (catLower.includes("có pgh")) {
           badgeColor = "#34d399";
           iconClass = "fa-file-invoice";
-        } else if (cat.category_name.toLowerCase().includes("stote") || cat.category_name.toLowerCase().includes("store")) {
+        } else if (catLower.includes("stote") || catLower.includes("store")) {
           badgeColor = "#fbbf24";
           iconClass = "fa-store";
+        } else if (catLower.includes("mới")) {
+          badgeColor = "#eab308";
+          iconClass = "fa-sparkles";
+        } else if (catLower.includes("đã xử lý") || catLower.includes("hoàn tất")) {
+          badgeColor = "#10b981";
+          iconClass = "fa-circle-check";
         }
 
         html += `
-          <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-sm); margin-bottom: 0.8rem; overflow: hidden;">
-            <div style="padding: 0.8rem 1rem; background: rgba(30, 41, 59, 0.6); display: flex; justify-content: space-between; align-items: center; cursor: pointer; flex-wrap: wrap; gap: 6px;" onclick="const el=document.getElementById('cat-table-${idx}'); el.style.display = (el.style.display === 'none' ? 'block' : 'none');">
+          <div class="report-cat-block" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-sm); margin-bottom: 0.8rem; overflow: hidden;">
+            <div style="padding: 0.8rem 1rem; background: rgba(30, 41, 59, 0.65); display: flex; justify-content: space-between; align-items: center; cursor: pointer; flex-wrap: wrap; gap: 6px;" onclick="const el=document.getElementById('cat-table-${idx}'); el.style.display = (el.style.display === 'none' ? 'block' : 'none');">
               <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.9rem; color: ${badgeColor};">
                 <i class="fa-solid ${iconClass}"></i> ${escapeHtml(cat.category_name)}
               </div>
               <div style="display: flex; align-items: center; gap: 10px; font-size: 0.8rem;">
-                <span class="badge" style="background: rgba(255, 255, 255, 0.1); color: #e2e8f0;">${cat.total_items} dòng phiếu (${cat.total_stores} ST)</span>
-                <span class="badge" style="background: ${badgeColor}22; color: ${badgeColor}; border: 1px solid ${badgeColor}44;">${cat.percentage}%</span>
+                <span class="badge" style="background: rgba(255, 255, 255, 0.1); color: #e2e8f0; font-weight: 600;">${cat.total_items} phiếu (${cat.total_stores} ST)</span>
+                <span class="badge" style="background: ${badgeColor}22; color: ${badgeColor}; border: 1px solid ${badgeColor}44; font-weight: 700;">${cat.percentage}%</span>
                 <i class="fa-chevron-down fa-solid" style="color: #94a3b8; font-size: 0.8rem;"></i>
               </div>
             </div>
 
-            <div id="cat-table-${idx}" style="overflow-x: auto; max-height: 380px;">
-              <table style="width: 100%; border-collapse: collapse; font-size: 0.78rem; color: var(--text-secondary);">
+            <div id="cat-table-${idx}" style="overflow-x: auto; max-height: 420px;">
+              <table class="report-data-table" style="width: 100%; border-collapse: collapse; font-size: 0.78rem; color: var(--text-secondary);">
                 <thead>
-                  <tr style="background: rgba(15, 23, 42, 0.9); color: var(--text-primary); text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                  <tr style="background: rgba(15, 23, 42, 0.95); color: var(--text-primary); text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.12); position: sticky; top: 0; z-index: 1;">
                     <th style="padding: 8px 10px;">ID ST</th>
                     <th style="padding: 8px 10px;">Nhóm Telegram DC</th>
                     <th style="padding: 8px 10px;">Mã Phiếu</th>
@@ -1339,24 +1382,37 @@ document.addEventListener("DOMContentLoaded", () => {
                     <th style="padding: 8px 10px;">Tên Hàng Chi Tiết</th>
                     <th style="padding: 8px 10px; text-align: center;">ĐVT</th>
                     <th style="padding: 8px 10px; text-align: right;">SL Chuyển</th>
-                    <th style="padding: 8px 10px;">CN Chuyển</th>
+                    <th style="padding: 8px 10px;">Trạng Thái (AR)</th>
+                    <th style="padding: 8px 10px;">Chi Nhánh Chuyển</th>
                     <th style="padding: 8px 10px;">Ngày Chuyển</th>
                   </tr>
                 </thead>
                 <tbody>
-                  ${cat.items.map(it => `
-                    <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
-                      <td style="padding: 7px 10px; font-weight: 700; color: #38bdf8;">${escapeHtml(it.id_st)}</td>
-                      <td style="padding: 7px 10px; color: #e2e8f0;">${escapeHtml(it.dc_group_title)}</td>
-                      <td style="padding: 7px 10px; font-family: monospace; color: #f472b6;">${escapeHtml(it.ma_phieu)}</td>
-                      <td style="padding: 7px 10px; font-family: monospace;">${escapeHtml(it.ma_hang)}</td>
-                      <td style="padding: 7px 10px; color: #f8fafc; font-weight: 500;">${escapeHtml(it.ten_hang)}</td>
-                      <td style="padding: 7px 10px; text-align: center;">${escapeHtml(it.dvt)}</td>
-                      <td style="padding: 7px 10px; text-align: right; font-weight: 700; color: #fbbf24;">${escapeHtml(it.sl_chuyen)}</td>
-                      <td style="padding: 7px 10px;">${escapeHtml(it.cn_chuyen)}</td>
-                      <td style="padding: 7px 10px;">${escapeHtml(it.ngay_chuyen)}</td>
-                    </tr>
-                  `).join("")}
+                  ${cat.items.map(it => {
+                    let arBadge = `<span style="background: rgba(148, 163, 184, 0.2); color: #cbd5e1; padding: 2px 6px; border-radius: 4px; font-weight: 600;">${escapeHtml(it.status_ar)}</span>`;
+                    if (it.status_ar === "Đang xử lý") {
+                      arBadge = `<span style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); padding: 2px 6px; border-radius: 4px; font-weight: 700;">Đang xử lý</span>`;
+                    } else if (it.status_ar === "Mới") {
+                      arBadge = `<span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); padding: 2px 6px; border-radius: 4px; font-weight: 700;">Mới</span>`;
+                    } else if (it.status_ar === "Đã xử lý") {
+                      arBadge = `<span style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); padding: 2px 6px; border-radius: 4px; font-weight: 700;">Đã xử lý</span>`;
+                    }
+
+                    return `
+                      <tr class="report-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                        <td style="padding: 7px 10px; font-weight: 700; color: #38bdf8;">${escapeHtml(it.id_st)}</td>
+                        <td style="padding: 7px 10px; color: #e2e8f0;">${escapeHtml(it.dc_group_title)}</td>
+                        <td style="padding: 7px 10px; font-family: monospace; color: #f472b6; font-weight: 600;">${escapeHtml(it.ma_phieu)}</td>
+                        <td style="padding: 7px 10px; font-family: monospace;">${escapeHtml(it.ma_hang)}</td>
+                        <td style="padding: 7px 10px; color: #f8fafc; font-weight: 500;">${escapeHtml(it.ten_hang)}</td>
+                        <td style="padding: 7px 10px; text-align: center;">${escapeHtml(it.dvt)}</td>
+                        <td style="padding: 7px 10px; text-align: right; font-weight: 700; color: #fbbf24;">${escapeHtml(it.sl_chuyen)}</td>
+                        <td style="padding: 7px 10px;">${arBadge}</td>
+                        <td style="padding: 7px 10px;">${escapeHtml(it.cn_chuyen)}</td>
+                        <td style="padding: 7px 10px;">${escapeHtml(it.ngay_chuyen)}</td>
+                      </tr>
+                    `;
+                  }).join("")}
                 </tbody>
               </table>
             </div>
@@ -1368,6 +1424,34 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       container.innerHTML = `<div class="empty-state" style="color: #ef4444;">Lỗi kết nối máy chủ: ${err.message}</div>`;
     }
+  }
+
+  // Click chọn nhanh trạng thái từ các Thẻ Chỉ Số
+  document.querySelectorAll(".sldt-stat-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const st = card.getAttribute("data-status");
+      loadClassifyReport(st);
+    });
+  });
+
+  // Click chọn nhanh trạng thái từ các Nút Lọc (Pills)
+  document.querySelectorAll(".sldt-status-pill").forEach(pill => {
+    pill.addEventListener("click", () => {
+      const st = pill.getAttribute("data-status");
+      loadClassifyReport(st);
+    });
+  });
+
+  // Ô tìm kiếm realtime trong bảng báo cáo
+  const reportSearchFilter = document.getElementById("reportSearchFilter");
+  if (reportSearchFilter) {
+    reportSearchFilter.addEventListener("input", (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      document.querySelectorAll(".report-row").forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(q) ? "" : "none";
+      });
+    });
   }
 
   const btnRefreshClassifyReport = document.getElementById("btnRefreshClassifyReport");

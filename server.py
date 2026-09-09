@@ -469,8 +469,11 @@ async def get_sldt_sheet_stores():
         return {"status": "error", "detail": str(e), "stores": {}, "sheet_group_ids": []}
 
 @app.get("/api/sldt/report")
-async def get_sldt_classify_report():
-    """Lấy báo cáo tổng hợp các phiếu đang xử lý phân loại theo cột Classify (AQ) từ Google Sheet."""
+async def get_sldt_classify_report(status_filter: Optional[str] = "all"):
+    """
+    Báo cáo toàn diện tất cả trạng thái phiếu (Đang xử lý, Mới, Đã xử lý)
+    từ Google Sheet SLG (Cột AR: Trạng thái & Cột AQ: Classify).
+    """
     try:
         res = httpx.get(SHEET_CSV_URL, timeout=30.0, follow_redirects=True)
         if res.status_code != 200:
@@ -484,10 +487,11 @@ async def get_sldt_classify_report():
         groups = load_json(GROUPS_FILE, {})
 
         total_rows = len(rows) - 1
-        ar_counts = {}
-        classify_report = {}
-        total_pending = 0
+        ar_counts = {"Đang xử lý": 0, "Mới": 0, "Đã xử lý": 0}
+        total_stores_all = set()
 
+        # Phân loại toàn bộ các dòng phiếu
+        parsed_items = []
         for r in rows[1:]:
             if len(r) > 43:
                 id_st = r[0].strip() if len(r) > 0 else "Khác"
@@ -505,53 +509,93 @@ async def get_sldt_classify_report():
                 aq_val = r[42].strip() if len(r) > 42 else ""
                 ar_val = r[43].strip() if len(r) > 43 else ""
 
-                # Thống kê cột AR
-                ar_key = ar_val or "(Chưa có trạng thái)"
-                ar_counts[ar_key] = ar_counts.get(ar_key, 0) + 1
+                if id_st and id_st != "Khác":
+                    total_stores_all.add(id_st)
 
-                # Lọc các phiếu đang xử lý
-                if ("đang xử lý" in ar_val.lower()) or ("chờ st" in aq_val.lower()):
-                    if sl_chuyen == sl_nhan and sl_chuyen not in ["", "-1"]:
-                        continue
+                # Chuẩn hóa trạng thái AR
+                norm_ar = "Mới"
+                if "đang xử lý" in ar_val.lower() or "chờ st" in aq_val.lower():
+                    norm_ar = "Đang xử lý"
+                elif "đã xử lý" in ar_val.lower():
+                    norm_ar = "Đã xử lý"
+                elif ar_val.strip():
+                    norm_ar = ar_val.strip()
 
-                    total_pending += 1
-                    cat_key = aq_val if aq_val else "(Chưa phân loại Classify)"
+                if norm_ar in ar_counts:
+                    ar_counts[norm_ar] += 1
+                else:
+                    ar_counts[norm_ar] = 1
 
-                    if cat_key not in classify_report:
-                        classify_report[cat_key] = {
-                            "category_name": cat_key,
-                            "total_items": 0,
-                            "stores": set(),
-                            "items": []
-                        }
+                classify_label = aq_val.strip()
+                if not classify_label:
+                    if norm_ar == "Mới":
+                        classify_label = "Mới - Chưa phân loại Classify"
+                    else:
+                        classify_label = f"Chưa phân loại ({norm_ar})"
 
-                    dc_gid, dc_title = find_dc_group_for_st(groups, id_st)
-                    classify_report[cat_key]["total_items"] += 1
-                    classify_report[cat_key]["stores"].add(id_st)
-                    classify_report[cat_key]["items"].append({
-                        "id_st": id_st,
-                        "dc_group_title": dc_title or "Chưa khớp",
-                        "dc_group_id": str(dc_gid) if dc_gid else None,
-                        "ngay_chuyen": ngay_chuyen,
-                        "cn_chuyen": cn_chuyen,
-                        "cn_nhan": cn_nhan,
-                        "ma_hang": ma_hang,
-                        "ten_hang": ten_hang,
-                        "dvt": dvt,
-                        "sl_chuyen": sl_chuyen,
-                        "sl_nhan": sl_nhan,
-                        "ma_phieu": ma_phieu,
-                        "trang_thai": trang_thai,
-                        "tg_tao": tg_tao,
-                        "classify": aq_val,
-                        "status_ar": ar_val
-                    })
+                dc_gid, dc_title = find_dc_group_for_st(groups, id_st)
+                parsed_items.append({
+                    "id_st": id_st,
+                    "dc_group_title": dc_title or "Chưa khớp",
+                    "dc_group_id": str(dc_gid) if dc_gid else None,
+                    "ngay_chuyen": ngay_chuyen,
+                    "cn_chuyen": cn_chuyen,
+                    "cn_nhan": cn_nhan,
+                    "ma_hang": ma_hang,
+                    "ten_hang": ten_hang,
+                    "dvt": dvt,
+                    "sl_chuyen": sl_chuyen,
+                    "sl_nhan": sl_nhan,
+                    "ma_phieu": ma_phieu,
+                    "trang_thai": trang_thai,
+                    "tg_tao": tg_tao,
+                    "classify": classify_label,
+                    "status_ar": norm_ar,
+                    "raw_ar": ar_val
+                })
 
+        # Lọc danh sách theo status_filter
+        filtered_items = []
+        filter_mode = (status_filter or "all").lower().strip()
+        for item in parsed_items:
+            if filter_mode == "all":
+                filtered_items.append(item)
+            elif filter_mode in ["dang_xu_ly", "dang-xu-ly", "pending"]:
+                if item["status_ar"] == "Đang xử lý":
+                    filtered_items.append(item)
+            elif filter_mode in ["moi", "new"]:
+                if item["status_ar"] == "Mới":
+                    filtered_items.append(item)
+            elif filter_mode in ["da_xu_ly", "da-xu-ly", "done"]:
+                if item["status_ar"] == "Đã xử lý":
+                    filtered_items.append(item)
+            else:
+                filtered_items.append(item)
+
+        # Gom nhóm theo Classify
+        classify_report = {}
+        for item in filtered_items:
+            cat_key = item["classify"]
+            if cat_key not in classify_report:
+                classify_report[cat_key] = {
+                    "category_name": cat_key,
+                    "status_ar": item["status_ar"],
+                    "total_items": 0,
+                    "stores": set(),
+                    "items": []
+                }
+            classify_report[cat_key]["total_items"] += 1
+            if item["id_st"]:
+                classify_report[cat_key]["stores"].add(item["id_st"])
+            classify_report[cat_key]["items"].append(item)
+
+        total_filtered = len(filtered_items)
         report_categories = []
         for cat_name, cinfo in sorted(classify_report.items(), key=lambda x: x[1]["total_items"], reverse=True):
-            pct = round((cinfo["total_items"] / total_pending * 100), 1) if total_pending > 0 else 0
+            pct = round((cinfo["total_items"] / total_filtered * 100), 1) if total_filtered > 0 else 0
             report_categories.append({
                 "category_name": cat_name,
+                "status_ar": cinfo["status_ar"],
                 "total_items": cinfo["total_items"],
                 "total_stores": len(cinfo["stores"]),
                 "percentage": pct,
@@ -562,7 +606,15 @@ async def get_sldt_classify_report():
             "status": "success",
             "sheet_url": "https://docs.google.com/spreadsheets/d/1qBEY7LP4FxCsrshblu0XQpBt2CCS5dX5pLiq9rAcXRk/edit?gid=788866159#gid=788866159",
             "total_sheet_rows": total_rows,
-            "total_pending": total_pending,
+            "total_filtered": total_filtered,
+            "current_filter": filter_mode,
+            "summary": {
+                "total_all": total_rows,
+                "total_pending": ar_counts.get("Đang xử lý", 0),
+                "total_new": ar_counts.get("Mới", 0),
+                "total_done": ar_counts.get("Đã xử lý", 0),
+                "total_stores": len(total_stores_all)
+            },
             "ar_summary": ar_counts,
             "categories": report_categories
         }
